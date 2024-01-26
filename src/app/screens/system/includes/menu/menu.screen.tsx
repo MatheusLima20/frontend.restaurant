@@ -35,7 +35,7 @@ const items: MenuItem[] = [
     getItem(<a href="/system/" className='menu'>
         Home
     </a>, '1', <BiHome size={25} />),
-    getItem(<a href="/system/system2/" className='menu'>
+    getItem(<a href="/system/product-register/" className='menu'>
         Cadastro de Produtos
     </a>, '2', <FaBox size={20} />),
     getItem(<a href="/system/system2/" className='menu'>

@@ -4,6 +4,7 @@ import { Menu } from '../includes/menu';
 import { Home } from '../screens/home';
 import { Col, Row } from 'antd';
 import { Footer } from '../includes/footer';
+import { ProductRegister } from '../screens/register.products';
 
 
 export const SystemRoutes = () => {
@@ -13,15 +14,13 @@ export const SystemRoutes = () => {
   function userRoutes() {
     return (
       <Row gutter={[30, 0]}>
-        <Col>
+        <Col span={5}>
           <Menu />
         </Col>
-        <Col>
+        <Col span={19}>
           <Routes>
             <Route index path="*" element={Home()} />
-          </Routes>
-          <Routes>
-            <Route index path="/system/system2" element={Home()} />
+            <Route index path="/product-register" element={ProductRegister()} />
           </Routes>
         </Col>
         <Col span={24}>
