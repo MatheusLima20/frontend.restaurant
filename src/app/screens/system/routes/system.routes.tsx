@@ -6,9 +6,7 @@ import { Col, Row } from 'antd';
 import { Footer } from '../includes/footer';
 import { ProductRegister } from '../screens/register.products';
 
-
 export const SystemRoutes = () => {
-
   return userRoutes();
 
   function userRoutes() {
@@ -28,6 +26,5 @@ export const SystemRoutes = () => {
         </Col>
       </Row>
     );
-
   }
 };

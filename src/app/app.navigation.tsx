@@ -35,7 +35,7 @@ export const AppNavigation = () => {
 
       {loading && (
         <Content className="m-0  g-0 mt-4">
-          <Row className="g-0 align-items-start" style={{ textAlign: 'start'}}>
+          <Row className="g-0 align-items-start" style={{ textAlign: 'start' }}>
             <Col className="ms-4 align-self-start">
               <Skeleton.Image active style={{ width: 150 }} />
             </Col>
