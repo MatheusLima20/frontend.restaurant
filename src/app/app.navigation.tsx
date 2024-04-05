@@ -1,10 +1,10 @@
-import { Skeleton } from 'antd';
+import { Col, Row, Skeleton } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AppRoutes } from './routes/routes';
-import { Col, Container, Row } from 'react-bootstrap';
 import { cookies } from './controller/user/adm.cookies';
 import { UserDataLogged } from './types/user/user';
+import { Content } from 'antd/es/layout/layout';
 
 const initialValues: UserDataLogged = {
   name: '',
@@ -34,8 +34,8 @@ export const AppNavigation = () => {
       {!loading && <AppRoutes dataUser={login} />}
 
       {loading && (
-        <Container className="m-0  g-0 mt-4">
-          <Row className="g-0 align-items-start" style={{ textAlign: 'start' }}>
+        <Content className="m-0  g-0 mt-4">
+          <Row className="g-0 align-items-start" style={{ textAlign: 'start'}}>
             <Col className="ms-4 align-self-start">
               <Skeleton.Image active style={{ width: 150 }} />
             </Col>
@@ -51,7 +51,7 @@ export const AppNavigation = () => {
           <Row className="g-0 mt-5" style={{ textAlign: 'center' }}>
             <Skeleton className="w-100" active paragraph={{ rows: 15 }} />
           </Row>
-        </Container>
+        </Content>
       )}
     </Router>
   );

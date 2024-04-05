@@ -4,8 +4,9 @@ import { AppNavigation } from './app/app.navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css/animate.min.css';
 import 'react-quill/dist/quill.snow.css';
-import { ConfigProvider, Layout } from 'antd';
+import { ConfigProvider } from 'antd';
 import ptBr from 'antd/es/locale/pt_BR';
+import { Content } from 'antd/es/layout/layout';
 
 function App() {
   const locale = ptBr;
@@ -16,13 +17,13 @@ function App() {
       theme={{
         token: {
           colorPrimary: 'red',
-          colorBgBase: "#fff"
+          colorBgBase: '#fff',
         },
       }}
     >
-      <Layout>
+      <Content>
         <AppNavigation />
-      </Layout>
+      </Content>
     </ConfigProvider>
   );
 }

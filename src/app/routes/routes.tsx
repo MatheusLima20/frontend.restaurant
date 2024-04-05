@@ -10,18 +10,16 @@ interface Props {
 }
 
 export const AppRoutes = (props: Props) => {
-  return (
-    <Routes>
-      <Route
-        path="*"
-        element={Login()}
-      />
-      <Route
-        path="/system/*"
-        element={SystemNavigation()}
-      />
-      <Route path="/logout/" element={Logout()} />
-    </Routes>
-  );
+  const dataUser = props.dataUser;
 
+  if (!dataUser.name) {
+    return (
+      <Routes>
+        <Route path="*" element={Login()} />
+        <Route path="/logout/" element={Logout()} />
+      </Routes>
+    );
+  } else {
+    return <Route path="/system/*" element={SystemNavigation()} />;
+  }
 };
