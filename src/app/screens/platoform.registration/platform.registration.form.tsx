@@ -21,6 +21,7 @@ import { UserMain } from '../../types/user/user';
 import { UserController } from '../../controller/user/user.controller';
 import { companyCPFCNPJ } from '../../util/platform.number/platform.number';
 import { AddressSearchCEP } from '../../types/address/address';
+import { CepController } from '../../controller/cep/cep.controller';
 
 type InitialValues = {
   cpfcnpj: string;
@@ -89,7 +90,12 @@ export const PlatformRegistrationForm = () => {
           size="large"
           requiredMark={false}
           fields={[
-            { name: 'cnpj', value: Masks.cnpj(companyCPFCNPJ) },
+            {
+              name: 'cnpj',
+              value: values.platformCPFCNPJ
+                ? values.platformCPFCNPJ.toString()
+                : '',
+            },
             { name: 'phone', value: values.phoneNumber },
             { name: 'state', value: values.state },
             { name: 'city', value: values.city },
@@ -184,7 +190,6 @@ export const PlatformRegistrationForm = () => {
                 >
                   <Input
                     name="cnpj"
-                    disabled
                     placeholder="Digite o CNPJ..."
                     prefix={<BsCardHeading size={20} />}
                   />

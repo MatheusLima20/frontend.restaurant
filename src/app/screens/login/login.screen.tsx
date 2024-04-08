@@ -52,7 +52,7 @@ export const LoginScreen = () => {
         </Row>
       </Col>
       <Col>
-        <Button type="link" href="/platform-register">
+        <Button type="link" href="/resgistration">
           <strong>Cadastrar-se</strong>
         </Button>
       </Col>
