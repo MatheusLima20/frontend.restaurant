@@ -11,7 +11,6 @@ export type UserType =
 export type UserLogin = {
   email: string;
   password: string;
-  companyCNPJ: string;
 };
 
 export type UserDataLogged = {

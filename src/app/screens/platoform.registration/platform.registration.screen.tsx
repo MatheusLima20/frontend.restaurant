@@ -1,23 +1,27 @@
 import React from 'react';
-import { Card, Container, Row } from 'react-bootstrap';
 import { PlatformRegistrationForm } from './platform.registration.form';
+import { Card, Col, Row } from 'antd';
 
 export const PlatformRegistrationScreen = () => {
   return (
-    <Container fluid>
-      <Row className="m-2 mt-5 mb-5">
+    <Row className="m-2 mt-5 mb-5">
+      <Col span={24}>
         <Card className="border-0 shadow-lg p-3 mb-5 bg-body rounded">
-          <Row className="mt-5 mb-5">
-            <h2>
-              <strong>Cadastro Inícial</strong>
-            </h2>
+          <Row justify="center" className="mt-5 mb-5">
+            <Col>
+              <h2>
+                <strong>Cadastro Inícial</strong>
+              </h2>
+            </Col>
           </Row>
 
           <Row className="mb-5">
-            <PlatformRegistrationForm />
+            <Col span={24}>
+              <PlatformRegistrationForm />
+            </Col>
           </Row>
         </Card>
-      </Row>
-    </Container>
+      </Col>
+    </Row>
   );
 };

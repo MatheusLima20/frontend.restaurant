@@ -19,9 +19,9 @@ import { GrStreetView } from 'react-icons/gr';
 import { Masks } from '../../util/masks/masks';
 import { UserMain } from '../../types/user/user';
 import { UserController } from '../../controller/user/user.controller';
-import { companyCPFCNPJ } from '../../util/platform.number/platform.number';
 import { AddressSearchCEP } from '../../types/address/address';
 import { CepController } from '../../controller/cep/cep.controller';
+import { StringFormatter } from '../../util/string.formatter/string.formatter';
 
 type InitialValues = {
   cpfcnpj: string;
@@ -31,7 +31,6 @@ type InitialValues = {
   platformName: string;
   corporateName: string;
   password: string;
-  platformCPFCNPJ: number;
   street: string;
   addressCodePostal: string;
   phoneNumber: string;
@@ -51,7 +50,6 @@ const initialValues: InitialValues = {
   platformName: '',
   corporateName: '',
   password: '',
-  platformCPFCNPJ: 0,
   street: '',
   addressCodePostal: '',
   phoneNumber: '',
@@ -91,10 +89,8 @@ export const PlatformRegistrationForm = () => {
           requiredMark={false}
           fields={[
             {
-              name: 'cnpj',
-              value: values.platformCPFCNPJ
-                ? values.platformCPFCNPJ.toString()
-                : '',
+              name: 'cpfcnpj',
+              value: values.cpfcnpj,
             },
             { name: 'phone', value: values.phoneNumber },
             { name: 'state', value: values.state },
@@ -114,320 +110,326 @@ export const PlatformRegistrationForm = () => {
           onFinish={save}
         >
           <Row className="m-3 justify-content-center">
-            <Row className="justify-content-between text-start">
-              <Col md={6}>
-                <Form.Item
-                  label="Nome de Usuário"
-                  name="userName"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Por favor, digite seu nome!',
-                    },
-                  ]}
-                >
-                  <Input
+            <Col>
+              <Row className="justify-content-between text-start">
+                <Col md={6}>
+                  <Form.Item
+                    label="Nome de Usuário"
                     name="userName"
-                    onChange={handleChange}
-                    placeholder="Digite seu nome..."
-                    prefix={<FaUserCircle size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-              <Col md={6}>
-                <Form.Item
-                  label="Razão Social"
-                  name="corporateName"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Por favor, insira a razão social!',
-                    },
-                  ]}
-                >
-                  <Input
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Por favor, digite seu nome!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="userName"
+                      onChange={handleChange}
+                      placeholder="Digite seu nome..."
+                      prefix={<FaUserCircle size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col md={6}>
+                  <Form.Item
+                    label="Razão Social"
                     name="corporateName"
-                    onChange={handleChange}
-                    placeholder="Digite a razão social..."
-                    prefix={<FaRegistered size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Por favor, insira a razão social!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="corporateName"
+                      onChange={handleChange}
+                      placeholder="Digite a razão social..."
+                      prefix={<FaRegistered size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
 
-            <Row className="justify-content-between text-start">
-              <Col md={6}>
-                <Form.Item
-                  label="Nome Fantasia"
-                  name="companyName"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Por favor, digite o nome fantasia!',
-                    },
-                  ]}
-                >
-                  <Input
+              <Row className="justify-content-between text-start">
+                <Col md={6}>
+                  <Form.Item
+                    label="Nome Fantasia"
                     name="companyName"
-                    onChange={handleChange}
-                    placeholder="Digite o nome fantasia..."
-                    prefix={<FaRegRegistered size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-              <Col md={6}>
-                <Form.Item
-                  label="CNPJ"
-                  name="cnpj"
-                  rules={[
-                    {
-                      min: 18,
-                      max: 18,
-                      required: true,
-                      message: 'Por favor, digite o CNPJ!',
-                    },
-                  ]}
-                >
-                  <Input
-                    name="cnpj"
-                    placeholder="Digite o CNPJ..."
-                    prefix={<BsCardHeading size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Por favor, digite o nome fantasia!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="companyName"
+                      onChange={handleChange}
+                      placeholder="Digite o nome fantasia..."
+                      prefix={<FaRegRegistered size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col md={6}>
+                  <Form.Item
+                    label="CPF/CNPJ"
+                    name="cpfcnpj"
+                    rules={[
+                      {
+                        max: 18,
+                        required: true,
+                        message: 'Por favor, digite o CNPJ!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="cpfcnpj"
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        const mask = cpfCnpjFormatter(value);
+                        setValues({ ...values, cpfcnpj: mask });
+                      }}
+                      placeholder="Digite..."
+                      prefix={<BsCardHeading size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
 
-            <Row className="justify-content-between text-start">
-              <Col md={6}>
-                <Form.Item
-                  label="Fone"
-                  name="phone"
-                  rules={[
-                    {
-                      min: 14,
-                      max: 14,
-                      required: true,
-                      message: 'Por favor, digite o numero de telefone!',
-                    },
-                  ]}
-                >
-                  <Input
+              <Row className="justify-content-between text-start">
+                <Col md={6}>
+                  <Form.Item
+                    label="Fone"
                     name="phone"
-                    onChange={(event) => {
-                      const value = event.target.value;
-                      const mask = Masks.phone(value);
-                      setValues({ ...values, phoneNumber: mask });
-                    }}
-                    placeholder="Digite o Telefone..."
-                    prefix={<HiOutlineDevicePhoneMobile size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-              <Col md={6}>
-                <Form.Item
-                  label="Email"
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Por favor, digite o email!',
-                      type: 'email',
-                    },
-                  ]}
-                >
-                  <Input
+                    rules={[
+                      {
+                        min: 14,
+                        max: 14,
+                        required: true,
+                        message: 'Por favor, digite o numero de telefone!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="phone"
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        const mask = Masks.phone(value);
+                        setValues({ ...values, phoneNumber: mask });
+                      }}
+                      placeholder="Digite o Telefone..."
+                      prefix={<HiOutlineDevicePhoneMobile size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col md={6}>
+                  <Form.Item
+                    label="Email"
                     name="email"
-                    onChange={handleChange}
-                    placeholder="Digite o email..."
-                    prefix={<MdEmail size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Por favor, digite o email!',
+                        type: 'email',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="email"
+                      onChange={handleChange}
+                      placeholder="Digite o email..."
+                      prefix={<MdEmail size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
 
-            <Row className="justify-content-between text-start">
-              <Col md={4}>
-                <Form.Item
-                  label="CEP"
-                  name="addressCodePostal"
-                  rules={[
-                    {
-                      min: 9,
-                      required: true,
-                      message: 'Por favor, digite o seu CEP!',
-                    },
-                  ]}
-                >
-                  <Input
+              <Row className="justify-content-between text-start">
+                <Col md={4}>
+                  <Form.Item
+                    label="CEP"
                     name="addressCodePostal"
-                    onChange={(event) => {
-                      const value = event.target.value;
-                      const mask = Masks.cep(value);
-                      setValues({ ...values, addressCodePostal: mask });
-                    }}
-                    onBlur={(event) => {
-                      searchCEP(event.target.value);
-                    }}
-                    placeholder="Digite seu CEP..."
-                    prefix={<BiCurrentLocation size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-              <Col md={4}>
-                <Form.Item
-                  label="Estado"
-                  name="state"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Por favor, digite o estado!',
-                    },
-                  ]}
-                >
-                  <Input
+                    rules={[
+                      {
+                        min: 9,
+                        required: true,
+                        message: 'Por favor, digite o seu CEP!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="addressCodePostal"
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        const mask = Masks.cep(value);
+                        setValues({ ...values, addressCodePostal: mask });
+                      }}
+                      onBlur={(event) => {
+                        searchCEP(event.target.value);
+                      }}
+                      placeholder="Digite seu CEP..."
+                      prefix={<BiCurrentLocation size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col md={4}>
+                  <Form.Item
+                    label="Estado"
                     name="state"
-                    disabled
-                    prefix={<FiMapPin size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-              <Col md={4}>
-                <Form.Item
-                  label="Cidade"
-                  name="city"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Por favor, digite a cidade!',
-                    },
-                  ]}
-                >
-                  <Input
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Por favor, digite o estado!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="state"
+                      disabled
+                      prefix={<FiMapPin size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col md={4}>
+                  <Form.Item
+                    label="Cidade"
                     name="city"
-                    disabled
-                    prefix={<GiModernCity size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Por favor, digite a cidade!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="city"
+                      disabled
+                      prefix={<GiModernCity size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
 
-            <Row className="justify-content-between text-start">
-              <Col md={4}>
-                <Form.Item
-                  label="Bairro"
-                  name="district"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Por favor, digite o seu bairro!',
-                    },
-                  ]}
-                >
-                  <Input
+              <Row className="justify-content-between text-start">
+                <Col md={4}>
+                  <Form.Item
+                    label="Bairro"
                     name="district"
-                    onChange={handleChange}
-                    placeholder="Digite seu bairro..."
-                    prefix={<FaStreetView size={20} />}
-                  />
-                </Form.Item>
-              </Col>
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Por favor, digite o seu bairro!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="district"
+                      onChange={handleChange}
+                      placeholder="Digite seu bairro..."
+                      prefix={<FaStreetView size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
 
-              <Col md={4}>
-                <Form.Item
-                  label="Rua"
-                  name="street"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'A rua é obrigatória!',
-                    },
-                  ]}
-                >
-                  <Input
+                <Col md={4}>
+                  <Form.Item
+                    label="Rua"
                     name="street"
-                    onChange={handleChange}
-                    placeholder="Digite a rua..."
-                    value={values.street}
-                    prefix={<GrStreetView size={20} />}
-                  />
-                </Form.Item>
-              </Col>
+                    rules={[
+                      {
+                        required: true,
+                        message: 'A rua é obrigatória!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="street"
+                      onChange={handleChange}
+                      placeholder="Digite a rua..."
+                      value={values.street}
+                      prefix={<GrStreetView size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
 
-              <Col md={4}>
-                <Form.Item
-                  label="Numero"
-                  name="addressNumber"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Por favor, digite o numero do seu endereço!',
-                    },
-                  ]}
-                >
-                  <Input
+                <Col md={4}>
+                  <Form.Item
+                    label="Numero"
                     name="addressNumber"
-                    onChange={handleChange}
-                    placeholder="Digite seu numero..."
-                    prefix={<AiOutlineFieldNumber size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Por favor, digite o numero do seu endereço!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      name="addressNumber"
+                      onChange={handleChange}
+                      placeholder="Digite seu numero..."
+                      prefix={<AiOutlineFieldNumber size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
 
-            <Row className="justify-content-between text-start">
-              <Col md={6}>
-                <Form.Item
-                  label="Senha"
-                  name="password"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Por favor, digite a senha!',
-                    },
-                  ]}
-                >
-                  <Input.Password
+              <Row className="justify-content-between text-start">
+                <Col md={6}>
+                  <Form.Item
+                    label="Senha"
                     name="password"
-                    onChange={handleChange}
-                    placeholder="Digite a senha..."
-                    prefix={<RiLockPasswordLine size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-              <Col md={6}>
-                <Form.Item
-                  label="Repita a Senha"
-                  name="passwordRepeated"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Por favor, digite a confirmação da senha!',
-                    },
-                  ]}
-                >
-                  <Input.Password
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Por favor, digite a senha!',
+                      },
+                    ]}
+                  >
+                    <Input.Password
+                      name="password"
+                      onChange={handleChange}
+                      placeholder="Digite a senha..."
+                      prefix={<RiLockPasswordLine size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col md={6}>
+                  <Form.Item
+                    label="Repita a Senha"
                     name="passwordRepeated"
-                    onChange={handleChange}
-                    placeholder="Digite a senha novamente..."
-                    prefix={<RiLockPasswordFill size={20} />}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Por favor, digite a confirmação da senha!',
+                      },
+                    ]}
+                  >
+                    <Input.Password
+                      name="passwordRepeated"
+                      onChange={handleChange}
+                      placeholder="Digite a senha novamente..."
+                      prefix={<RiLockPasswordFill size={20} />}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
 
-            <Row className="justify-content-center text-center">
-              <Col md={2} className="mt-3">
-                <Button type="primary" htmlType="submit">
-                  <strong>Enviar</strong>
-                </Button>
-              </Col>
+              <Row className="justify-content-center text-center">
+                <Col md={2} className="mt-3">
+                  <Button type="primary" htmlType="submit">
+                    <strong>Enviar</strong>
+                  </Button>
+                </Col>
 
-              <Col md={2} className="mt-3">
-                <Button type="default" onClick={handleReset}>
-                  <strong>Limpar</strong>
-                </Button>
-              </Col>
-            </Row>
+                <Col md={2} className="mt-3">
+                  <Button type="default" onClick={handleReset}>
+                    <strong>Limpar</strong>
+                  </Button>
+                </Col>
+              </Row>
+            </Col>
           </Row>
         </Form>
       </Row>
@@ -442,8 +444,10 @@ export const PlatformRegistrationForm = () => {
       duration: 7,
     });
 
+    const cpfcnpj = StringFormatter.OnlyNumber(valuesForm.cpfcnpj);
+
     const dataValues: UserMain = {
-      cpfcnpj: companyCPFCNPJ,
+      cpfcnpj: cpfcnpj,
       email: valuesForm.email,
       companyName: valuesForm.companyName,
       corporateName: valuesForm.corporateName,
@@ -502,5 +506,17 @@ export const PlatformRegistrationForm = () => {
         street: data.street,
       });
     }
+  }
+
+  function cpfCnpjFormatter(value: string) {
+    let cpfCnpj: string = value;
+
+    if (cpfCnpj.length <= 14) {
+      cpfCnpj = Masks.cpf(cpfCnpj);
+    } else {
+      cpfCnpj = Masks.cnpj(cpfCnpj);
+    }
+
+    return cpfCnpj;
   }
 };
