@@ -2,7 +2,6 @@ import React from 'react';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { BiLogOut } from 'react-icons/bi';
 import { AiOutlineCloudServer } from 'react-icons/ai';
-import { BsGlobe } from 'react-icons/bs';
 
 interface Menu {
   name: string;
@@ -16,9 +15,8 @@ export const LoggedScreen = () => {
     {
       name: 'Home System',
       icon: <AiOutlineCloudServer size={20} />,
-      href: '/system',
+      href: '/',
     },
-    { name: 'Home Site', icon: <BsGlobe size={20} />, href: '/' },
     { name: 'Sair', icon: <BiLogOut size={20} />, action: () => logout() },
   ];
 

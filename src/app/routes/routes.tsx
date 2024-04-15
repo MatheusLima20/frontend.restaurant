@@ -23,7 +23,7 @@ export const AppRoutes = (props: Props) => {
   } else {
     return (
       <Routes>
-        <Route path="*/system/*" element={SystemNavigation()} />;
+        <Route path="*" element={SystemNavigation()} />;
         <Route path="/logout/" element={Logout()} />;
       </Routes>
     );

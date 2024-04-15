@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Form, Input, Row, Switch } from 'antd';
+import { Button, Col, Form, Input, Row, Select, Switch } from 'antd';
 
 export const ProductRegisterScreen = () => {
   return (
@@ -17,7 +17,7 @@ export const ProductRegisterScreen = () => {
           autoComplete="off"
         >
           <Row gutter={[20, 10]} justify={'center'}>
-            <Col>
+            <Col md={12}>
               <Form.Item
                 label="Nome"
                 name="name"
@@ -29,17 +29,38 @@ export const ProductRegisterScreen = () => {
               </Form.Item>
             </Col>
 
-            <Col>
+            <Col md={10}>
               <Form.Item
                 label="Valor"
                 name="value"
-                rules={[{ required: true, message: 'Digite o valor!' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Digite o valor!',
+                  },
+                ]}
               >
-                <Input />
+                <Input type="number" />
               </Form.Item>
             </Col>
 
-            <Col>
+            <Col md={8}>
+              <Form.Item label="Unidade">
+                <Select
+                  defaultValue="KG"
+                  style={{ width: 120 }}
+                  options={[
+                    { value: 'KG', label: 'Quilo' },
+                    { value: 'g', label: 'Grama' },
+                    { value: 'L', label: 'Litro' },
+                    { value: 'ml', label: 'Mililitro (ml)' },
+                    { value: 'CX', label: 'Caixa' },
+                  ]}
+                />
+              </Form.Item>
+            </Col>
+
+            <Col md={8}>
               <Form.Item label="Ativo" name="active">
                 <Switch
                   checkedChildren="Sim"
@@ -49,7 +70,7 @@ export const ProductRegisterScreen = () => {
               </Form.Item>
             </Col>
 
-            <Col>
+            <Col md={8}>
               <Form.Item label="Exibir" name="show">
                 <Switch
                   checkedChildren="Sim"

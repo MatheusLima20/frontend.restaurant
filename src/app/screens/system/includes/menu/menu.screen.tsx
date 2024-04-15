@@ -9,9 +9,10 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { BsAndroid, BsGraphUp } from 'react-icons/bs';
-import { BiHome } from 'react-icons/bi';
+import { BiHome, BiUserCircle } from 'react-icons/bi';
 import { FaBox } from 'react-icons/fa';
 import './menu.css';
+import { TfiWrite } from 'react-icons/tfi';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -33,35 +34,44 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem(
-    <a href="/system/" className="menu">
+    <a href="/" className="menu">
       Home
     </a>,
     '1',
-    <BiHome size={25} />,
+    <BiHome size={20} />,
   ),
+  getItem('Cadastro', 'sub1', <TfiWrite size={20} />, [
+    getItem(
+      <a href="/product-register/" className="menu">
+        Produtos
+      </a>,
+      '2',
+      <FaBox size={20} />,
+    ),
+    getItem(
+      <a href="/user-register/" className="menu">
+        Usuário
+      </a>,
+      '3',
+      <BiUserCircle size={20} />,
+    ),
+  ]),
   getItem(
-    <a href="/system/product-register/" className="menu">
-      Cadastro de Produtos
-    </a>,
-    '2',
-    <FaBox size={20} />,
-  ),
-  getItem(
-    <a href="/system/system2/" className="menu">
+    <a href="/system2/" className="menu">
       Relatórios
     </a>,
-    '3',
+    '4',
     <BsGraphUp size={20} />,
   ),
 
-  getItem('Navigation One', 'sub1', <MailOutlined />, [
+  getItem('Navigation One', 'sub1', <MailOutlined size={20} />, [
     getItem('Option 5', '5'),
     getItem('Option 6', '6'),
     getItem('Option 7', '7'),
     getItem('Option 8', '8'),
   ]),
 
-  getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
+  getItem('Navigation Two', 'sub2', <AppstoreOutlined size={20} />, [
     getItem('Option 9', '9'),
     getItem('Option 10', '10'),
 
