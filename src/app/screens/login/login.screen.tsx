@@ -94,7 +94,7 @@ export const LoginScreen = () => {
       }, 1000);
 
       setTimeout(() => {
-        document.location = '/system';
+        document.location = '/';
       }, 2000);
     } else {
       setTimeout(() => {

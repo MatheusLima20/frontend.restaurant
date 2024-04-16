@@ -21,8 +21,6 @@ export const ProductRegisterScreen = () => {
   const handleChange = (event: any) => {
     const { name, value } = event.target;
 
-    console.log(value);
-
     setValues({ ...values, [name]: value });
   };
 
@@ -68,8 +66,8 @@ export const ProductRegisterScreen = () => {
           ]}
           onFinish={save}
         >
-          <Row gutter={[10, 10]} justify={'space-between'}>
-            <Col md={8}>
+          <Row gutter={[10, 10]}>
+            <Col md={7}>
               <Form.Item
                 label="Nome"
                 name="name"
@@ -77,11 +75,11 @@ export const ProductRegisterScreen = () => {
                   { required: true, message: 'Digite o nome do produto!' },
                 ]}
               >
-                <Input onChange={handleChange} value={values.name} />
+                <Input name="name" onChange={handleChange} />
               </Form.Item>
             </Col>
 
-            <Col md={6}>
+            <Col md={5}>
               <Form.Item
                 label="Valor"
                 name="value"
@@ -94,6 +92,7 @@ export const ProductRegisterScreen = () => {
               >
                 <Input
                   type="number"
+                  name="value"
                   onChange={handleChange}
                   value={values.value}
                   prefix={<span>R$</span>}
@@ -113,6 +112,7 @@ export const ProductRegisterScreen = () => {
               >
                 <Input
                   type="number"
+                  name="amount"
                   onChange={handleChange}
                   value={values.amount}
                   prefix={<BsBox2Fill />}
@@ -120,7 +120,7 @@ export const ProductRegisterScreen = () => {
               </Form.Item>
             </Col>
 
-            <Col>
+            <Col md={6}>
               <Form.Item label="Unidade" name="unitMeasurement">
                 <Select
                   defaultValue="KG"
@@ -213,7 +213,7 @@ export const ProductRegisterScreen = () => {
       content: 'Enviando...',
       duration: 4,
     });
-    console.log(valuesForm);
+
     const dataValues: Product = {
       name: valuesForm.name,
       value: valuesForm.value,
@@ -236,11 +236,12 @@ export const ProductRegisterScreen = () => {
 
     setTimeout(() => {
       messageApi.open({
-        key: 'customer.registration',
+        key: 'register.products',
         type: type,
         content: message,
         duration: 4,
       });
+      setValues(initialValues);
     }, 1000);
   }
 };
