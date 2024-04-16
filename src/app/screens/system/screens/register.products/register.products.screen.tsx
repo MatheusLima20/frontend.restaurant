@@ -1,23 +1,75 @@
-import React from 'react';
-import { Button, Col, Form, Input, Row, Select, Switch } from 'antd';
+import React, { useState } from 'react';
+import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
+import { Product } from '../../../../types/product/product';
+import { ProductController } from '../../../../controller/products/products.controller';
+import { BsBox2Fill } from 'react-icons/bs';
+
+const initialValues = {
+  name: '',
+  value: 0,
+  isActive: true,
+  unitMeasurement: 'KG',
+  show: true,
+  amount: 0,
+};
 
 export const ProductRegisterScreen = () => {
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const [values, setValues] = useState(initialValues);
+
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+
+    console.log(value);
+
+    setValues({ ...values, [name]: value });
+  };
+
   return (
-    <Row className="mt-5" gutter={[0, 30]} justify={'center'}>
+    <Row className="mt-5" gutter={[0, 30]}>
+      {contextHolder}
       <Col>
         <h2>
           <strong>Cadastro de produtos</strong>
         </h2>
       </Col>
 
-      <Col span={24}>
+      <Col span={20}>
         <Form
           name="basic"
           initialValues={{ remember: true }}
-          autoComplete="off"
+          autoComplete="on"
+          fields={[
+            {
+              name: 'name',
+              value: values.name,
+            },
+            {
+              name: 'value',
+              value: values.value,
+            },
+            {
+              name: 'amount',
+              value: values.amount,
+            },
+            {
+              name: 'unitMeasurement',
+              value: values.unitMeasurement,
+            },
+            {
+              name: 'show',
+              value: values.show,
+            },
+            {
+              name: 'isActive',
+              value: values.isActive,
+            },
+          ]}
+          onFinish={save}
         >
-          <Row gutter={[20, 10]} justify={'center'}>
-            <Col md={12}>
+          <Row gutter={[10, 10]} justify={'space-between'}>
+            <Col md={8}>
               <Form.Item
                 label="Nome"
                 name="name"
@@ -25,11 +77,11 @@ export const ProductRegisterScreen = () => {
                   { required: true, message: 'Digite o nome do produto!' },
                 ]}
               >
-                <Input />
+                <Input onChange={handleChange} value={values.name} />
               </Form.Item>
             </Col>
 
-            <Col md={10}>
+            <Col md={6}>
               <Form.Item
                 label="Valor"
                 name="value"
@@ -40,41 +92,95 @@ export const ProductRegisterScreen = () => {
                   },
                 ]}
               >
-                <Input type="number" />
+                <Input
+                  type="number"
+                  onChange={handleChange}
+                  value={values.value}
+                  prefix={<span>R$</span>}
+                />
               </Form.Item>
             </Col>
 
-            <Col md={8}>
-              <Form.Item label="Unidade">
+            <Col md={6}>
+              <Form.Item
+                label="Quantidade"
+                name="amount"
+                rules={[
+                  {
+                    message: 'Digite a quantidade!',
+                  },
+                ]}
+              >
+                <Input
+                  type="number"
+                  onChange={handleChange}
+                  value={values.amount}
+                  prefix={<BsBox2Fill />}
+                />
+              </Form.Item>
+            </Col>
+
+            <Col>
+              <Form.Item label="Unidade" name="unitMeasurement">
                 <Select
                   defaultValue="KG"
-                  style={{ width: 120 }}
+                  onChange={(value: string) => {
+                    const event: any = {
+                      target: {
+                        name: 'unitMeasurement',
+                        value: value,
+                      },
+                    };
+                    handleChange(event);
+                  }}
+                  value={values.unitMeasurement}
                   options={[
-                    { value: 'KG', label: 'Quilo' },
+                    { value: 'CX', label: 'Caixa' },
                     { value: 'g', label: 'Grama' },
                     { value: 'L', label: 'Litro' },
                     { value: 'ml', label: 'Mililitro (ml)' },
-                    { value: 'CX', label: 'Caixa' },
+                    { value: 'PC', label: 'Pacote' },
+                    { value: 'KG', label: 'Quilo' },
                   ]}
                 />
               </Form.Item>
             </Col>
 
-            <Col md={8}>
-              <Form.Item label="Ativo" name="active">
+            <Col>
+              <Form.Item label="Ativo" name="isActive">
                 <Switch
                   checkedChildren="Sim"
                   unCheckedChildren="Não"
+                  onChange={(value: boolean) => {
+                    const event: any = {
+                      target: {
+                        name: 'isActive',
+                        value: value,
+                      },
+                    };
+                    handleChange(event);
+                  }}
+                  checked={values.isActive}
                   defaultChecked
                 />
               </Form.Item>
             </Col>
 
-            <Col md={8}>
+            <Col>
               <Form.Item label="Exibir" name="show">
                 <Switch
                   checkedChildren="Sim"
                   unCheckedChildren="Não"
+                  onChange={(value: boolean) => {
+                    const event: any = {
+                      target: {
+                        name: 'show',
+                        value: value,
+                      },
+                    };
+                    handleChange(event);
+                  }}
+                  checked={values.show}
                   defaultChecked
                 />
               </Form.Item>
@@ -99,4 +205,42 @@ export const ProductRegisterScreen = () => {
       </Col>
     </Row>
   );
+
+  async function save(valuesForm: Product) {
+    messageApi.open({
+      key: 'register.products',
+      type: 'loading',
+      content: 'Enviando...',
+      duration: 4,
+    });
+    console.log(valuesForm);
+    const dataValues: Product = {
+      name: valuesForm.name,
+      value: valuesForm.value,
+      isActive: valuesForm.isActive,
+      unitMeasurement: valuesForm.unitMeasurement,
+      show: valuesForm.show,
+      amount: valuesForm.amount,
+      ...valuesForm,
+    };
+
+    const request = await ProductController.store({
+      ...dataValues,
+    });
+
+    const error = request.error;
+
+    const message = request.message;
+
+    const type = error ? 'error' : 'success';
+
+    setTimeout(() => {
+      messageApi.open({
+        key: 'customer.registration',
+        type: type,
+        content: message,
+        duration: 4,
+      });
+    }, 1000);
+  }
 };

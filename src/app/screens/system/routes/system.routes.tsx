@@ -11,7 +11,7 @@ export const SystemRoutes = () => {
 
   function userRoutes() {
     return (
-      <Row gutter={[30, 0]}>
+      <Row>
         <Col span={5}>
           <Menu />
         </Col>
