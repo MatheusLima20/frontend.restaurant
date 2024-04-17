@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Content } from 'antd/es/layout/layout';
-import { Button, Col, Menu, Row } from 'antd';
+import { Button, Layout, Menu } from 'antd';
 import {
   AppstoreOutlined,
   MailOutlined,
@@ -8,11 +7,11 @@ import {
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { BsAndroid, BsGraphUp } from 'react-icons/bs';
+import { BsGraphUp } from 'react-icons/bs';
 import { BiHome, BiUserCircle } from 'react-icons/bi';
 import { FaBox } from 'react-icons/fa';
-import './menu.css';
 import { TfiWrite } from 'react-icons/tfi';
+import './menu.css';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -90,26 +89,25 @@ export const MenuScreen = () => {
   };
 
   return (
-    <Content>
-      <Row>
-        <Col>
-          <div>
-            <BsAndroid size={70} />
-          </div>
-
-          <Menu
-            mode="inline"
-            theme="light"
-            inlineCollapsed={collapsed}
-            items={items}
-          />
-        </Col>
-        <Col>
-          <Button type="primary" onClick={toggleCollapsed}>
-            {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          </Button>
-        </Col>
-      </Row>
-    </Content>
+    <div>
+      <Layout style={{ backgroundColor: 'white' }}>
+        <Button type="primary" onClick={toggleCollapsed}>
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </Button>
+      </Layout>
+      <Layout.Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        style={{ backgroundColor: 'white' }}
+      >
+        <Menu
+          mode="inline"
+          theme="light"
+          inlineCollapsed={collapsed}
+          items={items}
+        />
+      </Layout.Sider>
+    </div>
   );
 };

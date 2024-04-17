@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
 import { Product } from '../../../../types/product/product';
-import { ProductController } from '../../../../controller/products/products.controller';
+import { ProductController } from '../../../../controller/product/products.controller';
 import { BsBox2Fill } from 'react-icons/bs';
 import { Spending } from '../../../../types/spending/spending';
 import { SpendingController } from '../../../../controller/spending/spending.controller';
