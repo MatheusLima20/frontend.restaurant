@@ -37,10 +37,10 @@ const items: MenuItem[] = [
     <a href="/" className="menu">
       Home
     </a>,
-    '1',
+    'sub1',
     <BiHome size={20} />,
   ),
-  getItem('Cadastro', 'sub1', <TfiWrite size={20} />, [
+  getItem('Cadastro', 'sub2', <TfiWrite size={20} />, [
     getItem(
       <a href="/product-register/" className="menu">
         Produtos
@@ -60,22 +60,22 @@ const items: MenuItem[] = [
     <a href="/system2/" className="menu">
       Relatórios
     </a>,
-    '4',
+    'sub3',
     <BsGraphUp size={20} />,
   ),
 
-  getItem('Navigation One', 'sub1', <MailOutlined size={20} />, [
+  getItem('Navigation One', 'sub4', <MailOutlined size={20} />, [
     getItem('Option 5', '5'),
     getItem('Option 6', '6'),
     getItem('Option 7', '7'),
     getItem('Option 8', '8'),
   ]),
 
-  getItem('Navigation Two', 'sub2', <AppstoreOutlined size={20} />, [
+  getItem('Navigation Two', 'sub5', <AppstoreOutlined size={20} />, [
     getItem('Option 9', '9'),
     getItem('Option 10', '10'),
 
-    getItem('Submenu', 'sub3', null, [
+    getItem('Submenu', 'sub6', null, [
       getItem('Option 11', '11'),
       getItem('Option 12', '12'),
     ]),
