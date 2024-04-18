@@ -9,6 +9,7 @@ import { TranslateController } from '../../../../../controller/translate/transla
 import { ProductRegisterTable } from './product.register.table';
 
 const initialValues = {
+  id: 0,
   name: '',
   value: 0,
   isActive: true,
@@ -215,7 +216,7 @@ export const ProductRegisterForm = () => {
             <Row justify={'center'} gutter={[20, 0]} className="mt-2">
               <Col>
                 <Button type="primary" htmlType="submit">
-                  Enviar
+                  Salvar
                 </Button>
               </Col>
               <Col>
@@ -263,9 +264,17 @@ export const ProductRegisterForm = () => {
       ...valuesForm,
     };
 
-    const request = await ProductController.store({
-      ...dataValues,
-    });
+    let request;
+
+    const id = values.id;
+
+    if (id === 0) {
+      request = await ProductController.store({
+        ...dataValues,
+      });
+    } else {
+      request = await ProductController.patch(id, { ...dataValues });
+    }
 
     const error = request.error;
 
@@ -275,7 +284,7 @@ export const ProductRegisterForm = () => {
 
     const tranlateMessage = await TranslateController.get(message);
 
-    if (!error) {
+    if (!error && id === 0) {
       await saveSpending(dataValues);
     }
 
@@ -291,7 +300,7 @@ export const ProductRegisterForm = () => {
         setValues(initialValues);
       }
     }, 1000);
-    getProduct();
+    await getProduct();
   }
 
   async function saveSpending(product: Product) {

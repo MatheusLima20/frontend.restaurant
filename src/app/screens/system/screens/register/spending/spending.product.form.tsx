@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
+import { Button, Col, Form, Input, Row, message } from 'antd';
 import { Product } from '../../../../../types/product/product';
-import { ProductController } from '../../../../../controller/product/products.controller';
 import { BsBox2Fill } from 'react-icons/bs';
 import { Spending } from '../../../../../types/spending/spending';
 import { SpendingController } from '../../../../../controller/spending/spending.controller';
@@ -9,6 +8,7 @@ import { TranslateController } from '../../../../../controller/translate/transla
 import { SpendingRegisterTable } from './spending.register.table';
 
 const initialValues = {
+  id: 0,
   name: '',
   value: 0,
   isActive: true,
@@ -33,7 +33,7 @@ export const SpendingRegisterForm = () => {
   };
 
   useEffect(() => {
-    getProduct();
+    getSpending();
   }, []);
 
   return (
@@ -41,7 +41,7 @@ export const SpendingRegisterForm = () => {
       {contextHolder}
       <Col span={20} className="text-center">
         <h2>
-          <strong>Cadastro de Gastos</strong>
+          <strong>Controle de Gastos</strong>
         </h2>
       </Col>
 
@@ -80,7 +80,7 @@ export const SpendingRegisterForm = () => {
           <Row justify={'center'}>
             <Col>
               <Row gutter={[10, 10]}>
-                <Col md={7}>
+                <Col md={10}>
                   <Form.Item
                     label="Nome"
                     name="name"
@@ -96,7 +96,7 @@ export const SpendingRegisterForm = () => {
                   </Form.Item>
                 </Col>
 
-                <Col md={5}>
+                <Col md={7}>
                   <Form.Item
                     label="Valor"
                     name="value"
@@ -117,7 +117,7 @@ export const SpendingRegisterForm = () => {
                   </Form.Item>
                 </Col>
 
-                <Col md={6}>
+                <Col md={7}>
                   <Form.Item
                     label="Quantidade"
                     name="amount"
@@ -137,76 +137,6 @@ export const SpendingRegisterForm = () => {
                     />
                   </Form.Item>
                 </Col>
-
-                <Col md={6}>
-                  <Form.Item label="Unidade" name="unitMeasurement">
-                    <Select
-                      defaultValue="KG"
-                      onChange={(value: string) => {
-                        const event: any = {
-                          target: {
-                            name: 'unitMeasurement',
-                            value: value,
-                          },
-                        };
-                        handleChange(event);
-                      }}
-                      value={values.unitMeasurement}
-                      options={[
-                        { value: 'CX', label: 'Caixa' },
-                        { value: 'g', label: 'Grama' },
-                        { value: 'L', label: 'Litro' },
-                        { value: 'ml', label: 'Mililitro (ml)' },
-                        { value: 'PC', label: 'Pacote' },
-                        { value: 'KG', label: 'Quilo' },
-                      ]}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Col>
-
-            <Col md={8}>
-              <Row justify={'space-between'}>
-                <Col>
-                  <Form.Item label="Ativo" name="isActive">
-                    <Switch
-                      checkedChildren="Sim"
-                      unCheckedChildren="Não"
-                      onChange={(value: boolean) => {
-                        const event: any = {
-                          target: {
-                            name: 'isActive',
-                            value: value,
-                          },
-                        };
-                        handleChange(event);
-                      }}
-                      checked={values.isActive}
-                      defaultChecked
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col>
-                  <Form.Item label="Exibir" name="show">
-                    <Switch
-                      checkedChildren="Sim"
-                      unCheckedChildren="Não"
-                      onChange={(value: boolean) => {
-                        const event: any = {
-                          target: {
-                            name: 'show',
-                            value: value,
-                          },
-                        };
-                        handleChange(event);
-                      }}
-                      checked={values.show}
-                      defaultChecked
-                    />
-                  </Form.Item>
-                </Col>
               </Row>
             </Col>
           </Row>
@@ -215,7 +145,7 @@ export const SpendingRegisterForm = () => {
             <Row justify={'center'} gutter={[20, 0]} className="mt-2">
               <Col>
                 <Button type="primary" htmlType="submit">
-                  Enviar
+                  Salvar
                 </Button>
               </Col>
               <Col>
@@ -244,28 +174,27 @@ export const SpendingRegisterForm = () => {
     setLoading(true);
 
     messageApi.open({
-      key: 'register.products',
+      key: 'register.spending',
       type: 'loading',
       content: 'Enviando...',
       duration: 4,
     });
 
-    const value = valuesForm.value;
-    const amount = values.amount;
-
-    const dataValues: Product = {
+    const spending: Spending = {
       name: valuesForm.name,
-      value: value,
-      isActive: valuesForm.isActive,
-      unitMeasurement: valuesForm.unitMeasurement,
-      show: valuesForm.show,
-      amount: amount,
-      ...valuesForm,
+      amount: valuesForm.amount,
+      value: valuesForm.value,
     };
 
-    const request = await ProductController.store({
-      ...dataValues,
-    });
+    const id: number = values.id;
+
+    let request;
+
+    if (id == 0) {
+      request = await SpendingController.store(spending);
+    } else {
+      request = await SpendingController.patch(id, { ...spending });
+    }
 
     const error = request.error;
 
@@ -275,13 +204,9 @@ export const SpendingRegisterForm = () => {
 
     const tranlateMessage = await TranslateController.get(message);
 
-    if (!error) {
-      await saveSpending(dataValues);
-    }
-
     setTimeout(() => {
       messageApi.open({
-        key: 'register.products',
+        key: 'register.spending',
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -291,47 +216,13 @@ export const SpendingRegisterForm = () => {
         setValues(initialValues);
       }
     }, 1000);
-    getProduct();
+    await getSpending();
   }
 
-  async function saveSpending(product: Product) {
-    const amount = product.amount;
-
-    const saveSpending = amount != 0;
-
-    if (saveSpending) {
-      const spending: Spending = {
-        name: product.name,
-        amount: amount,
-        value: product.value,
-      };
-
-      const requestSpending = await SpendingController.store(spending);
-
-      const spendingError = requestSpending.error;
-
-      const messageSpending = requestSpending.message;
-
-      const typeSpending = spendingError ? 'error' : 'success';
-
-      const tranlateMessage = await TranslateController.get(messageSpending);
-
-      if (spendingError) {
-        messageApi.open({
-          key: 'register.products',
-          type: typeSpending,
-          content: tranlateMessage.text,
-          duration: 4,
-        });
-        return;
-      }
-    }
-  }
-
-  async function getProduct() {
+  async function getSpending() {
     setLoading(true);
 
-    const request = await ProductController.get();
+    const request = await SpendingController.get();
 
     const data = request.data;
 

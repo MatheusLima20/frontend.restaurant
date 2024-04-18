@@ -179,46 +179,6 @@ export const SpendingRegisterTable = (props: Props) => {
       sorter: (a, b) => a.amount - b.amount,
     },
     {
-      key: 'unitMeasurement',
-
-      title: 'Unidade',
-
-      dataIndex: 'unitMeasurement',
-
-      width: 50,
-
-      sortOrder:
-        sortedInfo.columnKey === 'unitMeasurement' ? sortedInfo.order : null,
-
-      sorter: (a, b) => a.unitMeasurement.localeCompare(b.unitMeasurement),
-    },
-    {
-      key: 'show',
-
-      title: 'Exibir',
-
-      dataIndex: 'show',
-
-      width: 50,
-
-      render: (data: any) => {
-        return <div>{data ? 'Sim' : 'Não'}</div>;
-      },
-    },
-    {
-      key: 'isActive',
-
-      title: 'Ativo',
-
-      dataIndex: 'isActive',
-
-      width: 50,
-
-      render: (data: any) => {
-        return <div>{data ? 'Sim' : 'Não'}</div>;
-      },
-    },
-    {
       key: 'action',
 
       title: 'Ações',

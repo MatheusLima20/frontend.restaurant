@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Layout, Menu } from 'antd';
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { BsGraphUp } from 'react-icons/bs';
 import { BiHome, BiUserCircle } from 'react-icons/bi';
-import { FaBox, FaMoneyBillWaveAlt } from 'react-icons/fa';
+import { FaBox, FaMoneyBill, FaMoneyBillWaveAlt } from 'react-icons/fa';
 import { TfiWrite } from 'react-icons/tfi';
 import './menu.css';
+import { GiReceiveMoney, GiTakeMyMoney } from 'react-icons/gi';
+import { MdSettings } from 'react-icons/md';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -49,7 +46,7 @@ const items: MenuItem[] = [
     ),
     getItem(
       <a href="/spending/" className="menu">
-        Gastos
+        Investimentos
       </a>,
       '2',
       <FaMoneyBillWaveAlt size={20} />,
@@ -62,29 +59,52 @@ const items: MenuItem[] = [
       <BiUserCircle size={20} />,
     ),
   ]),
-  getItem(
-    <a href="/system2/" className="menu">
-      Relatórios
-    </a>,
-    'sub3',
-    <BsGraphUp size={20} />,
-  ),
 
-  getItem('Navigation One', 'sub4', <MailOutlined size={20} />, [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
-    getItem('Option 7', '7'),
-    getItem('Option 8', '8'),
+  getItem('Relatórios', 'sub3', <BsGraphUp size={20} />, [
+    getItem(
+      <a href="/system2/" className="menu">
+        Investimentos
+      </a>,
+      'rel01',
+      <FaMoneyBill size={20} />,
+    ),
+    getItem(
+      <a href="/system2/" className="menu">
+        Vendas
+      </a>,
+      'rel02',
+      <GiReceiveMoney size={20} />,
+    ),
+    getItem(
+      <a href="/system2/" className="menu">
+        Lucro
+      </a>,
+      'rel03',
+      <GiTakeMyMoney size={20} />,
+    ),
   ]),
-
-  getItem('Navigation Two', 'sub5', <AppstoreOutlined size={20} />, [
-    getItem('Option 9', '9'),
-    getItem('Option 10', '10'),
-
-    getItem('Submenu', 'sub6', null, [
-      getItem('Option 11', '11'),
-      getItem('Option 12', '12'),
-    ]),
+  getItem('Configurações', 'sub4', <MdSettings size={20} />, [
+    getItem(
+      <a href="/system2/" className="menu">
+        Investimentos
+      </a>,
+      'sub01',
+      <FaMoneyBill size={20} />,
+    ),
+    getItem(
+      <a href="/system2/" className="menu">
+        Vendas
+      </a>,
+      'sub02',
+      <GiReceiveMoney size={20} />,
+    ),
+    getItem(
+      <a href="/system2/" className="menu">
+        Lucro
+      </a>,
+      'sub03',
+      <GiTakeMyMoney size={20} />,
+    ),
   ]),
 ];
 
@@ -111,6 +131,7 @@ export const MenuScreen = () => {
         <Menu
           mode="inline"
           theme="light"
+          defaultOpenKeys={['sub2', 'sub3']}
           inlineCollapsed={collapsed}
           items={items}
         />

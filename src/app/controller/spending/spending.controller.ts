@@ -1,6 +1,5 @@
 import axios from '../../config/axios';
 import { Spending } from '../../types/spending/spending';
-import { UserClient } from '../../types/user/user';
 import { Error } from '../errors/check.errors';
 import { cookies } from '../user/adm.cookies';
 
@@ -30,11 +29,11 @@ export const SpendingController = {
     }
   },
 
-  patchClient: async (dataUser: UserClient) => {
-    const values = dataUser;
+  patch: async (id: number, spending: Spending) => {
+    const values = spending;
 
     try {
-      const request = await axios.patch('/client', values, {
+      const request = await axios.patch(`/spending/${id}`, values, {
         headers: { authorization: `Bearer ${token}` },
       });
 
@@ -50,13 +49,13 @@ export const SpendingController = {
     }
   },
 
-  getClients: async () => {
+  get: async () => {
     try {
       const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
-      const request = await axios.get('/clients', {
+      const request = await axios.get('/spending', {
         headers: { authorization: `Bearer ${token}` },
       });
 

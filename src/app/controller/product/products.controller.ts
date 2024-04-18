@@ -1,6 +1,5 @@
 import axios from '../../config/axios';
 import { Product } from '../../types/product/product';
-import { UserClient } from '../../types/user/user';
 import { Error } from '../errors/check.errors';
 import { cookies } from '../user/adm.cookies';
 
@@ -30,11 +29,11 @@ export const ProductController = {
     }
   },
 
-  patchClient: async (dataUser: UserClient) => {
+  patch: async (id: number, dataUser: Product) => {
     const values = dataUser;
 
     try {
-      const request = await axios.patch('/client', values, {
+      const request = await axios.patch(`/product/${id}`, values, {
         headers: { authorization: `Bearer ${token}` },
       });
 
