@@ -13,7 +13,8 @@ import {
 } from 'antd/es/table/interface';
 import { SearchOutlined } from '@ant-design/icons';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { Product } from '../../../../types/product/product';
+import { Product } from '../../../../../types/product/product';
+import { BiEdit } from 'react-icons/bi';
 
 interface DataType {
   key: number;
@@ -32,9 +33,10 @@ type DataIndex = keyof DataType;
 interface Props {
   valuesTable: Product[];
   loading: boolean;
+  getRowValues: (values: Product) => any;
 }
 
-export const ProductRegisterTable = (props: Props) => {
+export const SpendingRegisterTable = (props: Props) => {
   const loading = props.loading;
 
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({
@@ -138,7 +140,7 @@ export const ProductRegisterTable = (props: Props) => {
 
       dataIndex: 'name',
 
-      width: 200,
+      width: 130,
 
       sortOrder: sortedInfo.columnKey === 'name' ? sortedInfo.order : null,
 
@@ -148,7 +150,6 @@ export const ProductRegisterTable = (props: Props) => {
 
       ...getColumnSearchProps('name', 'Nome'),
     },
-
     {
       key: 'value',
 
@@ -162,9 +163,8 @@ export const ProductRegisterTable = (props: Props) => {
 
       sorter: (a, b) => a.value - b.value,
 
-      width: 150,
+      width: 50,
     },
-
     {
       key: 'amount',
 
@@ -172,13 +172,12 @@ export const ProductRegisterTable = (props: Props) => {
 
       dataIndex: 'amount',
 
-      width: 150,
+      width: 70,
 
       sortOrder: sortedInfo.columnKey === 'amount' ? sortedInfo.order : null,
 
       sorter: (a, b) => a.amount - b.amount,
     },
-
     {
       key: 'unitMeasurement',
 
@@ -186,12 +185,71 @@ export const ProductRegisterTable = (props: Props) => {
 
       dataIndex: 'unitMeasurement',
 
-      width: 150,
+      width: 50,
 
       sortOrder:
         sortedInfo.columnKey === 'unitMeasurement' ? sortedInfo.order : null,
 
       sorter: (a, b) => a.unitMeasurement.localeCompare(b.unitMeasurement),
+    },
+    {
+      key: 'show',
+
+      title: 'Exibir',
+
+      dataIndex: 'show',
+
+      width: 50,
+
+      render: (data: any) => {
+        return <div>{data ? 'Sim' : 'Não'}</div>;
+      },
+    },
+    {
+      key: 'isActive',
+
+      title: 'Ativo',
+
+      dataIndex: 'isActive',
+
+      width: 50,
+
+      render: (data: any) => {
+        return <div>{data ? 'Sim' : 'Não'}</div>;
+      },
+    },
+    {
+      key: 'action',
+
+      title: 'Ações',
+
+      width: 100,
+
+      render: (data: DataType) => {
+        return (
+          <Row>
+            <Col>
+              <Button>
+                <BiEdit
+                  size={20}
+                  onClick={() => {
+                    props.getRowValues({
+                      id: data.id,
+                      name: data.name,
+                      value: data.value,
+                      amount: data.amount,
+                      isActive: data.isActive,
+                      show: data.show,
+                      unitMeasurement: data.unitMeasurement,
+                      ...(data as any),
+                    });
+                  }}
+                />
+              </Button>
+            </Col>
+          </Row>
+        );
+      },
     },
   ];
 
@@ -231,6 +289,7 @@ export const ProductRegisterTable = (props: Props) => {
         amount: value.amount,
         value: value.value,
         unitMeasurement: value.unitMeasurement,
+        show: value.show,
         ...value,
       });
     });

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
-import { Product } from '../../../../types/product/product';
-import { ProductController } from '../../../../controller/product/products.controller';
+import { Product } from '../../../../../types/product/product';
+import { ProductController } from '../../../../../controller/product/products.controller';
 import { BsBox2Fill } from 'react-icons/bs';
-import { Spending } from '../../../../types/spending/spending';
-import { SpendingController } from '../../../../controller/spending/spending.controller';
-import { TranslateController } from '../../../../controller/translate/translate.controller';
+import { Spending } from '../../../../../types/spending/spending';
+import { SpendingController } from '../../../../../controller/spending/spending.controller';
+import { TranslateController } from '../../../../../controller/translate/translate.controller';
+import { ProductRegisterTable } from './product.register.table';
 
 const initialValues = {
   name: '',
@@ -21,16 +22,24 @@ export const ProductRegisterForm = () => {
 
   const [values, setValues] = useState(initialValues);
 
+  const [loading, setLoading] = useState(false);
+
+  const [valuesTable, setValuesTable] = useState([]);
+
   const handleChange = (event: any) => {
     const { name, value } = event.target;
 
     setValues({ ...values, [name]: value });
   };
 
+  useEffect(() => {
+    getProduct();
+  }, []);
+
   return (
     <Row className="mt-5" gutter={[0, 30]}>
       {contextHolder}
-      <Col>
+      <Col span={20} className="text-center">
         <h2>
           <strong>Cadastro de produtos</strong>
         </h2>
@@ -79,7 +88,11 @@ export const ProductRegisterForm = () => {
                       { required: true, message: 'Digite o nome do produto!' },
                     ]}
                   >
-                    <Input name="name" onChange={handleChange} />
+                    <Input
+                      name="name"
+                      placeholder="Digite o nome..."
+                      onChange={handleChange}
+                    />
                   </Form.Item>
                 </Col>
 
@@ -214,10 +227,22 @@ export const ProductRegisterForm = () => {
           </Form.Item>
         </Form>
       </Col>
+
+      <Col span={24}>
+        <ProductRegisterTable
+          loading={loading}
+          getRowValues={(editValues: Product) => {
+            setValues(editValues);
+          }}
+          valuesTable={valuesTable}
+        />
+      </Col>
     </Row>
   );
 
   async function save(valuesForm: Product) {
+    setLoading(true);
+
     messageApi.open({
       key: 'register.products',
       type: 'loading',
@@ -238,13 +263,47 @@ export const ProductRegisterForm = () => {
       ...valuesForm,
     };
 
+    const request = await ProductController.store({
+      ...dataValues,
+    });
+
+    const error = request.error;
+
+    const message = request.message;
+
+    const type = error ? 'error' : 'success';
+
+    const tranlateMessage = await TranslateController.get(message);
+
+    if (!error) {
+      await saveSpending(dataValues);
+    }
+
+    setTimeout(() => {
+      messageApi.open({
+        key: 'register.products',
+        type: type,
+        content: tranlateMessage.text,
+        duration: 4,
+      });
+      setLoading(false);
+      if (!error) {
+        setValues(initialValues);
+      }
+    }, 1000);
+    getProduct();
+  }
+
+  async function saveSpending(product: Product) {
+    const amount = product.amount;
+
     const saveSpending = amount != 0;
 
     if (saveSpending) {
       const spending: Spending = {
-        name: dataValues.name,
+        name: product.name,
         amount: amount,
-        value: value,
+        value: product.value,
       };
 
       const requestSpending = await SpendingController.store(spending);
@@ -267,29 +326,21 @@ export const ProductRegisterForm = () => {
         return;
       }
     }
+  }
 
-    const request = await ProductController.store({
-      ...dataValues,
-    });
+  async function getProduct() {
+    setLoading(true);
 
-    const error = request.error;
+    const request = await ProductController.get();
 
-    const message = request.message;
-
-    const type = error ? 'error' : 'success';
-
-    const tranlateMessage = await TranslateController.get(message);
+    const data = request.data;
 
     setTimeout(() => {
-      messageApi.open({
-        key: 'register.products',
-        type: type,
-        content: tranlateMessage.text,
-        duration: 4,
-      });
-      if (!error) {
-        setValues(initialValues);
-      }
-    }, 1000);
+      setLoading(false);
+    }, 500);
+
+    if (data) {
+      setValuesTable(data);
+    }
   }
 };

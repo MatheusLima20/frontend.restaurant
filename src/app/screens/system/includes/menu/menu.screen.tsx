@@ -9,7 +9,7 @@ import {
 import type { MenuProps } from 'antd';
 import { BsGraphUp } from 'react-icons/bs';
 import { BiHome, BiUserCircle } from 'react-icons/bi';
-import { FaBox } from 'react-icons/fa';
+import { FaBox, FaMoneyBillWaveAlt } from 'react-icons/fa';
 import { TfiWrite } from 'react-icons/tfi';
 import './menu.css';
 
@@ -44,8 +44,15 @@ const items: MenuItem[] = [
       <a href="/product-register/" className="menu">
         Produtos
       </a>,
-      '2',
+      '1',
       <FaBox size={20} />,
+    ),
+    getItem(
+      <a href="/spending/" className="menu">
+        Gastos
+      </a>,
+      '2',
+      <FaMoneyBillWaveAlt size={20} />,
     ),
     getItem(
       <a href="/user-register/" className="menu">

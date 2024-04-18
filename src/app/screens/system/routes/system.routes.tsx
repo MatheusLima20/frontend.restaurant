@@ -4,8 +4,9 @@ import { Menu } from '../includes/menu';
 import { Home } from '../screens/home';
 import { Layout } from 'antd';
 import { Footer } from '../includes/footer';
-import { ProductRegister } from '../screens/register.products';
+import { ProductRegister } from '../screens/register/products';
 import { BsAndroid } from 'react-icons/bs';
+import { SpendingRegister } from '../screens/register/spending';
 
 export const SystemRoutes = () => {
   return userRoutes();
@@ -22,6 +23,7 @@ export const SystemRoutes = () => {
           <Layout.Content className="ms-3">
             <Routes>
               <Route index path="*" element={Home()} />
+              <Route index path="/spending/" element={SpendingRegister()} />
               <Route
                 index
                 path="/product-register"
