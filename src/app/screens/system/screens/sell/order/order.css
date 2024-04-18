@@ -1,0 +1,6 @@
+.tables{
+  float:left;
+  overflow-y: auto;
+  height: 450px;
+  width: 100%;
+}

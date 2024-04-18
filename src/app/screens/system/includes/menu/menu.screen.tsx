@@ -4,11 +4,12 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { BsGraphUp } from 'react-icons/bs';
 import { BiHome, BiUserCircle } from 'react-icons/bi';
-import { FaBox, FaMoneyBill, FaMoneyBillWaveAlt } from 'react-icons/fa';
+import { FaBox, FaMoneyBill, FaSellsy } from 'react-icons/fa';
 import { TfiWrite } from 'react-icons/tfi';
 import './menu.css';
-import { GiReceiveMoney, GiTakeMyMoney } from 'react-icons/gi';
-import { MdSettings } from 'react-icons/md';
+import { GiHotMeal, GiReceiveMoney, GiTakeMyMoney } from 'react-icons/gi';
+import { MdDeliveryDining, MdSettings } from 'react-icons/md';
+import { FaHandHoldingDollar } from 'react-icons/fa6';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -17,6 +18,7 @@ function getItem(
   key: React.Key,
   icon?: React.ReactNode,
   children?: MenuItem[],
+  disabled?: boolean,
   type?: 'group',
 ): MenuItem {
   return {
@@ -25,6 +27,7 @@ function getItem(
     children,
     label,
     type,
+    disabled,
   } as MenuItem;
 }
 
@@ -36,30 +39,45 @@ const items: MenuItem[] = [
     'sub1',
     <BiHome size={20} />,
   ),
+  getItem('Vender', 'sub1', <FaHandHoldingDollar size={20} />, [
+    getItem(
+      <a href="/order/" className="menu">
+        Pedidos
+      </a>,
+      'ven1',
+      <GiHotMeal size={20} />,
+    ),
+    getItem(
+      <div className="menu">Delivery</div>,
+      'ven2',
+      <MdDeliveryDining size={20} />,
+      null,
+      true,
+    ),
+  ]),
   getItem('Cadastro', 'sub2', <TfiWrite size={20} />, [
     getItem(
       <a href="/product-register/" className="menu">
         Produtos
       </a>,
-      '1',
+      'cad1',
       <FaBox size={20} />,
     ),
     getItem(
       <a href="/spending/" className="menu">
         Investimentos
       </a>,
-      '2',
-      <FaMoneyBillWaveAlt size={20} />,
+      'cad2',
+      <FaSellsy size={20} />,
     ),
     getItem(
       <a href="/user-register/" className="menu">
         Usuário
       </a>,
-      '3',
+      'cad3',
       <BiUserCircle size={20} />,
     ),
   ]),
-
   getItem('Relatórios', 'sub3', <BsGraphUp size={20} />, [
     getItem(
       <a href="/system2/" className="menu">
@@ -131,7 +149,7 @@ export const MenuScreen = () => {
         <Menu
           mode="inline"
           theme="light"
-          defaultOpenKeys={['sub2', 'sub3']}
+          defaultOpenKeys={['sub1', 'sub2', 'sub3']}
           inlineCollapsed={collapsed}
           items={items}
         />

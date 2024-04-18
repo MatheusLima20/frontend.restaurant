@@ -5,8 +5,9 @@ import { Home } from '../screens/home';
 import { Layout } from 'antd';
 import { Footer } from '../includes/footer';
 import { ProductRegister } from '../screens/register/products';
-import { BsAndroid } from 'react-icons/bs';
 import { SpendingRegister } from '../screens/register/spending';
+import { MdOutlineAddBusiness } from 'react-icons/md';
+import { SellOrder } from '../screens/sell/order';
 
 export const SystemRoutes = () => {
   return userRoutes();
@@ -18,7 +19,7 @@ export const SystemRoutes = () => {
 
         <Layout style={{ backgroundColor: 'white' }}>
           <Layout.Header style={{ backgroundColor: 'white' }}>
-            <BsAndroid size={70} />
+            <MdOutlineAddBusiness size={70} />
           </Layout.Header>
           <Layout.Content className="ms-3">
             <Routes>
@@ -29,6 +30,7 @@ export const SystemRoutes = () => {
                 path="/product-register"
                 element={ProductRegister()}
               />
+              <Route index path="/order" element={SellOrder()} />
             </Routes>
           </Layout.Content>
           <Layout.Footer style={{ backgroundColor: 'white' }}>
