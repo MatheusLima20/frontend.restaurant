@@ -42,7 +42,7 @@ export const ProductRegisterForm = () => {
       {contextHolder}
       <Col span={20} className="text-center">
         <h2>
-          <strong>Cadastro de produtos</strong>
+          <strong>Cadastro de Produtos</strong>
         </h2>
       </Col>
 
@@ -220,7 +220,12 @@ export const ProductRegisterForm = () => {
                 </Button>
               </Col>
               <Col>
-                <Button type="default" htmlType="reset">
+                <Button
+                  type="default"
+                  onClick={() => {
+                    setValues(initialValues);
+                  }}
+                >
                   Limpar
                 </Button>
               </Col>

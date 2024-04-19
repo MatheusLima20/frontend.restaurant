@@ -5,9 +5,14 @@ import type { MenuProps } from 'antd';
 import { BsGraphUp } from 'react-icons/bs';
 import { BiHome, BiUserCircle } from 'react-icons/bi';
 import { FaBox, FaMoneyBill, FaSellsy } from 'react-icons/fa';
-import { TfiWrite } from 'react-icons/tfi';
 import './menu.css';
-import { GiHotMeal, GiReceiveMoney, GiTakeMyMoney } from 'react-icons/gi';
+import {
+  GiArchiveRegister,
+  GiHotMeal,
+  GiMeal,
+  GiReceiveMoney,
+  GiTakeMyMoney,
+} from 'react-icons/gi';
 import { MdDeliveryDining, MdSettings } from 'react-icons/md';
 import { FaHandHoldingDollar } from 'react-icons/fa6';
 
@@ -55,7 +60,14 @@ const items: MenuItem[] = [
       true,
     ),
   ]),
-  getItem('Cadastro', 'sub2', <TfiWrite size={20} />, [
+  getItem('Cadastro', 'sub2', <GiArchiveRegister size={20} />, [
+    getItem(
+      <a href="/plate-register/" className="menu">
+        Pratos
+      </a>,
+      'cad2',
+      <GiMeal size={20} />,
+    ),
     getItem(
       <a href="/product-register/" className="menu">
         Produtos
@@ -67,14 +79,14 @@ const items: MenuItem[] = [
       <a href="/spending/" className="menu">
         Investimentos
       </a>,
-      'cad2',
+      'cad3',
       <FaSellsy size={20} />,
     ),
     getItem(
       <a href="/user-register/" className="menu">
         Usuário
       </a>,
-      'cad3',
+      'cad4',
       <BiUserCircle size={20} />,
     ),
   ]),
