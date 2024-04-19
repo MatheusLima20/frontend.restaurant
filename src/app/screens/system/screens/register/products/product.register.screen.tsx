@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'antd';
-import { ProductRegisterForm } from './register.product.form';
+import { ProductRegisterForm } from './product.register.form';
 
 export const ProductRegisterScreen = () => {
   return (

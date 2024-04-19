@@ -14,7 +14,7 @@ const initialValues = {
   value: 0,
   isActive: true,
   unitMeasurement: 'KG',
-  show: true,
+  show: false,
   amount: 0,
 };
 
@@ -159,6 +159,7 @@ export const ProductRegisterForm = () => {
                         { value: 'L', label: 'Litro' },
                         { value: 'ml', label: 'Mililitro (ml)' },
                         { value: 'PC', label: 'Pacote' },
+                        { value: 'PR', label: 'Prato' },
                         { value: 'KG', label: 'Quilo' },
                       ]}
                     />
@@ -170,7 +171,11 @@ export const ProductRegisterForm = () => {
             <Col md={8}>
               <Row justify={'space-between'}>
                 <Col>
-                  <Form.Item label="Ativo" name="isActive">
+                  <Form.Item
+                    label="Ativo"
+                    name="isActive"
+                    tooltip="Caso o produto não seja mais usado."
+                  >
                     <Switch
                       checkedChildren="Sim"
                       unCheckedChildren="Não"
@@ -190,7 +195,11 @@ export const ProductRegisterForm = () => {
                 </Col>
 
                 <Col>
-                  <Form.Item label="Exibir" name="show">
+                  <Form.Item
+                    label="Exibir"
+                    name="show"
+                    tooltip="Caso deseje que o produto seja exibido em pedidos, deixar marcado."
+                  >
                     <Switch
                       checkedChildren="Sim"
                       unCheckedChildren="Não"

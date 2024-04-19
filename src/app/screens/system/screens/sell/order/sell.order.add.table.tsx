@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Row, message } from 'antd';
+import { Button, Card, Col, Form, Modal, Row, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { MdOutlineTableBar, MdRemoveCircle, MdTableBar } from 'react-icons/md';
 import './order.css';
@@ -7,10 +7,20 @@ import { BiEdit } from 'react-icons/bi';
 import { TableRestaurant } from '../../../../../types/table/table';
 import { TableController } from '../../../../../controller/table/table.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
+import { SellOrderAdd } from './sell.order.add';
 
 export const SellOrderAddTableScreen = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [tables, setTables] = useState<TableRestaurant[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     getTablesRestaurant();
@@ -40,7 +50,11 @@ export const SellOrderAddTableScreen = () => {
             <Row gutter={[70, 20]} className="tables">
               {tables.map(({ id, name }) => (
                 <Col key={id} md={8}>
-                  <Card hoverable cover={<MdTableBar size={100} />}>
+                  <Card
+                    onClick={showModal}
+                    hoverable
+                    cover={<MdTableBar size={100} />}
+                  >
                     {name}
                   </Card>
                   <Button type="text" size="large">
@@ -52,6 +66,17 @@ export const SellOrderAddTableScreen = () => {
                 </Col>
               ))}
             </Row>
+            <Modal
+              open={isModalOpen}
+              onCancel={handleOk}
+              footer={() => (
+                <>
+                  <Button onClick={handleOk}>Voltar</Button>
+                </>
+              )}
+            >
+              <SellOrderAdd />
+            </Modal>
           </Col>
         </Row>
       </Col>

@@ -8,6 +8,7 @@ import { ProductRegister } from '../screens/register/products';
 import { SpendingRegister } from '../screens/register/spending';
 import { MdOutlineAddBusiness } from 'react-icons/md';
 import { SellOrder } from '../screens/sell/order';
+import { BoxDay } from '../screens/register/box.day';
 
 export const SystemRoutes = () => {
   return userRoutes();
@@ -31,6 +32,7 @@ export const SystemRoutes = () => {
                 element={ProductRegister()}
               />
               <Route index path="/order" element={SellOrder()} />
+              <Route index path="/box-day" element={BoxDay()} />
             </Routes>
           </Layout.Content>
           <Layout.Footer style={{ backgroundColor: 'white' }}>

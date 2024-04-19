@@ -13,30 +13,25 @@ import {
 } from 'antd/es/table/interface';
 import { SearchOutlined } from '@ant-design/icons';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { Product } from '../../../../../types/product/product';
 import { BiEdit } from 'react-icons/bi';
+import { BoxDay } from '../../../../../types/box.day/box.day';
 
 interface DataType {
   key: number;
   id: number;
-  name: string;
-  platform: number;
-  value: number;
-  amount: number;
-  unitMeasurement: string;
-  isActive: boolean;
-  show: boolean;
+  isOpen: boolean;
+  createdAt: string;
 }
 
 type DataIndex = keyof DataType;
 
 interface Props {
-  valuesTable: Product[];
+  valuesTable: BoxDay[];
   loading: boolean;
-  getRowValues: (values: Product) => any;
+  getRowValues: (values: BoxDay) => any;
 }
 
-export const ProductRegisterTable = (props: Props) => {
+export const BoxDayTable = (props: Props) => {
   const loading = props.loading;
 
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({
@@ -134,97 +129,49 @@ export const ProductRegisterTable = (props: Props) => {
 
   const columns: ColumnsType<DataType> = [
     {
-      key: 'name',
+      key: 'id',
 
-      title: 'Nome',
+      title: 'Codigo',
 
-      dataIndex: 'name',
+      dataIndex: 'id',
 
       width: 130,
 
-      sortOrder: sortedInfo.columnKey === 'name' ? sortedInfo.order : null,
+      sortOrder: sortedInfo.columnKey === 'id' ? sortedInfo.order : null,
 
-      sorter: (a, b) => a.name.localeCompare(b.name),
+      sorter: (a, b) => a.id - b.id,
 
       ellipsis: true,
 
-      ...getColumnSearchProps('name', 'Nome'),
+      ...getColumnSearchProps('id', 'ID'),
     },
     {
-      key: 'value',
+      key: 'isOpen',
 
-      title: 'Valor',
+      title: 'Aberto',
 
-      dataIndex: 'value',
-
-      defaultSortOrder: 'descend',
-
-      sortOrder: sortedInfo.columnKey === 'value' ? sortedInfo.order : null,
-
-      sorter: (a, b) => a.value - b.value,
-
-      width: 50,
-    },
-    {
-      key: 'amount',
-
-      title: 'Quantidade',
-
-      dataIndex: 'amount',
-
-      width: 70,
-
-      sortOrder: sortedInfo.columnKey === 'amount' ? sortedInfo.order : null,
-
-      sorter: (a, b) => a.amount - b.amount,
-    },
-    {
-      key: 'unitMeasurement',
-
-      title: 'Unidade',
-
-      dataIndex: 'unitMeasurement',
-
-      width: 50,
-
-      sortOrder:
-        sortedInfo.columnKey === 'unitMeasurement' ? sortedInfo.order : null,
-
-      sorter: (a, b) => a.unitMeasurement.localeCompare(b.unitMeasurement),
-    },
-    {
-      key: 'isActive',
-
-      title: 'Ativo',
-
-      dataIndex: 'isActive',
-
-      width: 50,
+      dataIndex: 'isOpen',
 
       render: (data: any) => {
         return <div>{data ? 'Sim' : 'Não'}</div>;
       },
     },
     {
-      key: 'show',
+      key: 'createdAt',
 
-      title: 'Exibir',
+      title: 'Criado em',
 
-      dataIndex: 'show',
+      dataIndex: 'createdAt',
 
-      width: 50,
+      sortOrder: sortedInfo.columnKey === 'createdAt' ? sortedInfo.order : null,
 
-      render: (data: any) => {
-        return <div>{data ? 'Sim' : 'Não'}</div>;
-      },
+      sorter: (a, b) => a.createdAt.localeCompare(b.createdAt),
     },
 
     {
       key: 'action',
 
       title: 'Ações',
-
-      width: 100,
 
       render: (data: DataType) => {
         return (
@@ -236,12 +183,8 @@ export const ProductRegisterTable = (props: Props) => {
                   onClick={() => {
                     props.getRowValues({
                       id: data.id,
-                      name: data.name,
-                      value: data.value,
-                      amount: data.amount,
-                      isActive: data.isActive,
-                      show: data.show,
-                      unitMeasurement: data.unitMeasurement,
+                      isOpen: data.isOpen,
+                      createdAt: data.createdAt,
                       ...(data as any),
                     });
                   }}
@@ -278,7 +221,7 @@ export const ProductRegisterTable = (props: Props) => {
   );
 
   function initTable(): DataType[] {
-    const valuesData: Product[] = props.valuesTable;
+    const valuesData: BoxDay[] = props.valuesTable;
 
     const values: DataType[] = [];
 
@@ -286,11 +229,8 @@ export const ProductRegisterTable = (props: Props) => {
       return values.push({
         key: index,
         id: value.id,
-        name: value.name,
-        amount: value.amount,
-        value: value.value,
-        unitMeasurement: value.unitMeasurement,
-        show: value.show,
+        isOpen: value.isOpen,
+        createdAt: value.createdAt,
         ...value,
       });
     });

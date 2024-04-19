@@ -12,9 +12,13 @@ export const BoxDayController = {
     let data;
 
     try {
-      request = await axios.post('/box-day/', {
-        headers: { authorization: `Bearer ${token}` },
-      });
+      request = await axios.post(
+        '/box-day/',
+        {},
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
+      );
 
       data = request.data;
 
@@ -56,7 +60,7 @@ export const BoxDayController = {
 
       const token = cookie.token;
 
-      const request = await axios.get('/spending', {
+      const request = await axios.get('/box-day', {
         headers: { authorization: `Bearer ${token}` },
       });
 
