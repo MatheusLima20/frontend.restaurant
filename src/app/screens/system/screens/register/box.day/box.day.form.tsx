@@ -29,7 +29,7 @@ export const BoxDayForm = () => {
       {contextHolder}
       <Col span={20} className="text-center">
         <h2>
-          <strong>Cadastro de Produtos</strong>
+          <strong>Cadastro de Caixa</strong>
         </h2>
       </Col>
 
@@ -39,7 +39,11 @@ export const BoxDayForm = () => {
             <Row justify={'center'} gutter={[20, 0]} className="mt-2">
               <Col>
                 <Button type="primary" htmlType="submit">
-                  Adicionar Caixa
+                  {values.id === 0
+                    ? 'Adicionar Caixa'
+                    : values.isOpen
+                      ? 'Fechar Caixa'
+                      : 'Abrir Caixa'}
                 </Button>
               </Col>
               <Col>

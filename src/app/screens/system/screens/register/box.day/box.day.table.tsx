@@ -209,7 +209,7 @@ export const BoxDayTable = (props: Props) => {
             defaultPageSize: 5,
             showTotal: () => (
               <div className="text-black">
-                <strong>Produtos: {props.valuesTable.length}</strong>
+                <strong>Caixas: {props.valuesTable.length}</strong>
               </div>
             ),
             pageSizeOptions: [5, 10, 20],
