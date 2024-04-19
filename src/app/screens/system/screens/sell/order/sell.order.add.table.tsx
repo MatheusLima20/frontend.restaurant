@@ -51,9 +51,8 @@ export const SellOrderAddTableScreen = () => {
               {tables.map(({ id, name }) => (
                 <Col key={id} md={8}>
                   <Card
-                    onClick={showModal}
                     hoverable
-                    cover={<MdTableBar size={100} />}
+                    cover={<MdTableBar onClick={showModal} size={100} />}
                   >
                     {name}
                   </Card>

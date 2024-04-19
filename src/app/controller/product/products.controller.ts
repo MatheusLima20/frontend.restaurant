@@ -70,4 +70,26 @@ export const ProductController = {
       return { error: true, message };
     }
   },
+
+  getPlates: async () => {
+    try {
+      const cookie = cookies.get('data.user');
+
+      const token = cookie.token;
+
+      const request = await axios.get('/plates', {
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message, data: data.data };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
 };
