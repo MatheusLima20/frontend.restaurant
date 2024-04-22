@@ -8,10 +8,14 @@ import { TableRestaurant } from '../../../../../types/table/table';
 import { TableController } from '../../../../../controller/table/table.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { SellOrderAdd } from './sell.order.add';
+import { OrderController } from '../../../../../controller/order/order.controller';
+import { Order } from '../../../../../types/order/order';
 
 export const SellOrderAddTableScreen = () => {
   const [messageApi, contextHolder] = message.useMessage();
+  const [orders, setOrders] = useState<Order[]>([]);
   const [tables, setTables] = useState<TableRestaurant[]>([]);
+  const [tableId, setTableId] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -52,7 +56,16 @@ export const SellOrderAddTableScreen = () => {
                 <Col key={id} md={8}>
                   <Card
                     hoverable
-                    cover={<MdTableBar onClick={showModal} size={100} />}
+                    cover={
+                      <MdTableBar
+                        onClick={() => {
+                          showModal();
+                          getOrdersByTable(id);
+                          setTableId(id);
+                        }}
+                        size={100}
+                      />
+                    }
                   >
                     {name}
                   </Card>
@@ -65,19 +78,23 @@ export const SellOrderAddTableScreen = () => {
                 </Col>
               ))}
             </Row>
-            <Modal
-              open={isModalOpen}
-              onCancel={handleOk}
-              footer={() => (
-                <>
-                  <Button onClick={handleOk}>Voltar</Button>
-                </>
-              )}
-            >
-              <SellOrderAdd />
-            </Modal>
           </Col>
         </Row>
+        <Modal
+          open={isModalOpen}
+          onCancel={handleOk}
+          footer={() => (
+            <>
+              <Button onClick={handleOk}>Voltar</Button>
+            </>
+          )}
+        >
+          <SellOrderAdd
+            getOrders={() => getOrdersByTable(tableId)}
+            idTable={tableId}
+            orders={orders}
+          />
+        </Modal>
       </Col>
     </Row>
   );
@@ -95,7 +112,7 @@ export const SellOrderAddTableScreen = () => {
 
     if (error) {
       messageApi.open({
-        key: 'register.products',
+        key: 'register.tables',
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -112,6 +129,16 @@ export const SellOrderAddTableScreen = () => {
 
     if (data) {
       setTables(data);
+    }
+  }
+
+  async function getOrdersByTable(id: number) {
+    const request = await OrderController.getByTable(id);
+    console.log(id);
+    const data = request.data;
+
+    if (data) {
+      setOrders(data);
     }
   }
 };
