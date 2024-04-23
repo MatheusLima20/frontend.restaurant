@@ -44,7 +44,7 @@ const items: MenuItem[] = [
     'sub1',
     <BiHome size={20} />,
   ),
-  getItem('Vender', 'sub1', <FaHandHoldingDollar size={20} />, [
+  getItem('Vender', 'sub2', <FaHandHoldingDollar size={20} />, [
     getItem(
       <a href="/order/" className="menu">
         Pedidos
@@ -60,7 +60,7 @@ const items: MenuItem[] = [
       true,
     ),
   ]),
-  getItem('Cadastro', 'sub2', <GiArchiveRegister size={20} />, [
+  getItem('Cadastro', 'sub3', <GiArchiveRegister size={20} />, [
     getItem(
       <a href="/product-register/" className="menu">
         Produtos
@@ -90,7 +90,7 @@ const items: MenuItem[] = [
       <BiUserCircle size={20} />,
     ),
   ]),
-  getItem('Relatórios', 'sub3', <BsGraphUp size={20} />, [
+  getItem('Relatórios', 'sub4', <BsGraphUp size={20} />, [
     getItem(
       <a href="/system2/" className="menu">
         Investimentos
@@ -113,7 +113,7 @@ const items: MenuItem[] = [
       <GiTakeMyMoney size={20} />,
     ),
   ]),
-  getItem('Configurações', 'sub4', <MdSettings size={20} />, [
+  getItem('Configurações', 'sub5', <MdSettings size={20} />, [
     getItem(
       <a href="/system2/" className="menu">
         Investimentos

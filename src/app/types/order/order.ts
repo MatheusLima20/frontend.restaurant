@@ -4,6 +4,7 @@ export type Order = {
   productName: string;
   idTable: number;
   value: number;
+  amount: number;
   isCancelled: boolean;
   isOpen: boolean;
   createdBy: number;

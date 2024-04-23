@@ -9,6 +9,7 @@ import { TranslateController } from '../../../../../controller/translate/transla
 interface Props {
   idTable: number;
   orders: Order[];
+  total: number;
   getOrders: () => any;
 }
 
@@ -16,6 +17,7 @@ export const SellOrderAdd = (props: Props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [products, setProducts] = useState([]);
   const [id, setId] = useState(0);
+  const total = props.total;
 
   useEffect(() => {
     getPlates();
@@ -104,17 +106,38 @@ export const SellOrderAdd = (props: Props) => {
           </Form>
         </Col>
       </Col>
-      <Col md={24}>
+      <Col className="orders" md={24}>
         <List
           size="small"
           bordered
           dataSource={props.orders}
+          header={
+            <Row justify={'end'}>
+              <Col>
+                Total R${' '}
+                {total.toLocaleString('pt-br', {
+                  minimumFractionDigits: 2,
+                })}
+              </Col>
+            </Row>
+          }
           renderItem={(item) => (
-            <div>
-              <List.Item title="Cod.">
-                Cod:. {item.id} {item.productName} R$ {item.value}
-              </List.Item>
-            </div>
+            <List.Item key={item.id}>
+              <List.Item.Meta
+                title={
+                  <strong style={{ fontSize: 14 }}>{item.productName}</strong>
+                }
+                description={
+                  <div>
+                    R${' '}
+                    {item.value.toLocaleString('pt-br', {
+                      minimumFractionDigits: 2,
+                    })}{' '}
+                    Quantidade: {item.amount}
+                  </div>
+                }
+              ></List.Item.Meta>
+            </List.Item>
           )}
         />
       </Col>

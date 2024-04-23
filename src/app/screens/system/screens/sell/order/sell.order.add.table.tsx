@@ -16,6 +16,7 @@ export const SellOrderAddTableScreen = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [tables, setTables] = useState<TableRestaurant[]>([]);
   const [tableId, setTableId] = useState(0);
+  const [total, setTotal] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -92,6 +93,7 @@ export const SellOrderAddTableScreen = () => {
           <SellOrderAdd
             getOrders={() => getOrdersByTable(tableId)}
             idTable={tableId}
+            total={total}
             orders={orders}
           />
         </Modal>
@@ -133,9 +135,18 @@ export const SellOrderAddTableScreen = () => {
   }
 
   async function getOrdersByTable(id: number) {
+    setOrders([]);
     const request = await OrderController.getByTable(id);
-    console.log(id);
-    const data = request.data;
+
+    const data: any[] = request.data;
+
+    let total = 0;
+
+    data.map((order) => {
+      return (total += order.value * order.amount);
+    });
+
+    setTotal(total);
 
     if (data) {
       setOrders(data);
