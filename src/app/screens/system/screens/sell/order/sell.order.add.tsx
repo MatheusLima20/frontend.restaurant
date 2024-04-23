@@ -5,6 +5,7 @@ import { ProductController } from '../../../../../controller/product/products.co
 import { Order } from '../../../../../types/order/order';
 import { OrderController } from '../../../../../controller/order/order.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
+import { FaGlassWater } from 'react-icons/fa6';
 
 interface Props {
   idTable: number;
@@ -124,6 +125,13 @@ export const SellOrderAdd = (props: Props) => {
           renderItem={(item) => (
             <List.Item key={item.id}>
               <List.Item.Meta
+                avatar={
+                  item.productName.includes('Suco') ? (
+                    <FaGlassWater size={25} />
+                  ) : (
+                    <GiMeal size={30} />
+                  )
+                }
                 title={
                   <strong style={{ fontSize: 14 }}>{item.productName}</strong>
                 }
