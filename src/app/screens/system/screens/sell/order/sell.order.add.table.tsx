@@ -84,6 +84,7 @@ export const SellOrderAddTableScreen = () => {
         <Modal
           open={isModalOpen}
           onCancel={handleOk}
+          width={'50%'}
           footer={() => (
             <>
               <Button onClick={handleOk}>Voltar</Button>

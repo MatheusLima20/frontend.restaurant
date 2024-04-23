@@ -6,6 +6,7 @@ import { Order } from '../../../../../types/order/order';
 import { OrderController } from '../../../../../controller/order/order.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { FaGlassWater } from 'react-icons/fa6';
+import { BiEditAlt } from 'react-icons/bi';
 
 interface Props {
   idTable: number;
@@ -17,7 +18,8 @@ interface Props {
 export const SellOrderAdd = (props: Props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [products, setProducts] = useState([]);
-  const [id, setId] = useState(0);
+  const [productId, setProductId] = useState(0);
+  const [orderId, setOrderId] = useState(0);
   const total = props.total;
 
   useEffect(() => {
@@ -57,10 +59,18 @@ export const SellOrderAdd = (props: Props) => {
                         onChange={(value: string) => {
                           const id = Number.parseInt(value);
 
-                          setId(id);
+                          setProductId(id);
                         }}
                         options={products.map((value) => {
-                          return { value: value.id, label: value.name };
+                          return {
+                            value: value.id,
+                            label: `${value.name} R$ ${value.value.toLocaleString(
+                              'pt-br',
+                              {
+                                minimumFractionDigits: 2,
+                              },
+                            )}`,
+                          };
                         })}
                       />
                     </Form.Item>
@@ -123,7 +133,19 @@ export const SellOrderAdd = (props: Props) => {
             </Row>
           }
           renderItem={(item) => (
-            <List.Item key={item.id}>
+            <List.Item
+              key={item.id}
+              actions={[
+                <Button
+                  key={item.id}
+                  onClick={() => {
+                    setOrderId(item.id);
+                  }}
+                >
+                  <BiEditAlt size={20} />
+                </Button>,
+              ]}
+            >
               <List.Item.Meta
                 avatar={
                   item.productName.includes('Suco') ? (
@@ -153,11 +175,22 @@ export const SellOrderAdd = (props: Props) => {
   );
 
   async function save(values: any) {
-    const request = await OrderController.store({
-      idProduct: id,
-      idTable: props.idTable,
-      amount: values.amount,
-    } as any);
+    const idOrder = orderId;
+
+    let request;
+
+    if (!idOrder) {
+      request = await OrderController.store({
+        idProduct: productId,
+        idTable: props.idTable,
+        amount: values.amount,
+      } as any);
+    } else {
+      request = await OrderController.patch(orderId, {
+        productId,
+        amount: values.amount,
+      } as any);
+    }
 
     const error = request.error;
 
