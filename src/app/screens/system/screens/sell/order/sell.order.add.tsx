@@ -266,6 +266,9 @@ export const SellOrderAdd = (props: Props) => {
       content: tranlateMessage.text,
       duration: 4,
     });
+    if (!error) {
+      setOrder(initialValues);
+    }
   }
 
   async function cancel(id: number) {
@@ -292,6 +295,7 @@ export const SellOrderAdd = (props: Props) => {
       content: tranlateMessage.text,
       duration: 4,
     });
+    setOrder(initialValues);
   }
 
   async function getPlates() {
