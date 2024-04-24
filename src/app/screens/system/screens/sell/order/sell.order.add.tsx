@@ -9,7 +9,7 @@ import {
   Select,
   message,
 } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { GiHotMeal, GiMeal } from 'react-icons/gi';
 import { ProductController } from '../../../../../controller/product/products.controller';
 import { Order } from '../../../../../types/order/order';
@@ -19,12 +19,15 @@ import { FaGlassWater } from 'react-icons/fa6';
 import { BiEditAlt } from 'react-icons/bi';
 import { Product } from '../../../../../types/product/product';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
-import { BsTrash } from 'react-icons/bs';
+import { BsPrinterFill, BsTrash } from 'react-icons/bs';
+import { useReactToPrint } from 'react-to-print';
+import { Bill } from './bill';
 
 interface Props {
   idTable: number;
   orders: Order[];
   total: number;
+  tableName: string;
   getOrders: () => any;
 }
 
@@ -36,6 +39,11 @@ const initialValues = {
 };
 
 export const SellOrderAdd = (props: Props) => {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   const [messageApi, contextHolder] = message.useMessage();
   const [order, setOrder] = useState(initialValues);
   const [products, setProducts] = useState<Product[]>([]);
@@ -55,7 +63,7 @@ export const SellOrderAdd = (props: Props) => {
       <Col span={24} className="text-center">
         <p>Mesa: {props.idTable}</p>
       </Col>
-      <Col className="text-center mb-" span={24}>
+      <Col className="text-center mb-4" span={24}>
         <strong>Pedidos</strong>
       </Col>
       <Col span={22}>
@@ -71,8 +79,8 @@ export const SellOrderAdd = (props: Props) => {
           >
             <Row justify={'center'}>
               <Col span={24}>
-                <Row gutter={[10, 10]}>
-                  <Col md={24}>
+                <Row gutter={[30, 10]}>
+                  <Col md={12}>
                     <Form.Item
                       label="Pedido"
                       name="productName"
@@ -107,7 +115,7 @@ export const SellOrderAdd = (props: Props) => {
                     </Form.Item>
                   </Col>
 
-                  <Col md={24}>
+                  <Col md={12}>
                     <Form.Item
                       label="Quantidade"
                       name="amount"
@@ -162,7 +170,18 @@ export const SellOrderAdd = (props: Props) => {
           bordered
           dataSource={props.orders}
           header={
-            <Row justify={'end'}>
+            <Row justify={'space-between'} align={'middle'} className="mb-3">
+              <Col>
+                <Button onClick={handlePrint} size="large">
+                  <BsPrinterFill size={20} />
+                </Button>
+                <Bill
+                  ref={componentRef}
+                  tableName={props.tableName}
+                  orders={props.orders}
+                  total={total}
+                />
+              </Col>
               <Col>
                 Total
                 {StringFormatter.realNumber(total)}

@@ -16,6 +16,7 @@ export const SellOrderAddTableScreen = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [tables, setTables] = useState<TableRestaurant[]>([]);
   const [tableId, setTableId] = useState(0);
+  const [tableName, setTableName] = useState('');
   const [total, setTotal] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -63,6 +64,7 @@ export const SellOrderAddTableScreen = () => {
                           showModal();
                           getOrdersByTable(id);
                           setTableId(id);
+                          setTableName(name);
                         }}
                         size={100}
                       />
@@ -84,7 +86,7 @@ export const SellOrderAddTableScreen = () => {
         <Modal
           open={isModalOpen}
           onCancel={handleOk}
-          width={'50%'}
+          width={'70%'}
           footer={() => (
             <>
               <Button onClick={handleOk}>Voltar</Button>
@@ -96,6 +98,7 @@ export const SellOrderAddTableScreen = () => {
             idTable={tableId}
             total={total}
             orders={orders}
+            tableName={tableName}
           />
         </Modal>
       </Col>
