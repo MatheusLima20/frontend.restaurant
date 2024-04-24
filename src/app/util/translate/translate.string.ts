@@ -1,7 +1,8 @@
 export const englishTexts = {
-  name: 'nome',
-  value: 'valor',
-  amount: 'quantidade',
-  show: 'show',
-  isActive: 'ativo',
+  name: 'Nome',
+  value: 'Valor',
+  amount: 'Quantidade',
+  show: 'Show',
+  isActive: 'Ativo',
+  productId: 'Produto',
 };

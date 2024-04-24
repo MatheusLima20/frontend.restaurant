@@ -1,6 +1,6 @@
 export type Order = {
   id: number;
-  idProduct: number;
+  productId: number;
   productName: string;
   idTable: number;
   value: number;

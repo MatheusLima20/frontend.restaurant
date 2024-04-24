@@ -139,18 +139,12 @@ export const SellOrderAddTableScreen = () => {
     setOrders([]);
     const request = await OrderController.getByTable(id);
 
-    const data: any[] = request.data;
+    const data = request.data;
 
-    let total = 0;
-
-    data.map((order) => {
-      return (total += order.value * order.amount);
-    });
-
-    setTotal(total);
+    setTotal(data.total);
 
     if (data) {
-      setOrders(data);
+      setOrders(data.orders);
     }
   }
 };

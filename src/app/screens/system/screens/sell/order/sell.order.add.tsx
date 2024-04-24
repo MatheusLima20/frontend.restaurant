@@ -1,4 +1,14 @@
-import { Button, Col, Form, Input, List, Row, Select, message } from 'antd';
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  List,
+  Popconfirm,
+  Row,
+  Select,
+  message,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
 import { GiHotMeal, GiMeal } from 'react-icons/gi';
 import { ProductController } from '../../../../../controller/product/products.controller';
@@ -7,6 +17,9 @@ import { OrderController } from '../../../../../controller/order/order.controlle
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { FaGlassWater } from 'react-icons/fa6';
 import { BiEditAlt } from 'react-icons/bi';
+import { Product } from '../../../../../types/product/product';
+import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
+import { BsTrash } from 'react-icons/bs';
 
 interface Props {
   idTable: number;
@@ -15,14 +28,21 @@ interface Props {
   getOrders: () => any;
 }
 
+const initialValues = {
+  orderId: 0,
+  productId: 0,
+  productName: '',
+  amount: 0,
+};
+
 export const SellOrderAdd = (props: Props) => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [products, setProducts] = useState([]);
-  const [productId, setProductId] = useState(0);
-  const [orderId, setOrderId] = useState(0);
+  const [order, setOrder] = useState(initialValues);
+  const [products, setProducts] = useState<Product[]>([]);
   const total = props.total;
 
   useEffect(() => {
+    setOrder(initialValues);
     getPlates();
   }, []);
 
@@ -40,14 +60,22 @@ export const SellOrderAdd = (props: Props) => {
       </Col>
       <Col span={22}>
         <Col span={24}>
-          <Form name="basic" autoComplete="on" onFinish={save}>
+          <Form
+            name="basic"
+            autoComplete="on"
+            fields={[
+              { name: 'productName', value: order.productName },
+              { name: 'amount', value: order.amount },
+            ]}
+            onFinish={save}
+          >
             <Row justify={'center'}>
               <Col span={24}>
                 <Row gutter={[10, 10]}>
                   <Col md={24}>
                     <Form.Item
-                      label="Unidade"
-                      name="unitMeasurement"
+                      label="Pedido"
+                      name="productName"
                       rules={[
                         {
                           message: 'Por favor, selecione um prato!',
@@ -56,14 +84,17 @@ export const SellOrderAdd = (props: Props) => {
                       ]}
                     >
                       <Select
-                        onChange={(value: string) => {
-                          const id = Number.parseInt(value);
-
-                          setProductId(id);
+                        value={order.productName}
+                        onChange={(value, id: any) => {
+                          setOrder({
+                            ...order,
+                            productName: value,
+                            productId: id.value,
+                          });
                         }}
                         options={products.map((value) => {
                           return {
-                            value: value.id,
+                            value: value.id as number,
                             label: `${value.name} R$ ${value.value.toLocaleString(
                               'pt-br',
                               {
@@ -87,7 +118,15 @@ export const SellOrderAdd = (props: Props) => {
                         },
                       ]}
                     >
-                      <Input type="number" name="amount" prefix={<GiMeal />} />
+                      <Input
+                        type="number"
+                        name="amount"
+                        value={order.amount}
+                        onChange={(event) => {
+                          const value = Number.parseFloat(event.target.value);
+                          setOrder({ ...order, amount: value });
+                        }}
+                      />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -125,10 +164,8 @@ export const SellOrderAdd = (props: Props) => {
           header={
             <Row justify={'end'}>
               <Col>
-                Total R${' '}
-                {total.toLocaleString('pt-br', {
-                  minimumFractionDigits: 2,
-                })}
+                Total
+                {StringFormatter.realNumber(total)}
               </Col>
             </Row>
           }
@@ -139,11 +176,35 @@ export const SellOrderAdd = (props: Props) => {
                 <Button
                   key={item.id}
                   onClick={() => {
-                    setOrderId(item.id);
+                    setOrder({
+                      ...order,
+                      orderId: item.id,
+                      productName:
+                        item.productName +
+                        StringFormatter.realNumber(item.value),
+                      productId: products.find(
+                        (value) => value.name === item.productName,
+                      ).id,
+                      amount: item.amount,
+                    });
                   }}
                 >
                   <BiEditAlt size={20} />
                 </Button>,
+                <Popconfirm
+                  key={item.id}
+                  title="Cancelar Pedido"
+                  description="Deseja realmente cancelar o pedido?"
+                  onConfirm={() => {
+                    cancel(item.id);
+                  }}
+                  okText="Sim"
+                  cancelText="Não"
+                >
+                  <Button danger={true}>
+                    <BsTrash size={20} />
+                  </Button>
+                </Popconfirm>,
               ]}
             >
               <List.Item.Meta
@@ -159,10 +220,7 @@ export const SellOrderAdd = (props: Props) => {
                 }
                 description={
                   <div>
-                    R${' '}
-                    {item.value.toLocaleString('pt-br', {
-                      minimumFractionDigits: 2,
-                    })}{' '}
+                    {StringFormatter.realNumber(item.value)}
                     Quantidade: {item.amount}
                   </div>
                 }
@@ -175,19 +233,19 @@ export const SellOrderAdd = (props: Props) => {
   );
 
   async function save(values: any) {
-    const idOrder = orderId;
+    const idOrder = order.orderId;
 
     let request;
 
     if (!idOrder) {
       request = await OrderController.store({
-        idProduct: productId,
+        idProduct: order.productId,
         idTable: props.idTable,
         amount: values.amount,
       } as any);
     } else {
-      request = await OrderController.patch(orderId, {
-        productId,
+      request = await OrderController.patch(idOrder, {
+        productId: order.productId,
         amount: values.amount,
       } as any);
     }
@@ -202,15 +260,38 @@ export const SellOrderAdd = (props: Props) => {
 
     await props.getOrders();
 
-    if (error) {
-      messageApi.open({
-        key: 'register.orders',
-        type: type,
-        content: tranlateMessage.text,
-        duration: 4,
-      });
-      return;
-    }
+    messageApi.open({
+      key: 'register.orders',
+      type: type,
+      content: tranlateMessage.text,
+      duration: 4,
+    });
+  }
+
+  async function cancel(id: number) {
+    const idOrder = id;
+
+    const request = await OrderController.patch(idOrder, {
+      productId: id,
+      isCancelled: true,
+    } as any);
+
+    const error = request.error;
+
+    const message = request.message;
+
+    const type = error ? 'error' : 'success';
+
+    const tranlateMessage = await TranslateController.get(message);
+
+    await props.getOrders();
+
+    messageApi.open({
+      key: 'register.orders',
+      type: type,
+      content: tranlateMessage.text,
+      duration: 4,
+    });
   }
 
   async function getPlates() {

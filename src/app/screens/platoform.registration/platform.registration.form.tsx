@@ -444,7 +444,7 @@ export const PlatformRegistrationForm = () => {
       duration: 7,
     });
 
-    const cpfcnpj = StringFormatter.OnlyNumber(valuesForm.cpfcnpj);
+    const cpfcnpj = StringFormatter.onlyNumber(valuesForm.cpfcnpj);
 
     const dataValues: UserMain = {
       cpfcnpj: cpfcnpj,
