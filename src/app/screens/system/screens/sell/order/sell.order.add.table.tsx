@@ -31,7 +31,7 @@ export const SellOrderAddTableScreen = () => {
 
   useEffect(() => {
     getTablesRestaurant();
-  }, [orders, loading, total]);
+  }, []);
 
   return (
     <Row className="mt-5">

@@ -56,7 +56,7 @@ export const SellOrderAdd = (props: Props) => {
   useEffect(() => {
     setOrder(initialValues);
     getPlates();
-  }, [orders, total]);
+  }, []);
 
   return (
     <Row justify={'center'}>
