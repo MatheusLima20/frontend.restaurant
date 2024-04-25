@@ -28,6 +28,7 @@ interface Props {
   orders: Order[];
   total: number;
   tableName: string;
+  loading: boolean;
   getOrders: () => any;
 }
 
@@ -47,12 +48,15 @@ export const SellOrderAdd = (props: Props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [order, setOrder] = useState(initialValues);
   const [products, setProducts] = useState<Product[]>([]);
+
+  const orders = props.orders;
+
   const total = props.total;
 
   useEffect(() => {
     setOrder(initialValues);
     getPlates();
-  }, []);
+  }, [orders, total]);
 
   return (
     <Row justify={'center'}>
@@ -61,7 +65,7 @@ export const SellOrderAdd = (props: Props) => {
         <GiHotMeal size={90} />
       </Col>
       <Col span={24} className="text-center">
-        <p>Mesa: {props.idTable}</p>
+        <p>{props.tableName}</p>
       </Col>
       <Col className="text-center mb-4" span={24}>
         <strong>Pedidos</strong>
@@ -92,14 +96,27 @@ export const SellOrderAdd = (props: Props) => {
                       ]}
                     >
                       <Select
+                        showSearch
                         value={order.productName}
-                        onChange={(value, id: any) => {
+                        onSelect={(value, id: any) => {
                           setOrder({
                             ...order,
                             productName: value,
                             productId: id.value,
                           });
                         }}
+                        placeholder="Selecione..."
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                          (option?.label.toLowerCase() ?? '').includes(
+                            input.toLowerCase(),
+                          )
+                        }
+                        filterSort={(optionA, optionB) =>
+                          (optionA?.label ?? '')
+                            .toLowerCase()
+                            .localeCompare((optionB?.label ?? '').toLowerCase())
+                        }
                         options={products.map((value) => {
                           return {
                             value: value.id as number,
@@ -167,8 +184,9 @@ export const SellOrderAdd = (props: Props) => {
       <Col className="orders" md={24}>
         <List
           size="small"
+          loading={props.loading}
           bordered
-          dataSource={props.orders}
+          dataSource={orders}
           header={
             <Row justify={'space-between'} align={'middle'} className="mb-3">
               <Col>
@@ -178,7 +196,7 @@ export const SellOrderAdd = (props: Props) => {
                 <Bill
                   ref={componentRef}
                   tableName={props.tableName}
-                  orders={props.orders}
+                  orders={orders}
                   total={total}
                 />
               </Col>
@@ -277,8 +295,6 @@ export const SellOrderAdd = (props: Props) => {
 
     const tranlateMessage = await TranslateController.get(message);
 
-    await props.getOrders();
-
     messageApi.open({
       key: 'register.orders',
       type: type,
@@ -287,6 +303,9 @@ export const SellOrderAdd = (props: Props) => {
     });
     if (!error) {
       setOrder(initialValues);
+      setTimeout(() => {
+        props.getOrders();
+      }, 500);
     }
   }
 

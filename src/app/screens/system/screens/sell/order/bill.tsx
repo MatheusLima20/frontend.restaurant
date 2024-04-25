@@ -2,8 +2,6 @@ import { Col, List, Row } from 'antd';
 import React, { forwardRef } from 'react';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 import { Order } from '../../../../../types/order/order';
-import { FaGlassWater } from 'react-icons/fa6';
-import { GiMeal } from 'react-icons/gi';
 
 interface Props {
   tableName: string;
@@ -11,8 +9,7 @@ interface Props {
   total: number;
 }
 
-// eslint-disable-next-line react/display-name
-export const Bill = forwardRef((props: Props, ref: any) => {
+export const Bill = forwardRef(function bill(props: Props, ref: any) {
   return (
     <div style={{ display: 'none' }}>
       <Row ref={ref} justify={'center'} className="text-center mt-5">
@@ -32,22 +29,24 @@ export const Bill = forwardRef((props: Props, ref: any) => {
                     className="text-center"
                     style={{ width: '100%' }}
                   >
-                    <Col>
-                      {item.productName.includes('Suco') ? (
-                        <FaGlassWater size={25} />
-                      ) : (
-                        <GiMeal size={30} />
-                      )}
-                    </Col>
-                    <Col>
+                    <Col span={6}>
                       <strong style={{ fontSize: 14 }}>
                         {item.productName}
                       </strong>
                     </Col>
-                    <Col>
+                    <Col span={6}>
                       <div>
-                        {StringFormatter.realNumber(item.value)}
-                        Quantidade: {item.amount}
+                        <strong>
+                          {StringFormatter.realNumber(item.value)} x
+                        </strong>
+                        <strong>{' ' + item.amount + ' = '}</strong>
+                      </div>
+                    </Col>
+                    <Col span={6}>
+                      <div>
+                        <strong>
+                          {StringFormatter.realNumber(item.value * item.amount)}
+                        </strong>
                       </div>
                     </Col>
                   </Row>
@@ -56,7 +55,11 @@ export const Bill = forwardRef((props: Props, ref: any) => {
             })}
           </List>
         </Col>
-        <Col span={24}>Total {StringFormatter.realNumber(props.total)}</Col>
+        <Col span={24}>
+          <h3>
+            <strong>Total {StringFormatter.realNumber(props.total)}</strong>
+          </h3>
+        </Col>
       </Row>
     </div>
   );

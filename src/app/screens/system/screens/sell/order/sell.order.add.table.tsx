@@ -18,6 +18,7 @@ export const SellOrderAddTableScreen = () => {
   const [tableId, setTableId] = useState(0);
   const [tableName, setTableName] = useState('');
   const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -30,7 +31,7 @@ export const SellOrderAddTableScreen = () => {
 
   useEffect(() => {
     getTablesRestaurant();
-  }, []);
+  }, [orders, loading, total]);
 
   return (
     <Row className="mt-5">
@@ -97,6 +98,7 @@ export const SellOrderAddTableScreen = () => {
             getOrders={() => getOrdersByTable(tableId)}
             idTable={tableId}
             total={total}
+            loading={loading}
             orders={orders}
             tableName={tableName}
           />
@@ -139,15 +141,21 @@ export const SellOrderAddTableScreen = () => {
   }
 
   async function getOrdersByTable(id: number) {
+    setLoading(true);
     setOrders([]);
     const request = await OrderController.getByTable(id);
 
     const data = request.data;
+    const orders = data.orders;
+    const total = data.total;
 
-    setTotal(data.total);
+    setTotal(total);
 
-    if (data) {
-      setOrders(data.orders);
-    }
+    setTimeout(() => {
+      if (orders) {
+        setOrders(orders);
+      }
+      setLoading(false);
+    }, 500);
   }
 };
