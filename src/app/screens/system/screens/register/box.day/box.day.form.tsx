@@ -111,9 +111,9 @@ export const BoxDayForm = () => {
       setLoading(false);
       if (!error) {
         setValues(initialValues);
+        getBoxDay();
       }
     }, 1000);
-    await getBoxDay();
   }
 
   async function getBoxDay() {
