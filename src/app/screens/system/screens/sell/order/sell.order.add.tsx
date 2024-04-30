@@ -10,7 +10,7 @@ import {
   message,
 } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { GiHotMeal, GiMeal } from 'react-icons/gi';
+import { GiHotMeal, GiMeal, GiReceiveMoney } from 'react-icons/gi';
 import { ProductController } from '../../../../../controller/product/products.controller';
 import { Order } from '../../../../../types/order/order';
 import { OrderController } from '../../../../../controller/order/order.controller';
@@ -59,16 +59,13 @@ export const SellOrderAdd = (props: Props) => {
   }, []);
 
   return (
-    <Row justify={'center'}>
+    <Row justify={'center'} style={{ height: 600 }}>
       {contextHolder}
       <Col>
         <GiHotMeal size={90} />
       </Col>
       <Col span={24} className="text-center">
-        <p>{props.tableName}</p>
-      </Col>
-      <Col className="text-center mb-4" span={24}>
-        <strong>Pedidos</strong>
+        <h4>{props.tableName}</h4>
       </Col>
       <Col span={22}>
         <Col span={24}>
@@ -162,7 +159,7 @@ export const SellOrderAdd = (props: Props) => {
               <Row justify={'center'} gutter={[20, 0]} className="mt-2">
                 <Col>
                   <Button type="primary" htmlType="submit">
-                    Adicionar
+                    Salvar
                   </Button>
                 </Col>
                 <Col>
@@ -170,7 +167,7 @@ export const SellOrderAdd = (props: Props) => {
                     type="default"
                     htmlType="reset"
                     onClick={() => {
-                      //setValues(initialValues);
+                      setOrder(initialValues);
                     }}
                   >
                     Limpar
@@ -190,7 +187,12 @@ export const SellOrderAdd = (props: Props) => {
           header={
             <Row justify={'space-between'} align={'middle'} className="mb-3">
               <Col>
-                <Button onClick={handlePrint} size="large">
+                <Button
+                  onClick={handlePrint}
+                  disabled={!orders.length}
+                  size="large"
+                  title="Imprimir Conta"
+                >
                   <BsPrinterFill size={20} />
                 </Button>
                 <Bill
@@ -199,6 +201,11 @@ export const SellOrderAdd = (props: Props) => {
                   orders={orders}
                   total={total}
                 />
+              </Col>
+              <Col>
+                <Button title="Fechar Conta" size="large">
+                  <GiReceiveMoney size={20} />
+                </Button>
               </Col>
               <Col>
                 Total

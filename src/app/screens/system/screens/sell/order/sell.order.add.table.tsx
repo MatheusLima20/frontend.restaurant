@@ -10,11 +10,13 @@ import { TranslateController } from '../../../../../controller/translate/transla
 import { SellOrderAdd } from './sell.order.add';
 import { OrderController } from '../../../../../controller/order/order.controller';
 import { Order } from '../../../../../types/order/order';
+import { GiHotMeal } from 'react-icons/gi';
 
 export const SellOrderAddTableScreen = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [orders, setOrders] = useState<Order[]>([]);
   const [tables, setTables] = useState<TableRestaurant[]>([]);
+  const [isOcuppied, setOcuppied] = useState<any[]>([]);
   const [tableId, setTableId] = useState(0);
   const [tableName, setTableName] = useState('');
   const [total, setTotal] = useState(0);
@@ -55,20 +57,34 @@ export const SellOrderAddTableScreen = () => {
           </Col>
           <Col span={24}>
             <Row gutter={[70, 20]} className="tables">
-              {tables.map(({ id, name }) => (
+              {tables.map(({ id, name }, index) => (
                 <Col key={id} md={8}>
                   <Card
                     hoverable
                     cover={
-                      <MdTableBar
-                        onClick={() => {
-                          showModal();
-                          getOrdersByTable(id);
-                          setTableId(id);
-                          setTableName(name);
-                        }}
-                        size={100}
-                      />
+                      <span>
+                        {isOcuppied[index] ? (
+                          <GiHotMeal
+                            onClick={() => {
+                              showModal();
+                              getOrdersByTable(id);
+                              setTableId(id);
+                              setTableName(name);
+                            }}
+                            size={100}
+                          />
+                        ) : (
+                          <MdTableBar
+                            onClick={() => {
+                              showModal();
+                              getOrdersByTable(id);
+                              setTableId(id);
+                              setTableName(name);
+                            }}
+                            size={100}
+                          />
+                        )}
+                      </span>
                     }
                   >
                     {name}
@@ -87,7 +103,8 @@ export const SellOrderAddTableScreen = () => {
         <Modal
           open={isModalOpen}
           onCancel={handleOk}
-          width={'70%'}
+          style={{ top: 20 }}
+          width={'75%'}
           footer={() => (
             <>
               <Button onClick={handleOk}>Voltar</Button>
@@ -135,8 +152,12 @@ export const SellOrderAddTableScreen = () => {
 
     const data = request.data;
 
+    const tables = data.tables;
+    const isOcuppied = data.isOcuppied;
+
     if (data) {
-      setTables(data);
+      setTables(tables);
+      setOcuppied(isOcuppied);
     }
   }
 
