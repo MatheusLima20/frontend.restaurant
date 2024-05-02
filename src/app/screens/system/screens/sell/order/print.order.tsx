@@ -41,6 +41,11 @@ export const PrintOrder = forwardRef(function order(props: Props, ref: any) {
                         <strong>{' ' + item.amount + ' '}</strong>
                       </div>
                     </Col>
+                    <Col span={24} className="text-center">
+                      {item.amount < 0
+                        ? 'Pedido excluido.'
+                        : 'Pedido Adicionado.'}
+                    </Col>
                   </Row>
                 </List.Item>
               );

@@ -107,6 +107,7 @@ export const SellOrderAdd = (props: Props) => {
                             ...order,
                             productName: values.label,
                             productId: values.value,
+                            amount: order.orderId === 0 ? 1 : 0,
                           });
                         }}
                         placeholder="Selecione..."
@@ -163,7 +164,7 @@ export const SellOrderAdd = (props: Props) => {
             </Row>
 
             <Form.Item>
-              <Row justify={'center'} gutter={[20, 0]} className="mt-2">
+              <Row justify={'center'} gutter={[40, 0]} className="mt-2">
                 <Col>
                   <Button type="primary" htmlType="submit">
                     Salvar
@@ -178,6 +179,17 @@ export const SellOrderAdd = (props: Props) => {
                     htmlType="submit"
                   >
                     Adicionar
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    type="dashed"
+                    onClick={() => {
+                      setOrder({ ...order, amount: order.amount * -1 });
+                    }}
+                    htmlType="submit"
+                  >
+                    Subtrair
                   </Button>
                 </Col>
                 <Col>
@@ -332,16 +344,16 @@ export const SellOrderAdd = (props: Props) => {
         amount: values.amount,
       } as any);
     } else {
-      const isPrint = values.amount < 0 && order.add;
-      if (isPrint) {
-        handlePrintOrder();
-      }
-
       request = await OrderController.patch(idOrder, {
         productId: order.productId,
         amount: values.amount,
         add: order.add,
       } as any);
+
+      const isPrint = values.amount < 0 || order.add;
+      if (isPrint && !request.error) {
+        handlePrintOrder();
+      }
     }
 
     const error = request.error;
