@@ -166,13 +166,18 @@ export const SellOrderAdd = (props: Props) => {
             <Form.Item>
               <Row justify={'center'} gutter={[40, 0]} className="mt-2">
                 <Col>
-                  <Button type="primary" htmlType="submit">
+                  <Button
+                    type="primary"
+                    disabled={order.orderId !== 0}
+                    htmlType="submit"
+                  >
                     Salvar
                   </Button>
                 </Col>
                 <Col>
                   <Button
                     type="dashed"
+                    disabled={order.orderId === 0}
                     onClick={() => {
                       setOrder({ ...order, add: true });
                     }}
@@ -184,6 +189,7 @@ export const SellOrderAdd = (props: Props) => {
                 <Col>
                   <Button
                     type="dashed"
+                    disabled={order.orderId === 0}
                     onClick={() => {
                       setOrder({ ...order, amount: order.amount * -1 });
                     }}
