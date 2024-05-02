@@ -41,6 +41,10 @@ const initialValues = {
   add: false,
 };
 
+const txtButtonSave = 'Salvar';
+const txtButtonAdd = 'Adicionar';
+const txtButtonSubtract = 'Subtrair';
+
 export const SellOrderAdd = (props: Props) => {
   const billRef = useRef();
   const orderRef = useRef();
@@ -171,7 +175,7 @@ export const SellOrderAdd = (props: Props) => {
                     disabled={order.orderId !== 0}
                     htmlType="submit"
                   >
-                    Salvar
+                    {txtButtonSave}
                   </Button>
                 </Col>
                 <Col>
@@ -183,7 +187,7 @@ export const SellOrderAdd = (props: Props) => {
                     }}
                     htmlType="submit"
                   >
-                    Adicionar
+                    {txtButtonAdd}
                   </Button>
                 </Col>
                 <Col>
@@ -195,7 +199,7 @@ export const SellOrderAdd = (props: Props) => {
                     }}
                     htmlType="submit"
                   >
-                    Subtrair
+                    {txtButtonSubtract}
                   </Button>
                 </Col>
                 <Col>
@@ -252,9 +256,7 @@ export const SellOrderAdd = (props: Props) => {
                 <Popconfirm
                   title="Fechar Conta"
                   description="Deseja realmente fechar a conta?"
-                  onConfirm={() => {
-                    //cancel(item.id);
-                  }}
+                  onConfirm={closeOrders}
                   okText="Sim"
                   cancelText="Não"
                 >
@@ -390,6 +392,7 @@ export const SellOrderAdd = (props: Props) => {
     const request = await OrderController.patch(idOrder, {
       productId: id,
       isCancelled: true,
+      isOpen: false,
     } as any);
 
     const error = request.error;
@@ -409,6 +412,37 @@ export const SellOrderAdd = (props: Props) => {
       duration: 4,
     });
     setOrder(initialValues);
+  }
+
+  async function closeOrders() {
+    let request;
+
+    for (let index = 0; index < orders.length; index++) {
+      request = await OrderController.patch(orders[index].id, {
+        isOpen: false,
+      } as any);
+    }
+
+    const error = request.error;
+
+    const message = request.message;
+
+    const type = error ? 'error' : 'success';
+
+    const tranlateMessage = await TranslateController.get(message);
+
+    messageApi.open({
+      key: 'register.orders',
+      type: type,
+      content: tranlateMessage.text,
+      duration: 4,
+    });
+    if (!error) {
+      setOrder(initialValues);
+      setTimeout(() => {
+        props.getOrders();
+      }, 500);
+    }
   }
 
   async function getPlates() {
