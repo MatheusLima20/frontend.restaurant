@@ -9,7 +9,7 @@ interface Props {
   total: number;
 }
 
-export const Bill = forwardRef(function bill(props: Props, ref: any) {
+export const PrintBill = forwardRef(function bill(props: Props, ref: any) {
   return (
     <div style={{ display: 'none' }}>
       <Row ref={ref} justify={'center'} className="text-center mt-5">

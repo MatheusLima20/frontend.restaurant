@@ -102,7 +102,10 @@ export const SellOrderAddTableScreen = () => {
         </Row>
         <Modal
           open={isModalOpen}
-          onCancel={handleOk}
+          onCancel={() => {
+            handleOk();
+            getTablesRestaurant();
+          }}
           style={{ top: 20 }}
           width={'75%'}
           footer={() => (

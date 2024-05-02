@@ -21,7 +21,8 @@ import { Product } from '../../../../../types/product/product';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 import { BsPrinterFill, BsTrash } from 'react-icons/bs';
 import { useReactToPrint } from 'react-to-print';
-import { Bill } from './bill';
+import { PrintBill } from './print.bill';
+import { PrintOrder } from './print.order';
 
 interface Props {
   idTable: number;
@@ -37,12 +38,18 @@ const initialValues = {
   productId: 0,
   productName: '',
   amount: 0,
+  add: false,
 };
 
 export const SellOrderAdd = (props: Props) => {
-  const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+  const billRef = useRef();
+  const orderRef = useRef();
+  const handlePrintBill = useReactToPrint({
+    content: () => billRef.current,
+  });
+
+  const handlePrintOrder = useReactToPrint({
+    content: () => orderRef.current,
   });
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -95,11 +102,11 @@ export const SellOrderAdd = (props: Props) => {
                       <Select
                         showSearch
                         value={order.productName}
-                        onSelect={(value, id: any) => {
+                        onSelect={(value, values) => {
                           setOrder({
                             ...order,
-                            productName: value,
-                            productId: id.value,
+                            productName: values.label,
+                            productId: values.value,
                           });
                         }}
                         placeholder="Selecione..."
@@ -164,6 +171,17 @@ export const SellOrderAdd = (props: Props) => {
                 </Col>
                 <Col>
                   <Button
+                    type="dashed"
+                    onClick={() => {
+                      setOrder({ ...order, add: true });
+                    }}
+                    htmlType="submit"
+                  >
+                    Adicionar
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
                     type="default"
                     htmlType="reset"
                     onClick={() => {
@@ -173,6 +191,16 @@ export const SellOrderAdd = (props: Props) => {
                     Limpar
                   </Button>
                 </Col>
+                <PrintOrder
+                  ref={orderRef}
+                  tableName={props.tableName}
+                  orders={[
+                    {
+                      productName: order.productName.split('R$')[0],
+                      amount: order.amount,
+                    },
+                  ]}
+                />
               </Row>
             </Form.Item>
           </Form>
@@ -188,24 +216,39 @@ export const SellOrderAdd = (props: Props) => {
             <Row justify={'space-between'} align={'middle'} className="mb-3">
               <Col>
                 <Button
-                  onClick={handlePrint}
+                  onClick={handlePrintBill}
                   disabled={!orders.length}
                   size="large"
                   title="Imprimir Conta"
                 >
                   <BsPrinterFill size={20} />
                 </Button>
-                <Bill
-                  ref={componentRef}
+                <PrintBill
+                  ref={billRef}
                   tableName={props.tableName}
                   orders={orders}
                   total={total}
                 />
               </Col>
               <Col>
-                <Button title="Fechar Conta" size="large">
-                  <GiReceiveMoney size={20} />
-                </Button>
+                <Popconfirm
+                  title="Fechar Conta"
+                  description="Deseja realmente fechar a conta?"
+                  onConfirm={() => {
+                    //cancel(item.id);
+                  }}
+                  okText="Sim"
+                  cancelText="Não"
+                >
+                  <Button
+                    title="Fechar Conta"
+                    danger
+                    size="large"
+                    disabled={!orders.length}
+                  >
+                    <GiReceiveMoney size={20} />
+                  </Button>
+                </Popconfirm>
               </Col>
               <Col>
                 Total
@@ -282,15 +325,22 @@ export const SellOrderAdd = (props: Props) => {
     let request;
 
     if (!idOrder) {
+      handlePrintOrder();
       request = await OrderController.store({
         idProduct: order.productId,
         idTable: props.idTable,
         amount: values.amount,
       } as any);
     } else {
+      const isPrint = values.amount < 0 && order.add;
+      if (isPrint) {
+        handlePrintOrder();
+      }
+
       request = await OrderController.patch(idOrder, {
         productId: order.productId,
         amount: values.amount,
+        add: order.add,
       } as any);
     }
 
