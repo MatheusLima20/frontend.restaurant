@@ -21,6 +21,7 @@ export const SellOrderAddTableScreen = () => {
   const [tableName, setTableName] = useState('');
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadingTable, setLoadingTable] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -61,6 +62,7 @@ export const SellOrderAddTableScreen = () => {
                 <Col key={id} md={8}>
                   <Card
                     hoverable
+                    loading={loadingTable}
                     cover={
                       <span>
                         {isOcuppied[index] ? (
@@ -128,6 +130,7 @@ export const SellOrderAddTableScreen = () => {
   );
 
   async function save() {
+    setLoadingTable(true);
     const request = await TableController.store();
 
     const error = request.error;
@@ -151,6 +154,7 @@ export const SellOrderAddTableScreen = () => {
   }
 
   async function getTablesRestaurant() {
+    setLoadingTable(true);
     const request = await TableController.get();
 
     const data = request.data;
@@ -162,6 +166,9 @@ export const SellOrderAddTableScreen = () => {
       setTables(tables);
       setOcuppied(isOcuppied);
     }
+    setTimeout(() => {
+      setLoadingTable(false);
+    }, 1000);
   }
 
   async function getOrdersByTable(id: number) {
