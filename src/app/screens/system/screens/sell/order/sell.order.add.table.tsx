@@ -12,17 +12,24 @@ import { OrderController } from '../../../../../controller/order/order.controlle
 import { Order } from '../../../../../types/order/order';
 import { GiHotMeal } from 'react-icons/gi';
 
+const changeTableValues = {
+  table01: 0,
+  table02: 0,
+};
+
 export const SellOrderAddTableScreen = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [orders, setOrders] = useState<Order[]>([]);
   const [tables, setTables] = useState<TableRestaurant[]>([]);
   const [isOcuppied, setOcuppied] = useState<any[]>([]);
+
   const [tableId, setTableId] = useState(0);
   const [tableName, setTableName] = useState('');
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingTable, setLoadingTable] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [changeTable, setChangeTable] = useState(changeTableValues);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -57,7 +64,10 @@ export const SellOrderAddTableScreen = () => {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Row gutter={[70, 20]} className="tables border">
+            <Row
+              gutter={[120, 20]}
+              className="tables border border-4 rounded-3"
+            >
               {tables.map(({ id, name }, index) => (
                 <Col key={id} md={8} className="mt-3">
                   <Card
@@ -68,14 +78,12 @@ export const SellOrderAddTableScreen = () => {
                       e.preventDefault();
                     }}
                     onDragStart={() => {
-                      console.log(id, ' start');
+                      setChangeTable({ ...changeTable, table01: id });
                     }}
                     onDragEnter={() => {
-                      console.log(id, ' end');
+                      setChangeTable({ ...changeTable, table02: id });
                     }}
-                    onDrop={() => {
-                      console.log('ok');
-                    }}
+                    onDrop={changeTableOrders}
                     cover={
                       <span>
                         {isOcuppied[index] ? (
@@ -201,5 +209,33 @@ export const SellOrderAddTableScreen = () => {
       }
       setLoading(false);
     }, 500);
+  }
+
+  async function changeTableOrders() {
+    const table1 = changeTable.table01;
+    const table2 = changeTable.table02;
+
+    setLoadingTable(true);
+
+    const request = await OrderController.patchTableOrders(table1, table2);
+
+    const error = request.error;
+
+    const message = request.message;
+
+    const type = error ? 'error' : 'success';
+
+    const tranlateMessage = await TranslateController.get(message);
+
+    if (error) {
+      messageApi.open({
+        key: 'register.tables',
+        type: type,
+        content: tranlateMessage.text,
+        duration: 4,
+      });
+    }
+    await getTablesRestaurant();
+    setLoadingTable(false);
   }
 };

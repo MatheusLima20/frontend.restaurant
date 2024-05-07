@@ -52,6 +52,27 @@ export const OrderController = {
       return { error: true, message };
     }
   },
+  patchTableOrders: async (idTable1: number, idTable2: number) => {
+    try {
+      const request = await axios.patch(
+        `/order/${idTable1}/${idTable2}`,
+        {},
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
+      );
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
 
   getByTable: async (id: number) => {
     try {
