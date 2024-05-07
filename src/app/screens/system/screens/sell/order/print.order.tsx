@@ -1,4 +1,5 @@
 import { Col, List, Row } from 'antd';
+import dayjs from 'dayjs';
 import React, { forwardRef } from 'react';
 
 type Order = {
@@ -45,6 +46,9 @@ export const PrintOrder = forwardRef(function order(props: Props, ref: any) {
                       {item.amount < 0
                         ? 'Pedido excluido.'
                         : 'Pedido Adicionado.'}
+                    </Col>
+                    <Col span={24} className="text-center">
+                      {dayjs().format('DD/MM/YYYY HH:mm:ss')}
                     </Col>
                   </Row>
                 </List.Item>

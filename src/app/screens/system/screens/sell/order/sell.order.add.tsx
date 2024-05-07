@@ -308,7 +308,16 @@ export const SellOrderAdd = (props: Props) => {
                   okText="Sim"
                   cancelText="Não"
                 >
-                  <Button danger={true}>
+                  <Button
+                    danger={true}
+                    onClick={() => {
+                      setOrder({
+                        ...order,
+                        productName: item.productName,
+                        amount: item.amount * -1,
+                      });
+                    }}
+                  >
                     <BsTrash size={20} />
                   </Button>
                 </Popconfirm>,
@@ -388,7 +397,7 @@ export const SellOrderAdd = (props: Props) => {
 
   async function cancel(id: number) {
     const idOrder = id;
-
+    handlePrintOrder();
     const request = await OrderController.patch(idOrder, {
       productId: id,
       isCancelled: true,

@@ -39,7 +39,7 @@ export const SellOrderAddTableScreen = () => {
   return (
     <Row className="mt-5">
       {contextHolder}
-      <Col md={23} className="text-center">
+      <Col span={24} className="text-center">
         <Row justify={'center'}>
           <Col span={5}>
             <Form.Item className="text-center">
@@ -57,12 +57,25 @@ export const SellOrderAddTableScreen = () => {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Row gutter={[70, 20]} className="tables">
+            <Row gutter={[70, 20]} className="tables border">
               {tables.map(({ id, name }, index) => (
-                <Col key={id} md={8}>
+                <Col key={id} md={8} className="mt-3">
                   <Card
                     hoverable
                     loading={loadingTable}
+                    draggable={true}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                    }}
+                    onDragStart={() => {
+                      console.log(id, ' start');
+                    }}
+                    onDragEnter={() => {
+                      console.log(id, ' end');
+                    }}
+                    onDrop={() => {
+                      console.log('ok');
+                    }}
                     cover={
                       <span>
                         {isOcuppied[index] ? (
