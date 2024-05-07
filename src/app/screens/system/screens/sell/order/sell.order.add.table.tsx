@@ -41,7 +41,7 @@ export const SellOrderAddTableScreen = () => {
 
   useEffect(() => {
     getTablesRestaurant();
-  }, []);
+  }, [loading]);
 
   return (
     <Row className="mt-5">
@@ -215,7 +215,9 @@ export const SellOrderAddTableScreen = () => {
     const table1 = changeTable.table01;
     const table2 = changeTable.table02;
 
-    setLoadingTable(true);
+    if (table1 === table2) {
+      return;
+    }
 
     const request = await OrderController.patchTableOrders(table1, table2);
 
@@ -235,7 +237,7 @@ export const SellOrderAddTableScreen = () => {
         duration: 4,
       });
     }
+
     await getTablesRestaurant();
-    setLoadingTable(false);
   }
 };
