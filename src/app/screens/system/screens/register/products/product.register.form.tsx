@@ -174,7 +174,7 @@ export const ProductRegisterForm = () => {
                   <Form.Item
                     label="Ativo"
                     name="isActive"
-                    tooltip="Caso o produto não seja mais usado."
+                    tooltip="Caso o produto não seja mais usado, deixar desmarcado."
                   >
                     <Switch
                       checkedChildren="Sim"
