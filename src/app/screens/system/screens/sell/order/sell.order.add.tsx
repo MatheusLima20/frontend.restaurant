@@ -354,12 +354,14 @@ export const SellOrderAdd = (props: Props) => {
     let request;
 
     if (!idOrder) {
-      handlePrintOrder();
       request = await OrderController.store({
         idProduct: order.productId,
         idTable: props.idTable,
         amount: values.amount,
       } as any);
+      if (!request.error) {
+        handlePrintOrder();
+      }
     } else {
       request = await OrderController.patch(idOrder, {
         productId: order.productId,

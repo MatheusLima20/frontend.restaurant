@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Form, Modal, Row, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { MdOutlineTableBar, MdRemoveCircle, MdTableBar } from 'react-icons/md';
-import './order.css';
-import { BiEdit } from 'react-icons/bi';
+import { MdOutlineTableBar, MdTableBar } from 'react-icons/md';
 import { TableRestaurant } from '../../../../../types/table/table';
 import { TableController } from '../../../../../controller/table/table.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
@@ -11,6 +9,8 @@ import { SellOrderAdd } from './sell.order.add';
 import { OrderController } from '../../../../../controller/order/order.controller';
 import { Order } from '../../../../../types/order/order';
 import { GiHotMeal } from 'react-icons/gi';
+import { NewNameTableForm } from './new.name.table.form';
+import './order.css';
 
 const changeTableValues = {
   table01: 0,
@@ -25,7 +25,9 @@ export const SellOrderAddTableScreen = () => {
 
   const [tableId, setTableId] = useState(0);
   const [tableName, setTableName] = useState('');
+
   const [total, setTotal] = useState(0);
+
   const [loading, setLoading] = useState(true);
   const [loadingTable, setLoadingTable] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,6 +74,7 @@ export const SellOrderAddTableScreen = () => {
                 <Col key={id} md={8} className="mt-3">
                   <Card
                     hoverable
+                    bordered={true}
                     loading={loadingTable}
                     draggable={true}
                     onDragOver={(e) => {
@@ -84,40 +87,30 @@ export const SellOrderAddTableScreen = () => {
                       setChangeTable({ ...changeTable, table02: id });
                     }}
                     onDrop={changeTableOrders}
+                    onClick={() => {
+                      showModal();
+                      getOrdersByTable(id);
+                      setTableId(id);
+                      setTableName(name);
+                    }}
                     cover={
                       <span>
                         {isOcuppied[index] ? (
-                          <GiHotMeal
-                            onClick={() => {
-                              showModal();
-                              getOrdersByTable(id);
-                              setTableId(id);
-                              setTableName(name);
-                            }}
-                            size={100}
-                          />
+                          <GiHotMeal size={100} />
                         ) : (
-                          <MdTableBar
-                            onClick={() => {
-                              showModal();
-                              getOrdersByTable(id);
-                              setTableId(id);
-                              setTableName(name);
-                            }}
-                            size={100}
-                          />
+                          <MdTableBar size={100} />
                         )}
                       </span>
                     }
                   >
                     {name}
                   </Card>
-                  <Button type="text" size="large">
-                    <BiEdit size={30} />
-                  </Button>
-                  <Button type="text" danger size="large">
-                    <MdRemoveCircle size={30} />
-                  </Button>
+                  <NewNameTableForm
+                    id={id}
+                    onUpdate={() => {
+                      getTablesRestaurant();
+                    }}
+                  />
                 </Col>
               ))}
             </Row>

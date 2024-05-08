@@ -32,11 +32,11 @@ export const TableController = {
     }
   },
 
-  patch: async (id: number) => {
+  patch: async (id: number, isActive?: boolean, name?: string) => {
     try {
       const request = await axios.patch(
         `/table/${id}`,
-        {},
+        { isActive, name },
         {
           headers: { authorization: `Bearer ${token}` },
         },
