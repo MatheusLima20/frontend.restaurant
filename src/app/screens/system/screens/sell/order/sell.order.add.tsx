@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { GiHotMeal, GiMeal, GiReceiveMoney } from 'react-icons/gi';
-import { ProductController } from '../../../../../controller/product/products.controller';
+import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
 import { Order } from '../../../../../types/order/order';
 import { OrderController } from '../../../../../controller/order/order.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
@@ -457,7 +457,7 @@ export const SellOrderAdd = (props: Props) => {
   }
 
   async function getPlates() {
-    const request = await ProductController.getPlates();
+    const request = await ProvisionsController.getPlates();
 
     const data = request.data;
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
 import { Product } from '../../../../../types/product/product';
-import { ProductController } from '../../../../../controller/product/products.controller';
+import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
 import { BsBox2Fill } from 'react-icons/bs';
 import { Spending } from '../../../../../types/spending/spending';
 import { SpendingController } from '../../../../../controller/spending/spending.controller';
@@ -283,11 +283,11 @@ export const ProductRegisterForm = () => {
     const id = values.id;
 
     if (id === 0) {
-      request = await ProductController.store({
+      request = await ProvisionsController.store({
         ...dataValues,
       });
     } else {
-      request = await ProductController.patch(id, { ...dataValues });
+      request = await ProvisionsController.patch(id, { ...dataValues });
     }
 
     const error = request.error;
@@ -354,7 +354,7 @@ export const ProductRegisterForm = () => {
   async function getProduct() {
     setLoading(true);
 
-    const request = await ProductController.get();
+    const request = await ProvisionsController.get();
 
     const data = request.data;
 

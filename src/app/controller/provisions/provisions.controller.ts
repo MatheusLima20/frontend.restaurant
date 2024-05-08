@@ -7,7 +7,7 @@ const cookie = cookies.get('data.user');
 
 const token = cookie.token;
 
-export const ProductController = {
+export const ProvisionsController = {
   store: async (product: Product) => {
     let request;
     let data;
