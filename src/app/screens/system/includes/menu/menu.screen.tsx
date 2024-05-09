@@ -3,7 +3,7 @@ import { Button, Layout, Menu } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { BsGraphUp } from 'react-icons/bs';
-import { BiHome, BiUserCircle } from 'react-icons/bi';
+import { BiUserCircle } from 'react-icons/bi';
 import { FaBoxOpen, FaMoneyBill, FaSellsy } from 'react-icons/fa';
 import './menu.css';
 import {
@@ -37,13 +37,6 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem(
-    <a href="/" className="menu">
-      Home
-    </a>,
-    'sub1',
-    <BiHome size={20} />,
-  ),
   getItem('Vender', 'sub2', <FaHandHoldingDollar size={20} />, [
     getItem(
       <a href="/order/" className="menu">
@@ -83,36 +76,42 @@ const items: MenuItem[] = [
       <FaSellsy size={20} />,
     ),
     getItem(
-      <a href="/user-register/" className="menu">
-        Usuário
-      </a>,
+      <div className="menu">Usuários</div>,
       'cad4',
       <BiUserCircle size={20} />,
+      undefined,
+      true,
     ),
   ]),
-  getItem('Relatórios', 'sub4', <BsGraphUp size={20} />, [
-    getItem(
-      <a href="/system2/" className="menu">
-        Investimentos
-      </a>,
-      'rel01',
-      <FaMoneyBill size={20} />,
-    ),
-    getItem(
-      <a href="/system2/" className="menu">
-        Vendas
-      </a>,
-      'rel02',
-      <GiReceiveMoney size={20} />,
-    ),
-    getItem(
-      <a href="/system2/" className="menu">
-        Lucro
-      </a>,
-      'rel03',
-      <GiTakeMyMoney size={20} />,
-    ),
-  ]),
+  getItem(
+    'Relatórios',
+    'sub4',
+    <BsGraphUp size={20} />,
+    [
+      getItem(
+        <a href="/system2/" className="menu">
+          Investimentos
+        </a>,
+        'rel01',
+        <FaMoneyBill size={20} />,
+      ),
+      getItem(
+        <a href="/system2/" className="menu">
+          Vendas
+        </a>,
+        'rel02',
+        <GiReceiveMoney size={20} />,
+      ),
+      getItem(
+        <a href="/system2/" className="menu">
+          Lucro
+        </a>,
+        'rel03',
+        <GiTakeMyMoney size={20} />,
+      ),
+    ],
+    true,
+  ),
   getItem('Configurações', 'sub5', <MdSettings size={20} />, [
     getItem(
       <a href="/system2/" className="menu">

@@ -100,14 +100,12 @@ export const ProductRegisterTable = (props: Props) => {
             }}
             icon={<AiOutlineSearch size={20} />}
             size="middle"
-            style={{ width: 90 }}
           >
             Pesquisar
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
             size="small"
-            style={{ width: 90 }}
           >
             Limpar
           </Button>

@@ -230,6 +230,17 @@ export const ProductRegisterForm = () => {
               </Col>
               <Col>
                 <Button
+                  type="dashed"
+                  disabled={values.id === 0}
+                  onClick={() => {
+                    stock(1);
+                  }}
+                >
+                  Adicionar
+                </Button>
+              </Col>
+              <Col>
+                <Button
                   type="default"
                   onClick={() => {
                     setValues(initialValues);
@@ -299,6 +310,59 @@ export const ProductRegisterForm = () => {
     const tranlateMessage = await TranslateController.get(message);
 
     if (!error && id === 0) {
+      await saveSpending(dataValues);
+    }
+
+    setTimeout(() => {
+      messageApi.open({
+        key: 'register.products',
+        type: type,
+        content: tranlateMessage.text,
+        duration: 4,
+      });
+      setLoading(false);
+      if (!error) {
+        setValues(initialValues);
+      }
+    }, 1000);
+    await getProduct();
+  }
+
+  async function stock(add: number) {
+    setLoading(true);
+
+    messageApi.open({
+      key: 'register.products',
+      type: 'loading',
+      content: 'Enviando...',
+      duration: 4,
+    });
+
+    const amount = values.amount * add;
+
+    const dataValues: any = {
+      name: values.name,
+      value: values.value,
+      isActive: values.isActive,
+      unitMeasurement: values.unitMeasurement,
+      show: values.show,
+      amount: amount,
+      add: true,
+    };
+
+    const id = values.id;
+
+    const request = await ProvisionsController.patch(id, { ...dataValues });
+
+    const error = request.error;
+
+    const message = request.message;
+
+    const type = error ? 'error' : 'success';
+
+    const tranlateMessage = await TranslateController.get(message);
+
+    if (amount > 0) {
       await saveSpending(dataValues);
     }
 

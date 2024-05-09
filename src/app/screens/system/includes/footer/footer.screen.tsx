@@ -1,13 +1,14 @@
 import React from 'react';
-import { Content } from 'antd/es/layout/layout';
 import { Col, Row } from 'antd';
 
 export const FooterScreen = () => {
   return (
-    <Content>
-      <Row>
-        <Col>Footer Screen</Col>
-      </Row>
-    </Content>
+    <Row justify={'end'} className="mt-5">
+      <Col span={24} className="text-center">
+        <h6>
+          <strong>flatheadinteractive.com</strong>
+        </h6>
+      </Col>
+    </Row>
   );
 };

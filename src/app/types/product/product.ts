@@ -15,7 +15,9 @@ export type Product = {
 
   show: boolean;
 
-  createdAt: Date;
+  add?: boolean;
 
-  updatedAt: Date;
+  createdAt: string;
+
+  updatedAt: string;
 };

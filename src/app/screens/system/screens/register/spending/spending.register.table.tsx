@@ -26,6 +26,7 @@ interface DataType {
   unitMeasurement: string;
   isActive: boolean;
   show: boolean;
+  createdAt: string;
 }
 
 type DataIndex = keyof DataType;
@@ -100,14 +101,12 @@ export const SpendingRegisterTable = (props: Props) => {
             }}
             icon={<AiOutlineSearch size={20} />}
             size="middle"
-            style={{ width: 90 }}
           >
             Pesquisar
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
             size="small"
-            style={{ width: 90 }}
           >
             Limpar
           </Button>
@@ -250,6 +249,7 @@ export const SpendingRegisterTable = (props: Props) => {
         value: value.value,
         unitMeasurement: value.unitMeasurement,
         show: value.show,
+        createdAt: value.createdAt,
         ...value,
       });
     });

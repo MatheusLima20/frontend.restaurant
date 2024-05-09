@@ -68,7 +68,8 @@ export const SellOrderAddTableScreen = () => {
           <Col span={24}>
             <Row
               gutter={[120, 20]}
-              className="tables border border-4 rounded-3"
+              className="tables border border-2 rounded-3"
+              style={{ backgroundColor: '#d6d6d6' }}
             >
               {tables.map(({ id, name }, index) => (
                 <Col key={id} md={8} className="mt-3">

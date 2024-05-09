@@ -6,9 +6,9 @@ import { Layout } from 'antd';
 import { Footer } from '../includes/footer';
 import { ProductRegister } from '../screens/register/products';
 import { SpendingRegister } from '../screens/register/spending';
-import { MdOutlineAddBusiness } from 'react-icons/md';
 import { SellOrder } from '../screens/sell/order';
 import { BoxDay } from '../screens/register/box.day';
+import { Header } from '../includes/header';
 
 export const SystemRoutes = () => {
   return userRoutes();
@@ -20,7 +20,7 @@ export const SystemRoutes = () => {
 
         <Layout style={{ backgroundColor: 'white' }}>
           <Layout.Header style={{ backgroundColor: 'white' }}>
-            <MdOutlineAddBusiness size={70} />
+            <Header />
           </Layout.Header>
           <Layout.Content className="ms-3">
             <Routes>
