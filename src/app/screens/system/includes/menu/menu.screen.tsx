@@ -70,7 +70,7 @@ const items: MenuItem[] = [
     ),
     getItem(
       <a href="/spending/" className="menu">
-        Investimentos
+        Gastos
       </a>,
       'cad3',
       <FaSellsy size={20} />,
@@ -112,29 +112,35 @@ const items: MenuItem[] = [
     ],
     true,
   ),
-  getItem('Configurações', 'sub5', <MdSettings size={20} />, [
-    getItem(
-      <a href="/system2/" className="menu">
-        Investimentos
-      </a>,
-      'sub01',
-      <FaMoneyBill size={20} />,
-    ),
-    getItem(
-      <a href="/system2/" className="menu">
-        Vendas
-      </a>,
-      'sub02',
-      <GiReceiveMoney size={20} />,
-    ),
-    getItem(
-      <a href="/system2/" className="menu">
-        Lucro
-      </a>,
-      'sub03',
-      <GiTakeMyMoney size={20} />,
-    ),
-  ]),
+  getItem(
+    'Configurações',
+    'sub5',
+    <MdSettings size={20} />,
+    [
+      getItem(
+        <a href="/system2/" className="menu">
+          Investimentos
+        </a>,
+        'sub01',
+        <FaMoneyBill size={20} />,
+      ),
+      getItem(
+        <a href="/system2/" className="menu">
+          Vendas
+        </a>,
+        'sub02',
+        <GiReceiveMoney size={20} />,
+      ),
+      getItem(
+        <a href="/system2/" className="menu">
+          Lucro
+        </a>,
+        'sub03',
+        <GiTakeMyMoney size={20} />,
+      ),
+    ],
+    true,
+  ),
 ];
 
 export const MenuScreen = () => {

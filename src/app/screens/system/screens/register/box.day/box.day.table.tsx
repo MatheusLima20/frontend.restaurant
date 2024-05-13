@@ -15,12 +15,17 @@ import { SearchOutlined } from '@ant-design/icons';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiEdit } from 'react-icons/bi';
 import { BoxDay } from '../../../../../types/box.day/box.day';
+import { BsPrinter } from 'react-icons/bs';
+import { OrderController } from '../../../../../controller/order/order.controller';
+import { PrintBoxDay } from './print.box.day';
+import { useReactToPrint } from 'react-to-print';
 
 interface DataType {
   key: number;
   id: number;
   isOpen: boolean;
   createdAt: string;
+  totalBoxDay: number;
 }
 
 type DataIndex = keyof DataType;
@@ -31,8 +36,18 @@ interface Props {
   getRowValues: (values: BoxDay) => any;
 }
 
+const initialValues = {
+  id: 0,
+  total: 0,
+  date: '',
+};
+
 export const BoxDayTable = (props: Props) => {
   const loading = props.loading;
+  const ref = useRef();
+
+  const [orders, setOrders] = useState([]);
+  const [boxDay, setBoxDay] = useState(initialValues);
 
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({
     order: 'ascend',
@@ -61,6 +76,10 @@ export const BoxDayTable = (props: Props) => {
   ) => {
     setSortedInfo(sorter as SorterResult<DataType>);
   };
+
+  const handlePrint = useReactToPrint({
+    content: () => ref.current,
+  });
 
   const getColumnSearchProps = (
     dataIndex: DataIndex,
@@ -155,6 +174,24 @@ export const BoxDayTable = (props: Props) => {
       },
     },
     {
+      key: 'totalBoxDay',
+
+      title: 'Total',
+
+      dataIndex: 'totalBoxDay',
+
+      render: (total: number) => {
+        return (
+          <div>
+            {total.toLocaleString('pt-br', {
+              style: 'currency',
+              currency: 'BRL',
+            })}
+          </div>
+        );
+      },
+    },
+    {
       key: 'createdAt',
 
       title: 'Criado em',
@@ -165,7 +202,6 @@ export const BoxDayTable = (props: Props) => {
 
       sorter: (a, b) => a.createdAt.localeCompare(b.createdAt),
     },
-
     {
       key: 'action',
 
@@ -174,6 +210,21 @@ export const BoxDayTable = (props: Props) => {
       render: (data: DataType) => {
         return (
           <Row>
+            <Col>
+              <Button>
+                <BsPrinter
+                  size={20}
+                  onClick={() => {
+                    setBoxDay({
+                      id: data.id,
+                      total: data.totalBoxDay,
+                      date: data.createdAt,
+                    });
+                    getOrdersByTable(data.id);
+                  }}
+                />
+              </Button>
+            </Col>
             <Col>
               <Button>
                 <BiEdit
@@ -197,7 +248,7 @@ export const BoxDayTable = (props: Props) => {
 
   return (
     <Row className="m-0 mb-5 justify-content-center">
-      <Col>
+      <Col span={24}>
         <Table
           columns={columns}
           loading={loading}
@@ -215,6 +266,13 @@ export const BoxDayTable = (props: Props) => {
           scroll={{ y: 540, x: 200 }}
         />
       </Col>
+      <PrintBoxDay
+        ref={ref}
+        orders={orders}
+        id={boxDay.id}
+        total={boxDay.total}
+        date={boxDay.date}
+      />
     </Row>
   );
 
@@ -229,10 +287,26 @@ export const BoxDayTable = (props: Props) => {
         id: value.id,
         isOpen: value.isOpen,
         createdAt: value.createdAt,
+        totalBoxDay: value.totalBoxDay,
         ...value,
       });
     });
 
     return values;
+  }
+
+  async function getOrdersByTable(id: number) {
+    setOrders([]);
+    const request = await OrderController.getByBoxDay(id);
+
+    const data = request.data;
+    const orders = data.orders;
+
+    if (orders) {
+      setOrders(orders);
+    }
+    setTimeout(() => {
+      handlePrint();
+    }, 500);
   }
 };

@@ -6,7 +6,7 @@ export const HeaderScreen = () => {
   return (
     <Row className="mt-2 ms-1">
       <Col>
-        <img src={Images.logo} width={'60%'} draggable={false} />
+        <img src={Images.logo} width={'50%'} draggable={false} />
       </Col>
     </Row>
   );

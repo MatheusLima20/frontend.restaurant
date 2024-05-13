@@ -178,6 +178,17 @@ export const SpendingRegisterTable = (props: Props) => {
       sorter: (a, b) => a.amount - b.amount,
     },
     {
+      key: 'createdAt',
+
+      title: 'Criado em:',
+
+      dataIndex: 'createdAt',
+
+      width: 70,
+
+      sortOrder: sortedInfo.columnKey === 'createdAt' ? sortedInfo.order : null,
+    },
+    {
       key: 'action',
 
       title: 'Ações',

@@ -95,4 +95,25 @@ export const OrderController = {
       return { error: true, message };
     }
   },
+  getByBoxDay: async (id: number) => {
+    try {
+      const cookie = cookies.get('data.user');
+
+      const token = cookie.token;
+
+      const request = await axios.get(`/order-boxday/${id}`, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message, data: data.data };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
 };

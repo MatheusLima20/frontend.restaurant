@@ -3,4 +3,5 @@ export type BoxDay = {
   isOpen: boolean;
   createdBy: string;
   createdAt: string;
+  totalBoxDay: number;
 };
