@@ -1,10 +1,11 @@
-import { Col, Row, Skeleton } from 'antd';
+import { Col, Row, Spin } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AppRoutes } from './routes/routes';
 import { cookies } from './controller/user/adm.cookies';
 import { UserDataLogged } from './types/user/user';
 import { Content } from 'antd/es/layout/layout';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const initialValues: UserDataLogged = {
   name: '',
@@ -34,22 +35,15 @@ export const AppNavigation = () => {
       {!loading && <AppRoutes dataUser={login} />}
 
       {loading && (
-        <Content className="m-0  g-0 mt-4">
-          <Row className="g-0 align-items-start" style={{ textAlign: 'start' }}>
-            <Col className="ms-4 align-self-start">
-              <Skeleton.Image active style={{ width: 150 }} />
+        <Content>
+          <Row>
+            <Col span={24}>
+              <Spin
+                size="large"
+                fullscreen={true}
+                indicator={<LoadingOutlined style={{ fontSize: 70 }} />}
+              />
             </Col>
-            <Col className="align-self-center">
-              <Row className="justify-content-end">
-                <Col md={10}>
-                  <Skeleton.Input className="w-100" active size="large" />
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-
-          <Row className="g-0 mt-5" style={{ textAlign: 'center' }}>
-            <Skeleton className="w-100" active paragraph={{ rows: 15 }} />
           </Row>
         </Content>
       )}
