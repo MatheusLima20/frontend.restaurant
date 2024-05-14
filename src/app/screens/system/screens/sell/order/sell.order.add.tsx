@@ -10,13 +10,13 @@ import {
   message,
 } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { GiHotMeal, GiMeal, GiReceiveMoney } from 'react-icons/gi';
+import { GiMeal, GiReceiveMoney } from 'react-icons/gi';
 import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
 import { Order } from '../../../../../types/order/order';
 import { OrderController } from '../../../../../controller/order/order.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { FaGlassWater } from 'react-icons/fa6';
-import { BiEditAlt } from 'react-icons/bi';
+import { BiEditAlt, BiPrinter } from 'react-icons/bi';
 import { Product } from '../../../../../types/product/product';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 import { BsPrinterFill, BsTrash } from 'react-icons/bs';
@@ -72,9 +72,6 @@ export const SellOrderAdd = (props: Props) => {
   return (
     <Row justify={'center'} style={{ height: 600 }}>
       {contextHolder}
-      <Col>
-        <GiHotMeal size={90} />
-      </Col>
       <Col span={24} className="text-center">
         <h4>{props.tableName}</h4>
       </Col>
@@ -83,13 +80,14 @@ export const SellOrderAdd = (props: Props) => {
           <Form
             name="basic"
             autoComplete="on"
+            layout={'horizontal'}
             fields={[
               { name: 'productName', value: order.productName },
               { name: 'amount', value: order.amount },
             ]}
             onFinish={save}
           >
-            <Row justify={'center'}>
+            <Row justify={'center'} align={'middle'}>
               <Col span={24}>
                 <Row gutter={[30, 10]}>
                   <Col md={12}>
@@ -141,7 +139,7 @@ export const SellOrderAdd = (props: Props) => {
                     </Form.Item>
                   </Col>
 
-                  <Col md={12}>
+                  <Col md={8}>
                     <Form.Item
                       label="Quantidade"
                       name="amount"
@@ -162,6 +160,14 @@ export const SellOrderAdd = (props: Props) => {
                         }}
                       />
                     </Form.Item>
+                  </Col>
+                  <Col>
+                    <Button
+                      disabled={!order.productName.length}
+                      onClick={handlePrintOrder}
+                    >
+                      <BiPrinter size={20} />
+                    </Button>
                   </Col>
                 </Row>
               </Col>
@@ -228,7 +234,7 @@ export const SellOrderAdd = (props: Props) => {
           </Form>
         </Col>
       </Col>
-      <Col className="orders" md={24}>
+      <Col className="orders" md={24} style={{ height: 250 }}>
         <List
           size="small"
           loading={props.loading}
@@ -359,9 +365,6 @@ export const SellOrderAdd = (props: Props) => {
         idTable: props.idTable,
         amount: values.amount,
       } as any);
-      if (!request.error) {
-        handlePrintOrder();
-      }
     } else {
       request = await OrderController.patch(idOrder, {
         productId: order.productId,
