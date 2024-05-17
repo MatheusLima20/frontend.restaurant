@@ -76,11 +76,11 @@ const items: MenuItem[] = [
       <FaSellsy size={20} />,
     ),
     getItem(
-      <div className="menu">Usuários</div>,
+      <a href="/users" className="menu">
+        Usuários
+      </a>,
       'cad4',
       <BiUserCircle size={20} />,
-      undefined,
-      true,
     ),
   ]),
   getItem(

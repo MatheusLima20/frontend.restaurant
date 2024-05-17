@@ -1,11 +1,11 @@
 import { AddressUser } from '../address/address';
 
 export type UserType =
+  | 'SUPER'
   | 'ADM'
-  | 'ENTREGADOR'
-  | 'CLIENTE'
-  | 'FUNCIONARIO'
-  | 'CONSUMIDOR'
+  | 'CUSTOMER'
+  | 'WAITER'
+  | 'DELIVERYMAN'
   | '';
 
 export type UserLogin = {

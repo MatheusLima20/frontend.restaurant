@@ -94,6 +94,24 @@ export const UserController = {
     }
   },
 
+  storeEmployee: async (dataUser: UserClient) => {
+    const values = dataUser;
+
+    try {
+      const request = await axios.post('/employee', values);
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
+
   patchClient: async (dataUser: UserClient) => {
     const values = dataUser;
 
@@ -159,13 +177,13 @@ export const UserController = {
     }
   },
 
-  getCollaborators: async () => {
+  getUsers: async (userType: UserType) => {
     try {
       const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
-      const request = await axios.get('/collaborators', {
+      const request = await axios.get(`/users/${userType}`, {
         headers: { authorization: `Bearer ${token}` },
       });
 
