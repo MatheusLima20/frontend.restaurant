@@ -97,8 +97,34 @@ export const UserController = {
   storeEmployee: async (dataUser: UserClient) => {
     const values = dataUser;
 
+    const token = cookie.token;
+
     try {
-      const request = await axios.post('/employee', values);
+      const request = await axios.post('/employee', values, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
+
+  patch: async (id: number, dataUser: UserClient) => {
+    const values = dataUser;
+
+    try {
+      const token = cookie.token;
+
+      const request = await axios.patch(`/user/${id}`, values, {
+        headers: { authorization: `Bearer ${token}` },
+      });
 
       const data = request.data;
 

@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, Select, message } from 'antd';
+import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
 import { UsersTable } from './users.table';
 import { UserController } from '../../../../../controller/user/user.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 
 const initialValues = {
+  id: 0,
   nameUser: '',
   emailUser: '',
   userType: '',
   password: '',
   repeatPassword: '',
+  isActive: true,
 };
 
 export const UsersForm = () => {
@@ -69,6 +71,7 @@ export const UsersForm = () => {
                     ]}
                   >
                     <Input
+                      name="nameUser"
                       placeholder="Digite o nome..."
                       onChange={handleChange}
                     />
@@ -86,6 +89,7 @@ export const UsersForm = () => {
                     ]}
                   >
                     <Input
+                      name="emailUser"
                       placeholder="Digite o email..."
                       onChange={handleChange}
                     />
@@ -130,37 +134,62 @@ export const UsersForm = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col md={12}>
+                <Col md={10}>
                   <Form.Item
                     label="Senha"
                     name="password"
                     rules={[
                       {
-                        required: true,
+                        required: values.id === 0,
                         message: 'Por favor, digite sua senha!',
                       },
                     ]}
                   >
                     <Input.Password
+                      name="password"
                       placeholder="Digite a senha..."
                       onChange={handleChange}
                     />
                   </Form.Item>
                 </Col>
-                <Col md={12}>
+                <Col md={10}>
                   <Form.Item
                     label="Repita a Senha"
                     name="repeatPassword"
                     rules={[
                       {
-                        required: true,
+                        required: values.id === 0,
                         message: 'Por favor, repita a senha!',
                       },
                     ]}
                   >
                     <Input.Password
+                      name="repeatPassword"
                       placeholder="Digite novamente..."
                       onChange={handleChange}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col md={4}>
+                  <Form.Item
+                    label="Ativo"
+                    name="isActive"
+                    tooltip="Se seu acesso será liberado ou não."
+                  >
+                    <Switch
+                      checkedChildren="Sim"
+                      unCheckedChildren="Não"
+                      onChange={(value: boolean) => {
+                        const event: any = {
+                          target: {
+                            name: 'isActive',
+                            value: value,
+                          },
+                        };
+                        handleChange(event);
+                      }}
+                      checked={values.isActive}
+                      defaultChecked
                     />
                   </Form.Item>
                 </Col>
@@ -174,7 +203,14 @@ export const UsersForm = () => {
                       </Col>
 
                       <Col className="ms-5">
-                        <Button type="default" htmlType="reset">
+                        <Button
+                          type="default"
+                          htmlType="reset"
+                          onClick={() => {
+                            setValues(initialValues);
+                            getUsers();
+                          }}
+                        >
                           Limpar
                         </Button>
                       </Col>
@@ -190,8 +226,15 @@ export const UsersForm = () => {
         <UsersTable
           valuesTable={valuesTable}
           loading={loading}
-          getRowValues={() => {
-            console.log('');
+          getRowValues={(values) => {
+            setValues({
+              id: values.id,
+              emailUser: values.email,
+              isActive: values.isActive,
+              nameUser: values.userName,
+              userType: values.userType,
+              ...values,
+            } as any);
           }}
         />
       </Col>
@@ -212,19 +255,20 @@ export const UsersForm = () => {
       userName: values.nameUser,
       email: values.emailUser,
       userType: values.userType,
+      isActive: values.isActive,
       password: values.password,
       passwordRepeated: values.repeatPassword,
     };
 
-    //const id = 1;
+    const id = values.id;
 
-    //let request;
+    let request;
 
-    //if (id == 0) {
-    const request = await UserController.storeEmployee(user);
-    //} else {
-    //request = await UserController.patch(id, { ...spending });
-    //}
+    if (id == 0) {
+      request = await UserController.storeEmployee(user);
+    } else {
+      request = await UserController.patch(id, { ...user });
+    }
 
     const error = request.error;
 

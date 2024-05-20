@@ -32,7 +32,7 @@ export type UserClient = {
   orderAverage?: number;
   password: string;
   passwordRepeated?: string;
-  userType?: string | number;
+  userType?: string;
   isActive: boolean;
 };
 

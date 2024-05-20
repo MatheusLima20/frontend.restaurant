@@ -25,6 +25,7 @@ interface DataType {
   id: number;
   userName: string;
   email: string;
+  userType: string;
   isActive: boolean;
 }
 
@@ -162,8 +163,6 @@ export const UsersTable = (props: Props) => {
 
       dataIndex: 'isActive',
 
-      sortOrder: sortedInfo.columnKey === 'isActive' ? sortedInfo.order : null,
-
       render: (isActive: boolean) => {
         return <div>{isActive ? 'Sim' : 'Não'}</div>;
       },
@@ -184,7 +183,10 @@ export const UsersTable = (props: Props) => {
                   size={20}
                   onClick={() => {
                     props.getRowValues({
-                      id: data.id,
+                      emailUser: data.email,
+                      isActive: data.isActive,
+                      nameUser: data.userName,
+                      userType: data.userType,
                       ...(data as any),
                     });
                   }}
@@ -230,6 +232,8 @@ export const UsersTable = (props: Props) => {
         key: index,
         id: value.id as any,
         userName: value.userName,
+        userType: value.userType,
+        isActive: value.isActive,
         ...value,
       });
     });
