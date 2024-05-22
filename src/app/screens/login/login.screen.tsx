@@ -2,13 +2,17 @@ import React from 'react';
 import { Button, Col, Form, Input, Row, message } from 'antd';
 import { UserController } from '../../controller/user/user.controller';
 import { UserLogin } from '../../types/user/user';
+import { Images } from '../../config/images';
 
 export const LoginScreen = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   return (
-    <Row justify={'center'} align={'middle'} className="mt-5">
+    <Row justify={'center'} align={'middle'} className="mt-3">
       {contextHolder}
+      <Col className="text-center mb-3">
+        <img src={Images.logo} width={'70%'} />
+      </Col>
       <Col span={24}>
         <Row justify={'center'}>
           <Col md={8}>
