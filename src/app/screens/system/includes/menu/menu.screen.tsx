@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Layout, Menu } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { BsGraphUp } from 'react-icons/bs';
+import { BsBox2Fill, BsGraphUp } from 'react-icons/bs';
 import { BiUserCircle } from 'react-icons/bi';
 import { FaBoxOpen, FaMoneyBill, FaSellsy } from 'react-icons/fa';
 import './menu.css';
@@ -55,11 +55,18 @@ const items: MenuItem[] = [
   ]),
   getItem('Cadastro', 'sub3', <GiArchiveRegister size={20} />, [
     getItem(
-      <a href="/product-register/" className="menu">
+      <a href="/plates-register/" className="menu">
         Produtos
       </a>,
       'cad1',
       <GiMeal size={20} />,
+    ),
+    getItem(
+      <a href="/stock-record/" className="menu">
+        Estoque
+      </a>,
+      'cad1',
+      <BsBox2Fill size={20} />,
     ),
     getItem(
       <a href="/box-day/" className="menu">

@@ -15,6 +15,8 @@ export type Product = {
 
   show: boolean;
 
+  isPlate: false;
+
   add?: boolean;
 
   createdAt: string;

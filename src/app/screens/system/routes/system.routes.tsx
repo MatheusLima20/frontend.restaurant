@@ -9,6 +9,7 @@ import { SellOrder } from '../screens/sell/order';
 import { BoxDay } from '../screens/register/box.day';
 import { Header } from '../includes/header';
 import { Users } from '../screens/register/users';
+import { StockRecord } from '../screens/register/stock';
 
 export const SystemRoutes = () => {
   return userRoutes();
@@ -31,6 +32,8 @@ export const SystemRoutes = () => {
                 path="/product-register"
                 element={ProductRegister()}
               />
+              <Route index path="/stock-record" element={StockRecord()} />
+
               <Route index path="/order" element={SellOrder()} />
               <Route index path="/box-day" element={BoxDay()} />
               <Route index path="/users" element={Users()} />

@@ -36,7 +36,7 @@ interface Props {
   getRowValues: (values: Product) => any;
 }
 
-export const ProductRegisterTable = (props: Props) => {
+export const StockRecordTable = (props: Props) => {
   const loading = props.loading;
 
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({
@@ -164,6 +164,19 @@ export const ProductRegisterTable = (props: Props) => {
       width: 50,
     },
     {
+      key: 'amount',
+
+      title: 'Quantidade',
+
+      dataIndex: 'amount',
+
+      width: 70,
+
+      sortOrder: sortedInfo.columnKey === 'amount' ? sortedInfo.order : null,
+
+      sorter: (a, b) => a.amount - b.amount,
+    },
+    {
       key: 'unitMeasurement',
 
       title: 'Unidade',
@@ -176,6 +189,19 @@ export const ProductRegisterTable = (props: Props) => {
         sortedInfo.columnKey === 'unitMeasurement' ? sortedInfo.order : null,
 
       sorter: (a, b) => a.unitMeasurement.localeCompare(b.unitMeasurement),
+    },
+    {
+      key: 'isActive',
+
+      title: 'Ativo',
+
+      dataIndex: 'isActive',
+
+      width: 50,
+
+      render: (data: any) => {
+        return <div>{data ? 'Sim' : 'Não'}</div>;
+      },
     },
     {
       key: 'show',
