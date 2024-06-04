@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, message } from 'antd';
+import { Button, Col, DatePicker, Form, Input, Row, message } from 'antd';
 import { Product } from '../../../../../types/product/product';
 import { BsBox2Fill } from 'react-icons/bs';
 import { Spending } from '../../../../../types/spending/spending';
 import { SpendingController } from '../../../../../controller/spending/spending.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { SpendingRegisterTable } from './spending.register.table';
+import dayjs from 'dayjs';
 
 const initialValues = {
   id: 0,
@@ -158,6 +159,17 @@ export const SpendingRegisterForm = () => {
         </Form>
       </Col>
 
+      <Col span={20} className="text-center">
+        <DatePicker
+          value={dayjs()}
+          format={'MM/YYYY'}
+          picker="month"
+          onChange={(value) => {
+            getSpending(value);
+          }}
+        />
+      </Col>
+
       <Col span={24}>
         <SpendingRegisterTable
           loading={loading}
@@ -184,6 +196,7 @@ export const SpendingRegisterForm = () => {
       name: valuesForm.name,
       amount: valuesForm.amount,
       value: valuesForm.value,
+      ...valuesForm,
     };
 
     const id: number = values.id;
@@ -219,12 +232,16 @@ export const SpendingRegisterForm = () => {
     await getSpending();
   }
 
-  async function getSpending() {
+  async function getSpending(date?: any) {
+    const search = date
+      ? dayjs(date).format('YYYY-MM')
+      : dayjs().format('YYYY-MM');
+
     setLoading(true);
 
-    const request = await SpendingController.get();
+    const request = await SpendingController.get(search);
 
-    const data = request.data;
+    const data = request.data.spending;
 
     setTimeout(() => {
       setLoading(false);

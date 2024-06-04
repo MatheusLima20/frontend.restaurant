@@ -10,6 +10,7 @@ import { BoxDay } from '../screens/register/box.day';
 import { Header } from '../includes/header';
 import { Users } from '../screens/register/users';
 import { StockRecord } from '../screens/register/stock';
+import { ReportsSpending } from '../screens/reports/spending';
 
 export const SystemRoutes = () => {
   return userRoutes();
@@ -37,6 +38,12 @@ export const SystemRoutes = () => {
               <Route index path="/order" element={SellOrder()} />
               <Route index path="/box-day" element={BoxDay()} />
               <Route index path="/users" element={Users()} />
+
+              <Route
+                index
+                path="/reports/spending/"
+                element={ReportsSpending()}
+              />
             </Routes>
           </Layout.Content>
           <Layout.Footer style={{ backgroundColor: 'white' }}>

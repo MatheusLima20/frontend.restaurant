@@ -3,7 +3,6 @@ import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
 import { Product } from '../../../../../types/product/product';
 import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
 import { BsBox2Fill } from 'react-icons/bs';
-import { Spending } from '../../../../../types/spending/spending';
 import { SpendingController } from '../../../../../controller/spending/spending.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { StockRecordTable } from './stock.record.table';
@@ -253,7 +252,6 @@ export const StockRecordForm = () => {
     const dataValues: Product = {
       name: valuesForm.name,
       value: value,
-      isActive: valuesForm.isActive,
       unitMeasurement: valuesForm.unitMeasurement,
       show: false,
       amount: amount,
@@ -315,9 +313,6 @@ export const StockRecordForm = () => {
     const dataValues: any = {
       name: values.name,
       value: values.value,
-      isActive: values.isActive,
-      unitMeasurement: values.unitMeasurement,
-      show: false,
       amount: amount,
       add: true,
     };
@@ -359,7 +354,7 @@ export const StockRecordForm = () => {
     const saveSpending = amount != 0;
 
     if (saveSpending) {
-      const spending: Spending = {
+      const spending: any = {
         name: product.name,
         amount: amount,
         value: product.value,

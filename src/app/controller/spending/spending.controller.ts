@@ -49,13 +49,13 @@ export const SpendingController = {
     }
   },
 
-  get: async () => {
+  get: async (date: string) => {
     try {
       const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
-      const request = await axios.get('/spending', {
+      const request = await axios.get(`/spending/${date}`, {
         headers: { authorization: `Bearer ${token}` },
       });
 

@@ -90,35 +90,29 @@ const items: MenuItem[] = [
       <BiUserCircle size={20} />,
     ),
   ]),
-  getItem(
-    'Relatórios',
-    'sub4',
-    <BsGraphUp size={20} />,
-    [
-      getItem(
-        <a href="/system2/" className="menu">
-          Investimentos
-        </a>,
-        'rel01',
-        <FaMoneyBill size={20} />,
-      ),
-      getItem(
-        <a href="/system2/" className="menu">
-          Vendas
-        </a>,
-        'rel02',
-        <GiReceiveMoney size={20} />,
-      ),
-      getItem(
-        <a href="/system2/" className="menu">
-          Lucro
-        </a>,
-        'rel03',
-        <GiTakeMyMoney size={20} />,
-      ),
-    ],
-    true,
-  ),
+  getItem('Relatórios', 'sub4', <BsGraphUp size={20} />, [
+    getItem(
+      <a href="/reports/spending/" className="menu">
+        Gastos
+      </a>,
+      'rel01',
+      <FaMoneyBill size={20} />,
+    ),
+    getItem(
+      <a href="/system2/" className="menu">
+        Vendas
+      </a>,
+      'rel02',
+      <GiReceiveMoney size={20} />,
+    ),
+    getItem(
+      <a href="/system2/" className="menu">
+        Lucro
+      </a>,
+      'rel03',
+      <GiTakeMyMoney size={20} />,
+    ),
+  ]),
   getItem(
     'Configurações',
     'sub5',
