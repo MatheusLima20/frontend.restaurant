@@ -49,6 +49,7 @@ export const StockRecordForm = () => {
         <Form
           name="basic"
           autoComplete="on"
+          initialValues={values}
           fields={[
             {
               name: 'name',
@@ -137,7 +138,6 @@ export const StockRecordForm = () => {
                 <Col md={6}>
                   <Form.Item label="Unidade" name="unitMeasurement">
                     <Select
-                      defaultValue="KG"
                       onChange={(value: string) => {
                         const event: any = {
                           target: {
@@ -155,6 +155,7 @@ export const StockRecordForm = () => {
                         { value: 'ml', label: 'Mililitro (ml)' },
                         { value: 'PC', label: 'Pacote' },
                         { value: 'KG', label: 'Quilo' },
+                        { value: 'UN', label: 'Unidade' },
                       ]}
                     />
                   </Form.Item>

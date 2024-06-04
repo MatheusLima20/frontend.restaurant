@@ -45,6 +45,8 @@ export const ProductRegisterForm = () => {
         <Form
           name="basic"
           autoComplete="on"
+          defaultValue={0}
+          initialValues={values}
           fields={[
             {
               name: 'name',
@@ -108,7 +110,6 @@ export const ProductRegisterForm = () => {
                 <Col md={6}>
                   <Form.Item label="Unidade" name="unitMeasurement">
                     <Select
-                      defaultValue="PR"
                       onChange={(value: string) => {
                         const event: any = {
                           target: {

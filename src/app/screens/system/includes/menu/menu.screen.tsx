@@ -65,28 +65,28 @@ const items: MenuItem[] = [
       <a href="/stock-record/" className="menu">
         Estoque
       </a>,
-      'cad1',
+      'cad2',
       <BsBox2Fill size={20} />,
     ),
     getItem(
       <a href="/box-day/" className="menu">
         Caixa
       </a>,
-      'cad2',
+      'cad3',
       <FaBoxOpen size={20} />,
     ),
     getItem(
       <a href="/spending/" className="menu">
         Gastos
       </a>,
-      'cad3',
+      'cad4',
       <FaSellsy size={20} />,
     ),
     getItem(
       <a href="/users" className="menu">
         Usuários
       </a>,
-      'cad4',
+      'cad5',
       <BiUserCircle size={20} />,
     ),
   ]),
@@ -128,21 +128,21 @@ const items: MenuItem[] = [
         <a href="/system2/" className="menu">
           Investimentos
         </a>,
-        'sub01',
+        'conf01',
         <FaMoneyBill size={20} />,
       ),
       getItem(
         <a href="/system2/" className="menu">
           Vendas
         </a>,
-        'sub02',
+        'conf02',
         <GiReceiveMoney size={20} />,
       ),
       getItem(
         <a href="/system2/" className="menu">
           Lucro
         </a>,
-        'sub03',
+        'conf03',
         <GiTakeMyMoney size={20} />,
       ),
     ],
@@ -166,6 +166,7 @@ export const MenuScreen = () => {
       </Layout>
       <Layout.Sider
         trigger={null}
+        defaultValue={0}
         collapsible
         collapsed={collapsed}
         style={{ backgroundColor: 'white' }}
@@ -173,8 +174,8 @@ export const MenuScreen = () => {
         <Menu
           mode="inline"
           theme="light"
-          defaultOpenKeys={['sub1', 'sub2', 'sub3']}
-          inlineCollapsed={collapsed}
+          defaultSelectedKeys={['sub2']}
+          defaultOpenKeys={['sub2', 'sub3']}
           items={items}
         />
       </Layout.Sider>
