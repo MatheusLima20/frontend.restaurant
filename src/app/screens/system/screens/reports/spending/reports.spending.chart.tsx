@@ -46,7 +46,6 @@ export const ReportsSpendingChart = () => {
   const [chart, setChart] = useState('barv');
   const [total, setTotal] = useState(0);
   const [isMoney, setMoney] = useState(true);
-  const [searchDate, setSearchDate] = useState(dayjs().format('YYYY-MM'));
 
   useEffect(() => {
     searchSpending(dayjs().format('YYYY-MM'));
@@ -85,7 +84,6 @@ export const ReportsSpendingChart = () => {
           picker="month"
           onChange={(value) => {
             searchSpending(value);
-            setSearchDate(dayjs(value).format('YYYY-MM'));
           }}
         />
       </Col>
@@ -96,7 +94,7 @@ export const ReportsSpendingChart = () => {
           unCheckedChildren="Quantidade Total"
           onChange={(value) => {
             setMoney(value);
-            searchSpending(searchDate);
+            changeGraphic();
           }}
         />
       </Col>
@@ -178,6 +176,14 @@ export const ReportsSpendingChart = () => {
 
     setTotal(total);
     setValues(data.spending);
+  }
+
+  function changeGraphic() {
+    const data = values;
+
+    setValues([]);
+
+    setValues(data);
   }
 
   function initGraphic() {

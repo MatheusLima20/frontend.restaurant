@@ -46,7 +46,6 @@ export const ReportsSellChart = () => {
   const [chart, setChart] = useState('barv');
   const [total, setTotal] = useState(0);
   const [isMoney, setMoney] = useState(true);
-  const [searchDate, setSearchDate] = useState(dayjs().format('YYYY-MM'));
 
   useEffect(() => {
     searchSell(dayjs().format('YYYY-MM'));
@@ -85,7 +84,6 @@ export const ReportsSellChart = () => {
           picker="month"
           onChange={(value) => {
             searchSell(value);
-            setSearchDate(dayjs(value).format('YYYY-MM'));
           }}
         />
       </Col>
@@ -96,7 +94,7 @@ export const ReportsSellChart = () => {
           unCheckedChildren="Total em Vendas"
           onChange={(value) => {
             setMoney(value);
-            searchSell(searchDate);
+            changeGraphic();
           }}
         />
       </Col>
@@ -178,6 +176,14 @@ export const ReportsSellChart = () => {
 
     setTotal(total);
     setValues(data.orders);
+  }
+
+  function changeGraphic() {
+    const data = values;
+
+    setValues([]);
+
+    setValues(data);
   }
 
   function initGraphic() {
