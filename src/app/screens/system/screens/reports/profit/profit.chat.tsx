@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Col, DatePicker, Form, Row, Select } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Col, DatePicker, Form, Row, Select } from 'antd';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,6 +16,9 @@ import 'chart.js/auto';
 import dayjs from 'dayjs';
 import { OrderController } from '../../../../../controller/order/order.controller';
 import { SpendingController } from '../../../../../controller/spending/spending.controller';
+import { PrintProfit } from './print.profit';
+import { BsPrinterFill } from 'react-icons/bs';
+import { useReactToPrint } from 'react-to-print';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -43,9 +46,15 @@ const options = {
 const labels = ['Gastos', 'Vendas', 'Lucro'];
 
 export const ProfitChart = () => {
+  const billProfit = useRef();
+  const [graphic, setGraphic] = useState<any>();
   const [chart, setChart] = useState('barv');
   const [totalSell, setTotalSell] = useState(0);
   const [totalSpending, setTotalSpending] = useState(0);
+
+  const handlePrintBill = useReactToPrint({
+    content: () => billProfit.current,
+  });
 
   useEffect(() => {
     searchSell(dayjs().format('YYYY-MM'));
@@ -89,6 +98,21 @@ export const ProfitChart = () => {
           }}
         />
       </Col>
+      <Col>
+        <Button
+          onClick={() => {
+            const chart = document.getElementById('chart');
+            setGraphic(chart);
+            setTimeout(() => {
+              handlePrintBill();
+            }, 500);
+          }}
+          size="large"
+          title="Imprimir"
+        >
+          <BsPrinterFill size={20} />
+        </Button>
+      </Col>
       <Col span={20}>
         <Row justify={'center'}>
           <Col span={24} className="text-center">
@@ -102,6 +126,7 @@ export const ProfitChart = () => {
           <Col span={20}>
             {chart === 'barv' && (
               <Bar
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -151,6 +176,15 @@ export const ProfitChart = () => {
             )}
           </Col>
         </Row>
+      </Col>
+      <Col>
+        <PrintProfit
+          ref={billProfit}
+          graphic={graphic}
+          title={'Lucro Mensal'}
+          orders={[]}
+          total={totalSell}
+        />
       </Col>
     </Row>
   );
