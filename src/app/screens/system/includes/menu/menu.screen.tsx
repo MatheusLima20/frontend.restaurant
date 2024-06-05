@@ -92,6 +92,13 @@ const items: MenuItem[] = [
   ]),
   getItem('Relatórios', 'sub4', <BsGraphUp size={20} />, [
     getItem(
+      <a href="/reports/sells/" className="menu">
+        Vendas
+      </a>,
+      'rel02',
+      <GiReceiveMoney size={20} />,
+    ),
+    getItem(
       <a href="/reports/spending/" className="menu">
         Gastos
       </a>,
@@ -99,14 +106,7 @@ const items: MenuItem[] = [
       <FaMoneyBill size={20} />,
     ),
     getItem(
-      <a href="/system2/" className="menu">
-        Vendas
-      </a>,
-      'rel02',
-      <GiReceiveMoney size={20} />,
-    ),
-    getItem(
-      <a href="/system2/" className="menu">
+      <a href="/reports/profit/" className="menu">
         Lucro
       </a>,
       'rel03',
@@ -169,7 +169,7 @@ export const MenuScreen = () => {
           mode="inline"
           theme="light"
           defaultSelectedKeys={['sub2']}
-          defaultOpenKeys={['sub2', 'sub3']}
+          defaultOpenKeys={['sub2', 'sub3', 'sub4']}
           items={items}
         />
       </Layout.Sider>

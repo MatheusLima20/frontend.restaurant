@@ -14,8 +14,8 @@ import {
 import { Bar, Line, Pie, Radar } from 'react-chartjs-2';
 import 'chart.js/auto';
 import dayjs from 'dayjs';
-import { Spending } from '../../../../../types/spending/spending';
-import { SpendingController } from '../../../../../controller/spending/spending.controller';
+import { Order } from '../../../../../types/order/order';
+import { OrderController } from '../../../../../controller/order/order.controller';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -40,23 +40,23 @@ const options = {
   },
 };
 
-export const ReportsSpendingChart = () => {
+export const ReportsSellChart = () => {
   const [labels, setLabels] = useState([]);
-  const [values, setValues] = useState<Spending[]>([]);
+  const [values, setValues] = useState<Order[]>([]);
   const [chart, setChart] = useState('barv');
   const [total, setTotal] = useState(0);
   const [isMoney, setMoney] = useState(true);
   const [searchDate, setSearchDate] = useState(dayjs().format('YYYY-MM'));
 
   useEffect(() => {
-    searchSpending(dayjs().format('YYYY-MM'));
+    searchSell(dayjs().format('YYYY-MM'));
   }, []);
 
   return (
     <Row justify={'center'} className="mt-5 mb-5" gutter={[0, 30]}>
       <Col span={24} className="text-center">
         <h2>
-          <strong>Relatório de Gastos</strong>
+          <strong>Relatório de Vendas</strong>
         </h2>
       </Col>
       <Col>
@@ -84,7 +84,7 @@ export const ReportsSpendingChart = () => {
           format={'MM-YYYY'}
           picker="month"
           onChange={(value) => {
-            searchSpending(value);
+            searchSell(value);
             setSearchDate(dayjs(value).format('YYYY-MM'));
           }}
         />
@@ -93,10 +93,10 @@ export const ReportsSpendingChart = () => {
         <Switch
           defaultValue={isMoney}
           checkedChildren="Total em R$"
-          unCheckedChildren="Quantidade Total"
+          unCheckedChildren="Total em Vendas"
           onChange={(value) => {
             setMoney(value);
-            searchSpending(searchDate);
+            searchSell(searchDate);
           }}
         />
       </Col>
@@ -166,10 +166,10 @@ export const ReportsSpendingChart = () => {
     </Row>
   );
 
-  async function searchSpending(searchDate: any) {
+  async function searchSell(searchDate: any) {
     const date = dayjs(searchDate).format('YYYY-MM');
 
-    const request = await SpendingController.get(date);
+    const request = await OrderController.getByDate(date);
 
     setLabels([]);
 
@@ -177,32 +177,32 @@ export const ReportsSpendingChart = () => {
     const total = data.total;
 
     setTotal(total);
-    setValues(data.spending);
+    setValues(data.orders);
   }
 
   function initGraphic() {
     const valuesMonths: number[] = [];
 
     values.filter((value) => {
-      const exists = labels.includes(value.name);
+      const exists = labels.includes(value.productName);
 
       if (!exists) {
-        labels.push(value.name);
+        labels.push(value.productName);
       }
     });
 
     labels.map((label) => {
-      let spending = 0;
+      let sell = 0;
       values.map((value) => {
-        if (value.name === label) {
+        if (value.productName === label) {
           if (isMoney) {
-            spending += value.amount * value.value;
+            sell += value.amount * value.value;
           } else {
-            spending += value.amount;
+            sell += value.amount;
           }
         }
       });
-      valuesMonths.push(spending);
+      valuesMonths.push(sell);
 
       return;
     });
@@ -210,7 +210,7 @@ export const ReportsSpendingChart = () => {
     const result = [
       {
         fill: true,
-        label: isMoney ? 'Total R$' : 'Quantidade',
+        label: isMoney ? 'Total R$' : 'Vendido',
         data: valuesMonths,
         backgroundColor: [
           'rgba(30,144,255, 0.9)',

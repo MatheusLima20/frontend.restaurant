@@ -11,6 +11,7 @@ import { Header } from '../includes/header';
 import { Users } from '../screens/register/users';
 import { StockRecord } from '../screens/register/stock';
 import { ReportsSpending } from '../screens/reports/spending';
+import { ReportSell } from '../screens/reports/sell';
 
 export const SystemRoutes = () => {
   return userRoutes();
@@ -44,6 +45,7 @@ export const SystemRoutes = () => {
                 path="/reports/spending/"
                 element={ReportsSpending()}
               />
+              <Route index path="/reports/sells/" element={ReportSell()} />
             </Routes>
           </Layout.Content>
           <Layout.Footer style={{ backgroundColor: 'white' }}>
