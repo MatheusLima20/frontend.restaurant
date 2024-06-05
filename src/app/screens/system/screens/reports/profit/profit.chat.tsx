@@ -193,7 +193,7 @@ export const ProfitChart = () => {
         data: valuesMonths,
         backgroundColor: [
           'rgba(220,20,60, 0.9)',
-          'rgba(221,160,221, 0.9)',
+          'rgba(0,255,127, 0.9)',
           'rgba(30,144,255, 0.9)',
         ],
       },
