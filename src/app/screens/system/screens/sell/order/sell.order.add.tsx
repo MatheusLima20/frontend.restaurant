@@ -59,6 +59,7 @@ export const SellOrderAdd = (props: Props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [order, setOrder] = useState(initialValues);
   const [products, setProducts] = useState<Product[]>([]);
+  const [change, setChange] = useState(0);
 
   const orders = props.orders;
 
@@ -259,6 +260,29 @@ export const SellOrderAdd = (props: Props) => {
                 />
               </Col>
               <Col>
+                Total
+                {StringFormatter.realNumber(total)}
+              </Col>
+              <Col md={3}>
+                <Input
+                  type="number"
+                  placeholder="Valor Pago"
+                  onChange={(event) => {
+                    const value: number = Number.parseFloat(event.target.value);
+                    if (isNaN(value)) {
+                      setChange(0);
+                      return;
+                    }
+                    const change = value - total;
+                    setChange(change);
+                  }}
+                />
+              </Col>
+              <Col>
+                Troco
+                {StringFormatter.realNumber(change)}
+              </Col>
+              <Col>
                 <Popconfirm
                   title="Fechar Conta"
                   description="Deseja realmente fechar a conta?"
@@ -275,10 +299,6 @@ export const SellOrderAdd = (props: Props) => {
                     <GiReceiveMoney size={20} />
                   </Button>
                 </Popconfirm>
-              </Col>
-              <Col>
-                Total
-                {StringFormatter.realNumber(total)}
               </Col>
             </Row>
           }
@@ -429,6 +449,7 @@ export const SellOrderAdd = (props: Props) => {
   }
 
   async function closeOrders() {
+    setChange(0);
     let request;
 
     for (let index = 0; index < orders.length; index++) {

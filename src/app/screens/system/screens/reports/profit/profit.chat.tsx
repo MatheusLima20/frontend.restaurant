@@ -98,11 +98,12 @@ export const ProfitChart = () => {
           }}
         />
       </Col>
-      <Col>
+      <Col span={24} className="text-center">
         <Button
           onClick={() => {
             const chart = document.getElementById('chart');
             setGraphic(chart);
+
             setTimeout(() => {
               handlePrintBill();
             }, 500);
@@ -183,7 +184,7 @@ export const ProfitChart = () => {
           graphic={graphic}
           title={'Lucro Mensal'}
           orders={[]}
-          total={totalSell}
+          total={totalSell - totalSpending}
         />
       </Col>
     </Row>
