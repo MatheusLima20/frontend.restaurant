@@ -38,11 +38,10 @@ const initialValues = {
   productId: 0,
   productName: '',
   amount: 0,
-  add: false,
 };
 
 const txtButtonSave = 'Salvar';
-const txtButtonAdd = 'Adicionar';
+
 const txtButtonSubtract = 'Subtrair';
 
 export const SellOrderAdd = (props: Props) => {
@@ -183,18 +182,6 @@ export const SellOrderAdd = (props: Props) => {
                     htmlType="submit"
                   >
                     {txtButtonSave}
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    type="dashed"
-                    disabled={order.orderId === 0}
-                    onClick={() => {
-                      setOrder({ ...order, add: true });
-                    }}
-                    htmlType="submit"
-                  >
-                    {txtButtonAdd}
                   </Button>
                 </Col>
                 <Col>
@@ -389,10 +376,9 @@ export const SellOrderAdd = (props: Props) => {
       request = await OrderController.patch(idOrder, {
         productId: order.productId,
         amount: values.amount,
-        add: order.add,
       } as any);
 
-      const isPrint = values.amount < 0 || order.add;
+      const isPrint = values.amount < 0;
       if (isPrint && !request.error) {
         handlePrintOrder();
       }

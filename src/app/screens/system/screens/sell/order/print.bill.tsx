@@ -2,6 +2,8 @@ import { Col, List, Row } from 'antd';
 import React, { forwardRef } from 'react';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 import { Order } from '../../../../../types/order/order';
+import { OrginizeArrays } from '../../../../../util/arrays/organize';
+import dayjs from 'dayjs';
 
 interface Props {
   tableName: string;
@@ -10,6 +12,7 @@ interface Props {
 }
 
 export const PrintBill = forwardRef(function bill(props: Props, ref: any) {
+  const orders = OrginizeArrays.joinItemsOrders(props.orders);
   return (
     <div style={{ display: 'none' }}>
       <Row ref={ref} justify={'center'} className="text-center mt-5">
@@ -20,7 +23,7 @@ export const PrintBill = forwardRef(function bill(props: Props, ref: any) {
         </Col>
         <Col span={24}>
           <List size="large">
-            {props.orders.map((item) => {
+            {orders.map((item) => {
               return (
                 <List.Item key={item.id}>
                   <Row
@@ -59,6 +62,11 @@ export const PrintBill = forwardRef(function bill(props: Props, ref: any) {
           <h3>
             <strong>Total {StringFormatter.realNumber(props.total)}</strong>
           </h3>
+        </Col>
+        <Col span={24}>
+          <h6>
+            <strong>{dayjs().format('DD/MM/YYYY HH:mm:ss')}</strong>
+          </h6>
         </Col>
       </Row>
     </div>
