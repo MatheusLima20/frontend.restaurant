@@ -7,14 +7,14 @@ const cookie = cookies.get('data.user');
 const token = cookie.token;
 
 export const BoxDayController = {
-  store: async () => {
+  store: async (values: any) => {
     let request;
     let data;
 
     try {
       request = await axios.post(
         '/box-day/',
-        {},
+        { ...values },
         {
           headers: { authorization: `Bearer ${token}` },
         },

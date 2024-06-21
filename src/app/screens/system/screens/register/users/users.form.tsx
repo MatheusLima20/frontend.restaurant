@@ -97,7 +97,7 @@ export const UsersForm = () => {
                 </Col>
                 <Col md={8}>
                   <Form.Item
-                    label="Setor"
+                    label="Função"
                     name="userType"
                     rules={[
                       {
@@ -298,14 +298,22 @@ export const UsersForm = () => {
 
     const request = await UserController.getUsers('WAITER');
 
+    const request2 = await UserController.getUsers('ADM');
+
     const data = request.data;
+
+    const data2 = request2.data;
+
+    let newData: any[] = [];
+
+    newData = newData.concat(data, data2);
 
     setTimeout(() => {
       setLoading(false);
     }, 500);
 
     if (data) {
-      setValuesTable(data);
+      setValuesTable(newData);
     }
   }
 };

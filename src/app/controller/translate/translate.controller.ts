@@ -20,4 +20,16 @@ export const TranslateController = {
       return { error: true, message };
     }
   },
+  getNoAsync: (value: string) => {
+    let newText = value;
+
+    Object.keys(englishTexts).forEach((key: string) => {
+      const contain = newText.includes(key);
+      if (contain) {
+        newText = newText.replaceAll(key, (englishTexts as any)[key]);
+      }
+    });
+
+    return { text: newText };
+  },
 };

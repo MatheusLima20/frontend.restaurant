@@ -204,20 +204,6 @@ export const StockRecordTable = (props: Props) => {
       },
     },
     {
-      key: 'show',
-
-      title: 'Exibir',
-
-      dataIndex: 'show',
-
-      width: 50,
-
-      render: (data: any) => {
-        return <div>{data ? 'Sim' : 'Não'}</div>;
-      },
-    },
-
-    {
       key: 'action',
 
       title: 'Ações',

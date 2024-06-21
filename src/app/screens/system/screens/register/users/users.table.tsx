@@ -19,6 +19,7 @@ import {
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiEdit } from 'react-icons/bi';
 import { SearchOutlined } from '@ant-design/icons';
+import { TranslateController } from '../../../../../controller/translate/translate.controller';
 
 interface DataType {
   key: number;
@@ -155,6 +156,20 @@ export const UsersTable = (props: Props) => {
       dataIndex: 'email',
 
       sortOrder: sortedInfo.columnKey === 'email' ? sortedInfo.order : null,
+    },
+    {
+      key: 'userType',
+
+      title: 'Função',
+
+      dataIndex: 'userType',
+
+      sortOrder: sortedInfo.columnKey === 'userType' ? sortedInfo.order : null,
+      render: (value) => (
+        <Row>
+          <Col>{TranslateController.getNoAsync(value).text.toUpperCase()}</Col>
+        </Row>
+      ),
     },
     {
       key: 'isActive',

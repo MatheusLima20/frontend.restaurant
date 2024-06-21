@@ -5,4 +5,6 @@ export const englishTexts = {
   show: 'Show',
   isActive: 'Ativo',
   productId: 'Produto',
+  WAITER: 'Garçom',
+  startValue: 'Valor inicial',
 };

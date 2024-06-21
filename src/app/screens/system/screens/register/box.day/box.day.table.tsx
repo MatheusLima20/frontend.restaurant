@@ -23,9 +23,11 @@ import { useReactToPrint } from 'react-to-print';
 interface DataType {
   key: number;
   id: number;
+  startValue: number;
   isOpen: boolean;
   createdAt: string;
   totalBoxDay: number;
+  totalWithStartValue: number;
 }
 
 type DataIndex = keyof DataType;
@@ -38,6 +40,7 @@ interface Props {
 
 const initialValues = {
   id: 0,
+  startValue: 0,
   total: 0,
   date: '',
 };
@@ -167,6 +170,8 @@ export const BoxDayTable = (props: Props) => {
 
       title: 'Aberto',
 
+      width: 100,
+
       dataIndex: 'isOpen',
 
       render: (data: any) => {
@@ -174,11 +179,47 @@ export const BoxDayTable = (props: Props) => {
       },
     },
     {
+      key: 'startValue',
+
+      title: 'Valor Inicial',
+
+      dataIndex: 'startValue',
+
+      render: (startValue: number) => {
+        return (
+          <div>
+            {startValue.toLocaleString('pt-br', {
+              style: 'currency',
+              currency: 'BRL',
+            })}
+          </div>
+        );
+      },
+    },
+    {
       key: 'totalBoxDay',
 
-      title: 'Total',
+      title: 'Total em Vendas',
 
       dataIndex: 'totalBoxDay',
+
+      render: (total: number) => {
+        return (
+          <div>
+            {total.toLocaleString('pt-br', {
+              style: 'currency',
+              currency: 'BRL',
+            })}
+          </div>
+        );
+      },
+    },
+    {
+      key: 'totalWithStartValue',
+
+      title: 'Total Com o Caixa',
+
+      dataIndex: 'totalWithStartValue',
 
       render: (total: number) => {
         return (
@@ -197,10 +238,6 @@ export const BoxDayTable = (props: Props) => {
       title: 'Criado em',
 
       dataIndex: 'createdAt',
-
-      sortOrder: sortedInfo.columnKey === 'createdAt' ? sortedInfo.order : null,
-
-      sorter: (a, b) => a.createdAt.localeCompare(b.createdAt),
     },
     {
       key: 'action',
@@ -217,6 +254,7 @@ export const BoxDayTable = (props: Props) => {
                   onClick={() => {
                     setBoxDay({
                       id: data.id,
+                      startValue: data.startValue,
                       total: data.totalBoxDay,
                       date: data.createdAt,
                     });
@@ -286,8 +324,10 @@ export const BoxDayTable = (props: Props) => {
         key: index,
         id: value.id,
         isOpen: value.isOpen,
+        startValue: value.startValue,
         createdAt: value.createdAt,
         totalBoxDay: value.totalBoxDay,
+        totalWithStartValue: value.totalWithStartValue,
         ...value,
       });
     });
