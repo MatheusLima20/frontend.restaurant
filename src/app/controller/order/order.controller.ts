@@ -118,13 +118,13 @@ export const OrderController = {
     }
   },
 
-  getByBoxDay: async (id: number) => {
+  getByBoxDay: async (id: number, isCancelled: boolean) => {
     try {
       const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
-      const request = await axios.get(`/order-boxday/${id}`, {
+      const request = await axios.get(`/order-boxday/${id}/${isCancelled}`, {
         headers: { authorization: `Bearer ${token}` },
       });
 

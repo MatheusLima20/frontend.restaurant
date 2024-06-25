@@ -349,8 +349,11 @@ export const SellOrderAdd = (props: Props) => {
                 }
                 description={
                   <div>
-                    {StringFormatter.realNumber(item.value)}
-                    Quantidade: {item.amount}
+                    <div>
+                      {StringFormatter.realNumber(item.value)}
+                      Quantidade: {item.amount}
+                    </div>
+                    <div>Garçom: {item.createdBy}</div>
                   </div>
                 }
               ></List.Item.Meta>

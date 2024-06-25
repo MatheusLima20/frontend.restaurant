@@ -8,16 +8,24 @@ interface Props {
   orders: Order[];
   total: number;
   date: string;
+  isCancelled: boolean;
 }
 
 export const PrintBoxDay = forwardRef(function boxday(props: Props, ref: any) {
   const id = props.id;
+  const isCancelled = props.isCancelled;
+
   return (
     <div style={{ display: 'none' }}>
       <Row ref={ref} justify={'center'} className="text-center mt-5">
         <Col span={24}>
           <h2>
             <strong>Caixa: {id}</strong>
+          </h2>
+        </Col>
+        <Col span={24}>
+          <h2>
+            <strong>{isCancelled ? 'Cancelados' : ''}</strong>
           </h2>
         </Col>
         <Col span={24}>
@@ -50,6 +58,9 @@ export const PrintBoxDay = forwardRef(function boxday(props: Props, ref: any) {
                           {StringFormatter.realNumber(item.value * item.amount)}
                         </strong>
                       </div>
+                    </Col>
+                    <Col span={24}>
+                      {isCancelled ? 'Cancelado Por: ' + item.updatedBy : ''}
                     </Col>
                   </Row>
                 </List.Item>

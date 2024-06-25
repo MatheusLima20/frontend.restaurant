@@ -1,10 +1,8 @@
 import React, { useRef, useState } from 'react';
 
-import { Button, Input, InputRef, Space, Table } from 'antd';
+import { Button, Col, Input, InputRef, Row, Space, Table } from 'antd';
 
 import { ColumnsType, TableProps } from 'antd/es/table';
-
-import { Col, Row } from 'react-bootstrap';
 
 import {
   ColumnType,
@@ -43,6 +41,7 @@ const initialValues = {
   startValue: 0,
   total: 0,
   date: '',
+  isCancelled: false,
 };
 
 export const BoxDayTable = (props: Props) => {
@@ -51,6 +50,7 @@ export const BoxDayTable = (props: Props) => {
 
   const [orders, setOrders] = useState([]);
   const [boxDay, setBoxDay] = useState(initialValues);
+  const [loadingPrint, setLoadingPrint] = useState(false);
 
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({
     order: 'ascend',
@@ -157,6 +157,8 @@ export const BoxDayTable = (props: Props) => {
 
       width: 130,
 
+      fixed: 'left',
+
       sortOrder: sortedInfo.columnKey === 'id' ? sortedInfo.order : null,
 
       sorter: (a, b) => a.id - b.id,
@@ -185,6 +187,8 @@ export const BoxDayTable = (props: Props) => {
 
       dataIndex: 'startValue',
 
+      width: 150,
+
       render: (startValue: number) => {
         return (
           <div>
@@ -202,6 +206,8 @@ export const BoxDayTable = (props: Props) => {
       title: 'Total em Vendas',
 
       dataIndex: 'totalBoxDay',
+
+      width: 150,
 
       render: (total: number) => {
         return (
@@ -221,6 +227,8 @@ export const BoxDayTable = (props: Props) => {
 
       dataIndex: 'totalWithStartValue',
 
+      width: 150,
+
       render: (total: number) => {
         return (
           <div>
@@ -237,6 +245,8 @@ export const BoxDayTable = (props: Props) => {
 
       title: 'Criado em',
 
+      width: 150,
+
       dataIndex: 'createdAt',
     },
     {
@@ -244,27 +254,38 @@ export const BoxDayTable = (props: Props) => {
 
       title: 'Ações',
 
+      width: 250,
+
+      fixed: 'right',
+
       render: (data: DataType) => {
         return (
-          <Row>
+          <Row gutter={[10, 20]}>
             <Col>
-              <Button>
-                <BsPrinter
-                  size={20}
-                  onClick={() => {
-                    setBoxDay({
-                      id: data.id,
-                      startValue: data.startValue,
-                      total: data.totalBoxDay,
-                      date: data.createdAt,
-                    });
-                    getOrdersByTable(data.id);
-                  }}
-                />
+              <Button
+                title="Pedidos Efetuados"
+                onClick={() => {
+                  getByBoxDay(data, false);
+                }}
+                loading={loadingPrint}
+              >
+                <BsPrinter size={20} />
               </Button>
             </Col>
             <Col>
-              <Button>
+              <Button
+                onClick={() => {
+                  getByBoxDay(data, true);
+                }}
+                danger={true}
+                title="Cancelados"
+                loading={loadingPrint}
+              >
+                <BsPrinter size={20} />
+              </Button>
+            </Col>
+            <Col>
+              <Button loading={loadingPrint}>
                 <BiEdit
                   size={20}
                   onClick={() => {
@@ -310,6 +331,7 @@ export const BoxDayTable = (props: Props) => {
         id={boxDay.id}
         total={boxDay.total}
         date={boxDay.date}
+        isCancelled={boxDay.isCancelled}
       />
     </Row>
   );
@@ -335,18 +357,28 @@ export const BoxDayTable = (props: Props) => {
     return values;
   }
 
-  async function getOrdersByTable(id: number) {
+  async function getByBoxDay(values: DataType, isCancelled: boolean) {
     setOrders([]);
-    const request = await OrderController.getByBoxDay(id);
+    setLoadingPrint(true);
+    const request = await OrderController.getByBoxDay(values.id, isCancelled);
 
     const data = request.data;
     const orders = data.orders;
+    const total = data.total;
 
     if (orders) {
+      setBoxDay({
+        id: values.id,
+        startValue: values.startValue,
+        total: total,
+        date: values.createdAt,
+        isCancelled: isCancelled,
+      });
       setOrders(orders);
     }
     setTimeout(() => {
+      setLoadingPrint(false);
       handlePrint();
-    }, 500);
+    }, 1000);
   }
 };
