@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   Col,
   Form,
   Input,
@@ -58,16 +59,21 @@ export const SellOrderAdd = (props: Props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [order, setOrder] = useState(initialValues);
   const [products, setProducts] = useState<Product[]>([]);
+  const [checkedOrders, setCheckedOrders] = useState<Order[]>([]);
   const [change, setChange] = useState(0);
+  const [changeAlone, setChangeAlone] = useState(0);
+  const [totalChecked, setTotalChecked] = useState(0);
 
   const orders = props.orders;
 
   const total = props.total;
 
+  const loading = props.loading;
+
   useEffect(() => {
     setOrder(initialValues);
     getPlates();
-  }, []);
+  }, [loading]);
 
   return (
     <Row justify={'center'} style={{ height: 600 }}>
@@ -225,7 +231,7 @@ export const SellOrderAdd = (props: Props) => {
       <Col className="orders" md={24} style={{ height: 250 }}>
         <List
           size="small"
-          loading={props.loading}
+          loading={loading}
           bordered
           dataSource={orders}
           header={
@@ -273,7 +279,7 @@ export const SellOrderAdd = (props: Props) => {
                 <Popconfirm
                   title="Fechar Conta"
                   description="Deseja realmente fechar a conta?"
-                  onConfirm={closeOrders}
+                  onConfirm={() => closeOrders(orders)}
                   okText="Sim"
                   cancelText="Não"
                 >
@@ -293,6 +299,26 @@ export const SellOrderAdd = (props: Props) => {
             <List.Item
               key={item.id}
               actions={[
+                <Checkbox
+                  key={item.id}
+                  onChange={(event) => {
+                    const isChecked = event.target.checked;
+
+                    const value = isChecked
+                      ? totalChecked + item.value
+                      : totalChecked - item.value;
+                    setTotalChecked(value);
+
+                    if (isChecked) {
+                      checkedOrders.push(item);
+                    } else {
+                      const newArray = checkedOrders.filter(
+                        (value) => value.id !== item.id,
+                      );
+                      setCheckedOrders(newArray);
+                    }
+                  }}
+                ></Checkbox>,
                 <Button
                   key={item.id}
                   onClick={() => {
@@ -360,6 +386,53 @@ export const SellOrderAdd = (props: Props) => {
             </List.Item>
           )}
         />
+      </Col>
+
+      <Col span={24}>
+        <Row justify={'space-evenly'} align={'middle'}>
+          <Col>
+            <Input
+              type="number"
+              placeholder="Valor Pago"
+              onChange={(event) => {
+                const value: number = Number.parseFloat(event.target.value);
+                if (isNaN(value)) {
+                  setChangeAlone(0);
+                  return;
+                }
+                const change = value - totalChecked;
+                setChangeAlone(change);
+              }}
+            />
+          </Col>
+          <Col>
+            Total Individual: {StringFormatter.realNumber(totalChecked)}
+          </Col>
+          <Col>Troco: {StringFormatter.realNumber(changeAlone)}</Col>
+          <Col>
+            <Popconfirm
+              title="Fechar Pedido"
+              description="Deseja realmente fechar o(s) pedido(s)?"
+              onConfirm={() => {
+                closeOrders(checkedOrders);
+              }}
+              okText="Sim"
+              cancelText="Não"
+            >
+              <Button
+                title="Fechar Pedido"
+                onClick={() => {
+                  console.log(checkedOrders);
+                }}
+                danger
+                size="large"
+                disabled={!checkedOrders.length}
+              >
+                <GiReceiveMoney size={20} />
+              </Button>
+            </Popconfirm>
+          </Col>
+        </Row>
       </Col>
     </Row>
   );
@@ -437,8 +510,9 @@ export const SellOrderAdd = (props: Props) => {
     setOrder(initialValues);
   }
 
-  async function closeOrders() {
+  async function closeOrders(orders: Order[]) {
     setChange(0);
+    setTotalChecked(0);
     let request;
 
     for (let index = 0; index < orders.length; index++) {
@@ -463,6 +537,7 @@ export const SellOrderAdd = (props: Props) => {
     });
     if (!error) {
       setOrder(initialValues);
+      setCheckedOrders([]);
       setTimeout(() => {
         props.getOrders();
       }, 500);
@@ -470,10 +545,11 @@ export const SellOrderAdd = (props: Props) => {
   }
 
   async function getPlates() {
+    setTotalChecked(0);
+    setCheckedOrders([]);
     const request = await ProvisionsController.getPlates();
 
     const data = request.data;
-
     if (data) {
       setProducts(data);
     }

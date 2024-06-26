@@ -1,6 +1,5 @@
 export const OrginizeArrays = {
   joinItemsOrders: (array: any[]) => {
-    console.log(array);
     const newArray: any[] = [];
     array.map((data) => {
       let productName = '';

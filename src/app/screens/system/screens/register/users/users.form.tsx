@@ -110,7 +110,6 @@ export const UsersForm = () => {
                       showSearch
                       value={userType}
                       onSelect={(value) => {
-                        console.log(value);
                         setValues({ ...values, userType: value as any });
                       }}
                       placeholder="Selecione..."
