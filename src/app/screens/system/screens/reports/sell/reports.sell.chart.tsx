@@ -35,7 +35,7 @@ const options = {
     },
     title: {
       display: true,
-      text: 'Gastos',
+      text: 'Vendas',
     },
   },
 };
@@ -46,9 +46,11 @@ export const ReportsSellChart = () => {
   const [chart, setChart] = useState('barv');
   const [total, setTotal] = useState(0);
   const [isMoney, setMoney] = useState(true);
+  const [isMonth, setMonth] = useState(false);
 
   useEffect(() => {
-    searchSell(dayjs().format('YYYY-MM'));
+    const date = isMonth ? 'YYYY-MM' : 'YYYY-MM-DD';
+    searchSell(dayjs().format(date));
   }, []);
 
   return (
@@ -78,10 +80,21 @@ export const ReportsSellChart = () => {
         </Form.Item>
       </Col>
       <Col span={24} className="text-center">
+        <Switch
+          defaultValue={isMonth}
+          checkedChildren="Por mês"
+          unCheckedChildren="Por dia"
+          onChange={(value) => {
+            setMonth(value);
+            changeGraphic();
+          }}
+        />
+      </Col>
+      <Col span={24} className="text-center">
         <DatePicker
           defaultValue={dayjs()}
-          format={'MM-YYYY'}
-          picker="month"
+          format={isMonth ? 'MM-YYYY' : 'DD-MM-YYYY'}
+          picker={isMonth ? 'month' : 'date'}
           onChange={(value) => {
             searchSell(value);
           }}
@@ -165,7 +178,9 @@ export const ReportsSellChart = () => {
   );
 
   async function searchSell(searchDate: any) {
-    const date = dayjs(searchDate).format('YYYY-MM');
+    const dateFormat = isMonth ? 'YYYY-MM' : 'YYYY-MM-DD';
+
+    const date = dayjs(searchDate).format(dateFormat);
 
     const request = await OrderController.getByDate(date);
 
