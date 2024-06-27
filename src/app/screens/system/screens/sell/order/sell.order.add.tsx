@@ -47,7 +47,13 @@ const txtButtonSubtract = 'Subtrair';
 
 export const SellOrderAdd = (props: Props) => {
   const billRef = useRef();
+  const checkedBillRef = useRef();
   const orderRef = useRef();
+
+  const handlePrintCheckedBill = useReactToPrint({
+    content: () => checkedBillRef.current,
+  });
+
   const handlePrintBill = useReactToPrint({
     content: () => billRef.current,
   });
@@ -251,6 +257,12 @@ export const SellOrderAdd = (props: Props) => {
                   orders={orders}
                   total={total}
                 />
+                <PrintBill
+                  ref={checkedBillRef}
+                  tableName={props.tableName}
+                  orders={checkedOrders}
+                  total={total}
+                />
               </Col>
               <Col>
                 Total
@@ -390,6 +402,14 @@ export const SellOrderAdd = (props: Props) => {
 
       <Col span={24}>
         <Row justify={'space-evenly'} align={'middle'}>
+          <Col>
+            <Button
+              disabled={checkedOrders.length === 0}
+              onClick={handlePrintCheckedBill}
+            >
+              <BiPrinter size={20} />
+            </Button>
+          </Col>
           <Col>
             <Input
               type="number"
