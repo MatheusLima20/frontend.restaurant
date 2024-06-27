@@ -241,14 +241,17 @@ export const SpendingRegisterForm = () => {
 
     const request = await SpendingController.get(search);
 
-    const data = request.data.spending;
+    const error = request.error;
 
+    if (!error) {
+      const data = request.data.spending;
+
+      if (data) {
+        setValuesTable(data);
+      }
+    }
     setTimeout(() => {
       setLoading(false);
     }, 500);
-
-    if (data) {
-      setValuesTable(data);
-    }
   }
 };

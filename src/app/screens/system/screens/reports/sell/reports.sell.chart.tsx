@@ -171,11 +171,15 @@ export const ReportsSellChart = () => {
 
     setLabels([]);
 
-    const data = request.data;
-    const total = data.total;
+    const error = request.error;
 
-    setTotal(total);
-    setValues(data.orders);
+    if (!error) {
+      const data = request.data;
+      const total = data.total;
+
+      setTotal(total);
+      setValues(data.orders);
+    }
   }
 
   function changeGraphic() {

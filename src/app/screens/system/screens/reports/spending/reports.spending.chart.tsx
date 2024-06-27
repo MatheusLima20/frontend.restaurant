@@ -171,11 +171,15 @@ export const ReportsSpendingChart = () => {
 
     setLabels([]);
 
-    const data = request.data;
-    const total = data.total;
+    const error = request.error;
 
-    setTotal(total);
-    setValues(data.spending);
+    if (!error) {
+      const data = request.data;
+      const total = data.total;
+
+      setTotal(total);
+      setValues(data.spending);
+    }
   }
 
   function changeGraphic() {

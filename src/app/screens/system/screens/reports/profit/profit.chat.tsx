@@ -195,10 +195,14 @@ export const ProfitChart = () => {
 
     const request = await OrderController.getByDate(date);
 
-    const data = request.data;
-    const total = data.total;
+    const error = request.error;
 
-    setTotalSell(total);
+    if (!error) {
+      const data = request.data;
+      const total = data.total;
+
+      setTotalSell(total);
+    }
   }
 
   async function searchSpending(searchDate: any) {
@@ -206,10 +210,13 @@ export const ProfitChart = () => {
 
     const request = await SpendingController.get(date);
 
-    const data = request.data;
-    const total = data.total;
+    const error = request.error;
 
-    setTotalSpending(total);
+    if (!error) {
+      const data = request.data;
+      const total = data.total;
+      setTotalSpending(total);
+    }
   }
 
   function initGraphic() {
