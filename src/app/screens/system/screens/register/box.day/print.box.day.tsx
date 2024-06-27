@@ -62,6 +62,7 @@ export const PrintBoxDay = forwardRef(function boxday(props: Props, ref: any) {
                     <Col span={24}>
                       {isCancelled ? 'Cancelado Por: ' + item.updatedBy : ''}
                     </Col>
+                    <Col span={24}>{isCancelled ? item.updatedAt : ''}</Col>
                   </Row>
                 </List.Item>
               );

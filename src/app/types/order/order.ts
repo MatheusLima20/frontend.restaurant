@@ -9,4 +9,6 @@ export type Order = {
   isOpen: boolean;
   createdBy: string;
   updatedBy: string;
+  createdAt: string;
+  updatedAt: string;
 };
