@@ -262,7 +262,7 @@ export const SellOrderAdd = (props: Props) => {
                   ref={checkedBillRef}
                   tableName={props.tableName}
                   orders={checkedOrders}
-                  total={total}
+                  total={totalChecked}
                 />
               </Col>
               <Col>
@@ -332,9 +332,11 @@ export const SellOrderAdd = (props: Props) => {
                   onChange={(event) => {
                     const isChecked = event.target.checked;
 
+                    const totalItem = item.value * item.amount;
+
                     const value = isChecked
-                      ? totalChecked + item.value
-                      : totalChecked - item.value;
+                      ? totalChecked + totalItem
+                      : totalChecked - totalItem;
                     setTotalChecked(value);
 
                     if (isChecked) {
@@ -404,7 +406,7 @@ export const SellOrderAdd = (props: Props) => {
                 description={
                   <div>
                     <div>
-                      {StringFormatter.realNumber(item.value)}
+                      {StringFormatter.realNumber(item.value * item.amount)}
                       Quantidade: {item.amount}
                     </div>
                     <div>Garçom: {item.createdBy}</div>

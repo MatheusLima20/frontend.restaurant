@@ -60,7 +60,9 @@ export const PrintBoxDay = forwardRef(function boxday(props: Props, ref: any) {
                       </div>
                     </Col>
                     <Col span={24}>
-                      Metodo de Pagamento: {item.paymentMethod}
+                      {item.paymentMethod
+                        ? 'Metodo de Pagamento: ' + item.paymentMethod
+                        : ''}
                     </Col>
                     <Col span={24}>
                       {isCancelled ? 'Cancelado Por: ' + item.updatedBy : ''}
