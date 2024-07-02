@@ -7,6 +7,7 @@ export type Order = {
   amount: number;
   isCancelled: boolean;
   isOpen: boolean;
+  paymentMethod: string;
   createdBy: string;
   updatedBy: string;
   createdAt: string;

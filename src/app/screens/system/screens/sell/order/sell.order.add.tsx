@@ -39,6 +39,7 @@ const initialValues = {
   productId: 0,
   productName: '',
   amount: 0,
+  paymentMethod: 'credito',
 };
 
 const txtButtonSave = 'Salvar';
@@ -286,6 +287,21 @@ export const SellOrderAdd = (props: Props) => {
               <Col>
                 Troco
                 {StringFormatter.realNumber(change)}
+              </Col>
+              <Col>
+                <Select
+                  defaultValue="credito"
+                  style={{ width: 120 }}
+                  onChange={(value: string) => {
+                    setOrder({ ...order, paymentMethod: value });
+                  }}
+                  options={[
+                    { value: 'debito', label: 'Débito' },
+                    { value: 'dinheiro', label: 'Dinheiro' },
+                    { value: 'credito', label: 'Crédito' },
+                    { value: 'pix', label: 'Pix' },
+                  ]}
+                />
               </Col>
               <Col>
                 <Popconfirm
@@ -538,6 +554,7 @@ export const SellOrderAdd = (props: Props) => {
     for (let index = 0; index < orders.length; index++) {
       request = await OrderController.patch(orders[index].id, {
         isOpen: false,
+        paymentMethod: order.paymentMethod,
       } as any);
     }
 
