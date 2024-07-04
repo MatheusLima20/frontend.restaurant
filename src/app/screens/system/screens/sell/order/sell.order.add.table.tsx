@@ -11,6 +11,7 @@ import { Order } from '../../../../../types/order/order';
 import { GiHotMeal } from 'react-icons/gi';
 import { NewNameTableForm } from './new.name.table.form';
 import './order.css';
+import { GrUpdate } from 'react-icons/gr';
 
 const changeTableValues = {
   table01: 0,
@@ -64,6 +65,11 @@ export const SellOrderAddTableScreen = () => {
                 <MdOutlineTableBar size={40} />
               </Button>
             </Form.Item>
+          </Col>
+          <Col span={24} className="mb-4 text-start">
+            <Button size="large" onClick={getTablesRestaurant}>
+              <GrUpdate size={20} />
+            </Button>
           </Col>
           <Col span={24}>
             <Row
