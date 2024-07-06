@@ -24,6 +24,7 @@ import { BsPrinterFill, BsTrash } from 'react-icons/bs';
 import { useReactToPrint } from 'react-to-print';
 import { PrintBill } from './print.bill';
 import { PrintOrder } from './print.order';
+import dayjs from 'dayjs';
 
 interface Props {
   idTable: number;
@@ -410,6 +411,9 @@ export const SellOrderAdd = (props: Props) => {
                       Quantidade: {item.amount}
                     </div>
                     <div>Garçom: {item.createdBy}</div>
+                    <div>
+                      Criado às {dayjs(item.createdAt).format('hh:mm:ss')}
+                    </div>
                   </div>
                 }
               ></List.Item.Meta>

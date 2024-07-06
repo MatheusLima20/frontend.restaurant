@@ -4,9 +4,6 @@ import { StringFormatter } from '../../../../../util/string.formatter/string.for
 import { Order } from '../../../../../types/order/order';
 import { OrginizeArrays } from '../../../../../util/arrays/organize';
 import dayjs from 'dayjs';
-import PIX from 'react-qrcode-pix';
-import { cookies } from '../../../../../controller/user/adm.cookies';
-import { UserDataLogged } from '../../../../../types/user/user';
 
 interface Props {
   tableName: string;
@@ -14,17 +11,19 @@ interface Props {
   total: number;
 }
 
-const now = new Date().getTime().toString();
-const user: UserDataLogged = cookies.get('data.user');
+//const now = new Date().getTime().toString();
+//const user: UserDataLogged = cookies.get('data.user');
 
 export const PrintBill = forwardRef(function bill(props: Props, ref: any) {
   const orders = OrginizeArrays.joinItemsOrders(props.orders);
+  const tableName = props.tableName;
+  const total = props.total;
   return (
     <div style={{ display: 'none' }}>
       <Row ref={ref} justify={'center'} className="text-center mt-5">
         <Col span={24}>
           <h2>
-            <strong>{props.tableName}</strong>
+            <strong>{tableName}</strong>
           </h2>
         </Col>
         <Col span={24}>
@@ -66,7 +65,7 @@ export const PrintBill = forwardRef(function bill(props: Props, ref: any) {
         </Col>
         <Col span={24}>
           <h3>
-            <strong>Total {StringFormatter.realNumber(props.total)}</strong>
+            <strong>Total {StringFormatter.realNumber(total)}</strong>
           </h3>
         </Col>
         <Col span={24}>
@@ -74,23 +73,21 @@ export const PrintBill = forwardRef(function bill(props: Props, ref: any) {
             <strong>{dayjs().format('DD/MM/YYYY HH:mm:ss')}</strong>
           </h6>
         </Col>
-        <Col span={24} className="text-center mt-5">
-          <h1>
-            <strong>Pix</strong>
-          </h1>
-        </Col>
-        <Col md={10}>
+      </Row>
+    </div>
+  );
+});
+
+/* 
+<Col md={10}>
           <PIX
             pixkey="matheus2096lima@gmail.com"
             merchant={user.platformName}
             city="Paraipaba"
             cep="62685-000"
             code={'RQP' + now}
-            amount={props.total}
+            amount={total}
             size={150}
           />
         </Col>
-      </Row>
-    </div>
-  );
-});
+*/
