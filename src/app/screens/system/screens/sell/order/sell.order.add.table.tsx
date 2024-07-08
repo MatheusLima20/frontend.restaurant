@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Modal, Row, message } from 'antd';
+import { Badge, Button, Card, Col, Form, Modal, Row, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { MdOutlineTableBar, MdTableBar } from 'react-icons/md';
 import { TableRestaurant } from '../../../../../types/table/table';
@@ -23,6 +23,7 @@ export const SellOrderAddTableScreen = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [tables, setTables] = useState<TableRestaurant[]>([]);
   const [isOcuppied, setOcuppied] = useState<any[]>([]);
+  const [amountPendings, setAmountPendings] = useState<any[]>([]);
 
   const [tableId, setTableId] = useState(0);
   const [tableName, setTableName] = useState('');
@@ -77,49 +78,57 @@ export const SellOrderAddTableScreen = () => {
               className="tables border border-2 rounded-3"
               style={{ backgroundColor: '#d6d6d6' }}
             >
-              {tables.map(({ id, name }, index) => (
-                <Col key={id} md={8} className="mt-3">
-                  <Card
-                    hoverable
-                    bordered={true}
-                    loading={loadingTable}
-                    draggable={true}
-                    onDragOver={(e) => {
-                      e.preventDefault();
-                    }}
-                    onDragStart={() => {
-                      setChangeTable({ ...changeTable, table01: id });
-                    }}
-                    onDragEnter={() => {
-                      setChangeTable({ ...changeTable, table02: id });
-                    }}
-                    onDrop={changeTableOrders}
-                    onClick={() => {
-                      showModal();
-                      getOrdersByTable(id);
-                      setTableId(id);
-                      setTableName(name);
-                    }}
-                    cover={
-                      <span>
-                        {isOcuppied[index] ? (
-                          <GiHotMeal size={100} />
-                        ) : (
-                          <MdTableBar size={100} />
-                        )}
-                      </span>
-                    }
-                  >
-                    {name}
-                  </Card>
-                  <NewNameTableForm
-                    id={id}
-                    onUpdate={() => {
-                      getTablesRestaurant();
-                    }}
-                  />
-                </Col>
-              ))}
+              {tables.map(({ id, name }, index) => {
+                return (
+                  <Col key={id} md={8} className="mt-3">
+                    <Card
+                      hoverable
+                      bordered={true}
+                      loading={loadingTable}
+                      draggable={true}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                      }}
+                      onDragStart={() => {
+                        setChangeTable({ ...changeTable, table01: id });
+                      }}
+                      onDragEnter={() => {
+                        setChangeTable({ ...changeTable, table02: id });
+                      }}
+                      onDrop={changeTableOrders}
+                      onClick={() => {
+                        showModal();
+                        getOrdersByTable(id);
+                        setTableId(id);
+                        setTableName(name);
+                      }}
+                      cover={
+                        <span>
+                          {isOcuppied[index] ? (
+                            amountPendings[index] !== 0 ? (
+                              <Badge count={amountPendings[index]}>
+                                <GiHotMeal size={100} />
+                              </Badge>
+                            ) : (
+                              <GiHotMeal size={100} />
+                            )
+                          ) : (
+                            <MdTableBar size={100} />
+                          )}
+                        </span>
+                      }
+                    >
+                      {name}
+                    </Card>
+                    <NewNameTableForm
+                      id={id}
+                      onUpdate={() => {
+                        getTablesRestaurant();
+                      }}
+                    />
+                  </Col>
+                );
+              })}
             </Row>
           </Col>
         </Row>
@@ -182,10 +191,12 @@ export const SellOrderAddTableScreen = () => {
 
     const tables = data.tables;
     const isOcuppied = data.isOcuppied;
+    const amountPendings = data.amountPendings;
 
     if (data) {
       setTables(tables);
       setOcuppied(isOcuppied);
+      setAmountPendings(amountPendings);
     }
     setTimeout(() => {
       setLoadingTable(false);

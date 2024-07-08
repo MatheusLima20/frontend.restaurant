@@ -8,8 +8,11 @@ export type Order = {
   isCancelled: boolean;
   isOpen: boolean;
   paymentMethod: string;
+  status: OrderStatus;
   createdBy: string;
   updatedBy: string;
   createdAt: string;
   updatedAt: string;
 };
+
+export type OrderStatus = 'pendente' | 'processando' | 'finalizado';

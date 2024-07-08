@@ -71,6 +71,7 @@ export const SellOrderAdd = (props: Props) => {
   const [change, setChange] = useState(0);
   const [changeAlone, setChangeAlone] = useState(0);
   const [totalChecked, setTotalChecked] = useState(0);
+  const [loandingPrint, setLoadingPrint] = useState(false);
 
   const orders = props.orders;
 
@@ -174,14 +175,6 @@ export const SellOrderAdd = (props: Props) => {
                         }}
                       />
                     </Form.Item>
-                  </Col>
-                  <Col>
-                    <Button
-                      disabled={!order.productName.length}
-                      onClick={handlePrintOrder}
-                    >
-                      <BiPrinter size={20} />
-                    </Button>
                   </Col>
                 </Row>
               </Col>
@@ -327,6 +320,12 @@ export const SellOrderAdd = (props: Props) => {
           renderItem={(item) => (
             <List.Item
               key={item.id}
+              style={{
+                backgroundColor:
+                  item.status === 'pendente'
+                    ? 'rgba(248, 92, 92, 0.2)'
+                    : 'rgba(92, 191, 248, 0.2)',
+              }}
               actions={[
                 <Checkbox
                   key={item.id}
@@ -352,6 +351,26 @@ export const SellOrderAdd = (props: Props) => {
                 ></Checkbox>,
                 <Button
                   key={item.id}
+                  loading={loandingPrint}
+                  onClick={() => {
+                    setOrder({
+                      ...order,
+                      productName: item.productName,
+                      amount: item.amount,
+                    });
+                    setLoadingPrint(true);
+                    setTimeout(() => {
+                      handlePrintOrder();
+                      setLoadingPrint(false);
+                      patchStatus(item.id);
+                    }, 500);
+                  }}
+                >
+                  <BiPrinter size={20} />
+                </Button>,
+                <Button
+                  key={item.id}
+                  loading={loandingPrint}
                   onClick={() => {
                     setOrder({
                       ...order,
@@ -380,6 +399,7 @@ export const SellOrderAdd = (props: Props) => {
                 >
                   <Button
                     danger={true}
+                    loading={loandingPrint}
                     onClick={() => {
                       setOrder({
                         ...order,
@@ -501,6 +521,35 @@ export const SellOrderAdd = (props: Props) => {
         handlePrintOrder();
       }
     }
+
+    const error = request.error;
+
+    const message = request.message;
+
+    const type = error ? 'error' : 'success';
+
+    const tranlateMessage = await TranslateController.get(message);
+
+    messageApi.open({
+      key: 'register.orders',
+      type: type,
+      content: tranlateMessage.text,
+      duration: 4,
+    });
+    if (!error) {
+      setOrder(initialValues);
+      setTimeout(() => {
+        props.getOrders();
+      }, 500);
+    }
+  }
+
+  async function patchStatus(id: number) {
+    const orderId = id;
+
+    const request = await OrderController.patch(orderId, {
+      status: 'processando',
+    } as any);
 
     const error = request.error;
 
