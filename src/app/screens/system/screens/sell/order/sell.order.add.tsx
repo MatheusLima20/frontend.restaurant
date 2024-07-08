@@ -239,7 +239,10 @@ export const SellOrderAdd = (props: Props) => {
             <Row justify={'space-between'} align={'middle'} className="mb-3">
               <Col>
                 <Button
-                  onClick={handlePrintBill}
+                  onClick={() => {
+                    handlePrintBill();
+                    patchsStatus();
+                  }}
                   disabled={!orders.length}
                   size="large"
                   title="Imprimir Conta"
@@ -483,9 +486,6 @@ export const SellOrderAdd = (props: Props) => {
             >
               <Button
                 title="Fechar Pedido"
-                onClick={() => {
-                  console.log(checkedOrders);
-                }}
                 danger
                 size="large"
                 disabled={!checkedOrders.length}
@@ -566,9 +566,9 @@ export const SellOrderAdd = (props: Props) => {
       duration: 4,
     });
     if (!error) {
-      setOrder(initialValues);
       setTimeout(() => {
         props.getOrders();
+        setOrder(initialValues);
       }, 500);
     }
   }
@@ -644,6 +644,21 @@ export const SellOrderAdd = (props: Props) => {
     const data = request.data;
     if (data) {
       setProducts(data);
+    }
+  }
+
+  function patchsStatus() {
+    const pendings = orders.filter((order) => order.status === 'pendente');
+
+    const hasPending = pendings.length !== 0;
+
+    if (hasPending) {
+      for (let index = 0; index < orders.length; index++) {
+        const order = orders[index];
+        if (order.status === 'pendente') {
+          patchStatus(order.id);
+        }
+      }
     }
   }
 };
