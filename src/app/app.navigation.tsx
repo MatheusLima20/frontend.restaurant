@@ -18,6 +18,8 @@ export const AppNavigation = () => {
   const [login, setLogin] = useState<UserDataLogged>(initialValues);
   const [loading, setLoading] = useState(true);
 
+  const [screenMobile, setScreenMobile] = useState(false);
+
   useEffect(() => {
     const userData = cookies.get('data.user');
 
@@ -28,11 +30,18 @@ export const AppNavigation = () => {
     setTimeout(() => {
       setLoading(false);
     }, 500);
+
+    const handleResize = () => {
+      const sizeMobile: boolean = window.innerWidth < 930;
+      setScreenMobile(sizeMobile);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
   }, []);
 
   return (
     <Router>
-      {!loading && <AppRoutes dataUser={login} />}
+      {!loading && <AppRoutes dataUser={login} screenMobile={screenMobile} />}
 
       {loading && (
         <Content>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from 'antd';
+import { SellOrderMobile } from '../screens/sells/orders';
 
 export const SystemMobileRoutes = () => {
   return userRoutes();
@@ -8,12 +9,11 @@ export const SystemMobileRoutes = () => {
   function userRoutes() {
     return (
       <Layout style={{ backgroundColor: 'white' }}>
-        <Layout.Content className="ms-3">
+        <Layout.Content>
           <Routes>
-            <Route index path="*" />
+            <Route index path="*" element={SellOrderMobile()} />
           </Routes>
         </Layout.Content>
-        <Layout.Footer style={{ backgroundColor: 'white' }}></Layout.Footer>
       </Layout>
     );
   }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Logout } from '../screens/logout';
 import { UserDataLogged } from '../types/user/user';
@@ -9,20 +9,13 @@ import { SystemMobileNavigation } from '../screens/system.mobile/system.mobile.n
 
 interface Props {
   dataUser: UserDataLogged;
+  screenMobile: boolean;
 }
 
 export const AppRoutes = (props: Props) => {
   const dataUser = props.dataUser;
 
-  const [screenMobile, setScreenMobile] = useState(false);
-  useEffect(() => {
-    const handleResize = () => {
-      const sizeMobile: boolean = window.innerWidth < 930;
-      setScreenMobile(sizeMobile);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-  }, []);
+  const screenMobile = props.screenMobile;
 
   if (!dataUser.name) {
     return (
@@ -40,10 +33,12 @@ export const AppRoutes = (props: Props) => {
         </Routes>
       );
     } else {
-      <Routes>
-        <Route path="*" element={SystemMobileNavigation()} />;
-        <Route path="/logout/" element={Logout()} />;
-      </Routes>;
+      return (
+        <Routes>
+          <Route path="*" element={SystemMobileNavigation()} />;
+          <Route path="/logout/" element={Logout()} />;
+        </Routes>
+      );
     }
   }
 };

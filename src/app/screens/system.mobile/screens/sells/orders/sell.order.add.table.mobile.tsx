@@ -1,0 +1,164 @@
+import React, { useEffect, useState } from 'react';
+import { Badge, Button, Card, Col, Modal, Row } from 'antd';
+import { TableRestaurant } from '../../../../../types/table/table';
+import { TableController } from '../../../../../controller/table/table.controller';
+import { SellOrderAddMobile } from './sell.order.add.mobile';
+import { OrderController } from '../../../../../controller/order/order.controller';
+import { Order } from '../../../../../types/order/order';
+import { GiHotMeal } from 'react-icons/gi';
+import './order.css';
+import { MdTableBar } from 'react-icons/md';
+
+export const SellOrderAddTableScreen = () => {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [tables, setTables] = useState<TableRestaurant[]>([]);
+  const [isOcuppied, setOcuppied] = useState<any[]>([]);
+  const [amountPendings, setAmountPendings] = useState<any[]>([]);
+
+  const [tableId, setTableId] = useState(0);
+  const [tableName, setTableName] = useState('');
+
+  const [total, setTotal] = useState(0);
+
+  const [loading, setLoading] = useState(true);
+  const [loadingTable, setLoadingTable] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    getTablesRestaurant(true);
+  }, [loading]);
+
+  useEffect(() => {
+    setInterval(() => {
+      getTablesRestaurant();
+    }, 30000);
+  }, []);
+
+  return (
+    <Row className="mt-5 mb-5" justify={'center'}>
+      <Col span={24} className="text-center">
+        <Row justify={'center'}>
+          <Col span={24}>
+            <Row
+              gutter={[0, 30]}
+              className="tables border border-2 rounded-3"
+              style={{ backgroundColor: '#d6d6d6' }}
+              justify={'center'}
+            >
+              {tables.map(({ id, name }, index) => {
+                return (
+                  <Col key={id} span={20} className="mt-3">
+                    <Card
+                      hoverable
+                      bordered={true}
+                      loading={loadingTable}
+                      draggable={true}
+                      onClick={() => {
+                        showModal();
+                        getOrdersByTable(id);
+                        setTableId(id);
+                        setTableName(name);
+                      }}
+                      cover={
+                        <span>
+                          {isOcuppied[index] ? (
+                            amountPendings[index] !== 0 ? (
+                              <Badge count={amountPendings[index]}>
+                                <GiHotMeal size={100} />
+                              </Badge>
+                            ) : (
+                              <GiHotMeal size={100} />
+                            )
+                          ) : (
+                            <MdTableBar size={100} />
+                          )}
+                        </span>
+                      }
+                    >
+                      {name}
+                    </Card>
+                  </Col>
+                );
+              })}
+            </Row>
+          </Col>
+        </Row>
+        <Modal
+          open={isModalOpen}
+          onCancel={() => {
+            handleOk();
+            getTablesRestaurant(true);
+          }}
+          style={{ top: 20 }}
+          width={'90%'}
+          footer={() => (
+            <>
+              <Button onClick={handleOk}>Voltar</Button>
+            </>
+          )}
+        >
+          <SellOrderAddMobile
+            getOrders={() => getOrdersByTable(tableId)}
+            idTable={tableId}
+            total={total}
+            loading={loading}
+            orders={orders}
+            tableName={tableName}
+          />
+        </Modal>
+      </Col>
+    </Row>
+  );
+
+  async function getTablesRestaurant(hasLoading?: boolean) {
+    if (hasLoading) {
+      setLoadingTable(true);
+    }
+
+    const request = await TableController.get();
+
+    const data = request.data;
+
+    const tables = data.tables;
+    const isOcuppied = data.isOcuppied;
+    const amountPendings = data.amountPendings;
+
+    if (data) {
+      setTables(tables);
+      setOcuppied(isOcuppied);
+      setAmountPendings(amountPendings);
+    }
+    if (hasLoading) {
+      setTimeout(() => {
+        setLoadingTable(false);
+      }, 1000);
+    }
+  }
+
+  async function getOrdersByTable(id: number) {
+    setLoading(true);
+    setOrders([]);
+    const request = await OrderController.getByTable(id);
+
+    const data = request.data;
+    const orders = data.orders;
+    const total = data.total;
+
+    setTotal(total);
+
+    setTimeout(() => {
+      if (orders) {
+        setOrders(orders);
+      }
+      setLoading(false);
+    }, 500);
+  }
+};
