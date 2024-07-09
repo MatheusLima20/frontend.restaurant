@@ -98,7 +98,7 @@ export const SellOrderAddTableScreen = () => {
             getTablesRestaurant(true);
           }}
           style={{ top: 20 }}
-          width={'90%'}
+          width={'100%'}
           footer={() => (
             <>
               <Button onClick={handleOk}>Voltar</Button>
