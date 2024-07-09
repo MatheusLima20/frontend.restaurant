@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Logout } from '../screens/logout';
 import { UserDataLogged } from '../types/user/user';
 import { Login } from '../screens/login';
 import { SystemNavigation } from '../screens/system/system.navigation';
 import { PlatformRegistration } from '../screens/platoform.registration';
+import { SystemMobileNavigation } from '../screens/system.mobile/system.mobile.navigation';
 
 interface Props {
   dataUser: UserDataLogged;
@@ -12,6 +13,16 @@ interface Props {
 
 export const AppRoutes = (props: Props) => {
   const dataUser = props.dataUser;
+
+  const [screenMobile, setScreenMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      const sizeMobile: boolean = window.innerWidth < 930;
+      setScreenMobile(sizeMobile);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+  }, []);
 
   if (!dataUser.name) {
     return (
@@ -21,11 +32,18 @@ export const AppRoutes = (props: Props) => {
       </Routes>
     );
   } else {
-    return (
+    if (!screenMobile) {
+      return (
+        <Routes>
+          <Route path="*" element={SystemNavigation()} />;
+          <Route path="/logout/" element={Logout()} />;
+        </Routes>
+      );
+    } else {
       <Routes>
-        <Route path="*" element={SystemNavigation()} />;
+        <Route path="*" element={SystemMobileNavigation()} />;
         <Route path="/logout/" element={Logout()} />;
-      </Routes>
-    );
+      </Routes>;
+    }
   }
 };
