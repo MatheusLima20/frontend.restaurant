@@ -44,8 +44,14 @@ export const SellOrderAddTableScreen = () => {
   };
 
   useEffect(() => {
-    getTablesRestaurant();
+    getTablesRestaurant(true);
   }, [loading]);
+
+  useEffect(() => {
+    setInterval(() => {
+      getTablesRestaurant();
+    }, 30000);
+  }, []);
 
   return (
     <Row className="mt-5">
@@ -68,7 +74,7 @@ export const SellOrderAddTableScreen = () => {
             </Form.Item>
           </Col>
           <Col span={24} className="mb-4 text-start">
-            <Button size="large" onClick={getTablesRestaurant}>
+            <Button size="large" onClick={() => getTablesRestaurant(true)}>
               <GrUpdate size={20} />
             </Button>
           </Col>
@@ -123,7 +129,7 @@ export const SellOrderAddTableScreen = () => {
                     <NewNameTableForm
                       id={id}
                       onUpdate={() => {
-                        getTablesRestaurant();
+                        getTablesRestaurant(true);
                       }}
                     />
                   </Col>
@@ -136,7 +142,7 @@ export const SellOrderAddTableScreen = () => {
           open={isModalOpen}
           onCancel={() => {
             handleOk();
-            getTablesRestaurant();
+            getTablesRestaurant(true);
           }}
           style={{ top: 20 }}
           width={'75%'}
@@ -183,8 +189,11 @@ export const SellOrderAddTableScreen = () => {
     await getTablesRestaurant();
   }
 
-  async function getTablesRestaurant() {
-    setLoadingTable(true);
+  async function getTablesRestaurant(hasLoading?: boolean) {
+    if (hasLoading) {
+      setLoadingTable(true);
+    }
+
     const request = await TableController.get();
 
     const data = request.data;
@@ -198,9 +207,11 @@ export const SellOrderAddTableScreen = () => {
       setOcuppied(isOcuppied);
       setAmountPendings(amountPendings);
     }
-    setTimeout(() => {
-      setLoadingTable(false);
-    }, 1000);
+    if (hasLoading) {
+      setTimeout(() => {
+        setLoadingTable(false);
+      }, 1000);
+    }
   }
 
   async function getOrdersByTable(id: number) {
