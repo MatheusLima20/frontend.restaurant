@@ -12,6 +12,7 @@ import { GiHotMeal } from 'react-icons/gi';
 import { NewNameTableForm } from './new.name.table.form';
 import './order.css';
 import { GrUpdate } from 'react-icons/gr';
+import { Pendings } from './pendings.';
 
 const changeTableValues = {
   table01: 0,
@@ -24,6 +25,7 @@ export const SellOrderAddTableScreen = () => {
   const [tables, setTables] = useState<TableRestaurant[]>([]);
   const [isOcuppied, setOcuppied] = useState<any[]>([]);
   const [amountPendings, setAmountPendings] = useState<any[]>([]);
+  const [pendings, setPendings] = useState<Order[]>([]);
 
   const [tableId, setTableId] = useState(0);
   const [tableName, setTableName] = useState('');
@@ -73,10 +75,28 @@ export const SellOrderAddTableScreen = () => {
               </Button>
             </Form.Item>
           </Col>
-          <Col span={24} className="mb-4 text-start">
-            <Button size="large" onClick={() => getTablesRestaurant(true)}>
-              <GrUpdate size={20} />
-            </Button>
+          <Col span={24} className="mb-4">
+            <Row justify={'space-evenly'}>
+              <Col>
+                <Button
+                  size="large"
+                  onClick={() => {
+                    getTablesRestaurant(true);
+                  }}
+                >
+                  <GrUpdate size={20} />
+                </Button>
+              </Col>
+              <Col>
+                <Pendings
+                  tables={tables}
+                  pendings={pendings}
+                  update={() => {
+                    getTablesRestaurant();
+                  }}
+                />
+              </Col>
+            </Row>
           </Col>
           <Col span={24}>
             <Row
@@ -187,6 +207,7 @@ export const SellOrderAddTableScreen = () => {
       return;
     }
     await getTablesRestaurant();
+    setLoadingTable(false);
   }
 
   async function getTablesRestaurant(hasLoading?: boolean) {
@@ -200,12 +221,12 @@ export const SellOrderAddTableScreen = () => {
 
     const tables = data.tables;
     const isOcuppied = data.isOcuppied;
-    const amountPendings = data.amountPendings;
+    const pendings = data.amountPendings;
 
     if (data) {
       setTables(tables);
       setOcuppied(isOcuppied);
-      setAmountPendings(amountPendings);
+      startPendings(tables, pendings);
     }
     if (hasLoading) {
       setTimeout(() => {
@@ -261,5 +282,18 @@ export const SellOrderAddTableScreen = () => {
     }
 
     await getTablesRestaurant();
+  }
+
+  function startPendings(tables: any, pendings: any) {
+    const ordersPendings: Order[] = pendings;
+    const amountOrdersPendings = [];
+    for (let index = 0; index < tables.length; index++) {
+      const amount = ordersPendings.filter(
+        (value) => value.idTable === tables[index].id,
+      ).length;
+      amountOrdersPendings.push(amount);
+    }
+    setAmountPendings(amountOrdersPendings);
+    setPendings(pendings);
   }
 };

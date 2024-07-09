@@ -134,7 +134,7 @@ export const SellOrderAddTableScreen = () => {
     if (data) {
       setTables(tables);
       setOcuppied(isOcuppied);
-      setAmountPendings(amountPendings);
+      setPendings(tables, amountPendings);
     }
     if (hasLoading) {
       setTimeout(() => {
@@ -160,5 +160,17 @@ export const SellOrderAddTableScreen = () => {
       }
       setLoading(false);
     }, 500);
+  }
+
+  function setPendings(tables: any, amountPendings: any) {
+    const ordersPendings: Order[] = amountPendings;
+    const amountOrdersPendings = [];
+    for (let index = 0; index < tables.length; index++) {
+      const amount = ordersPendings.filter(
+        (value) => value.idTable === tables[index].id,
+      ).length;
+      amountOrdersPendings.push(amount);
+    }
+    setAmountPendings(amountOrdersPendings);
   }
 };
