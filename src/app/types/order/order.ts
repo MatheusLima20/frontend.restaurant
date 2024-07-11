@@ -6,6 +6,7 @@ export type Order = {
   value: number;
   amount: number;
   isCancelled: boolean;
+  productType: string;
   isOpen: boolean;
   paymentMethod: string;
   status: OrderStatus;
