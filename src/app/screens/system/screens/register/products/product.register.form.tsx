@@ -9,7 +9,7 @@ const initialValues = {
   id: 0,
   name: '',
   value: 0,
-  unitMeasurement: 'PR',
+  productType: 'PRATO',
   show: true,
 };
 
@@ -57,8 +57,8 @@ export const ProductRegisterForm = () => {
               value: values.value,
             },
             {
-              name: 'unitMeasurement',
-              value: values.unitMeasurement,
+              name: 'productType',
+              value: values.productType,
             },
             {
               name: 'show',
@@ -108,22 +108,22 @@ export const ProductRegisterForm = () => {
                 </Col>
 
                 <Col md={6}>
-                  <Form.Item label="Unidade" name="unitMeasurement">
+                  <Form.Item label="Unidade" name="productType">
                     <Select
                       onChange={(value: string) => {
                         const event: any = {
                           target: {
-                            name: 'unitMeasurement',
+                            name: 'productType',
                             value: value,
                           },
                         };
                         handleChange(event);
                       }}
-                      value={values.unitMeasurement}
+                      value={values.productType}
                       options={[
-                        { value: 'PR', label: 'Prato' },
-                        { value: 'BB', label: 'Bebida' },
-                        { value: 'SB', label: 'Sobremesa' },
+                        { value: 'PRATO', label: 'Prato' },
+                        { value: 'BEBIDA', label: 'Bebida' },
+                        { value: 'SOBREMESA', label: 'Sobremesa' },
                       ]}
                     />
                   </Form.Item>
@@ -206,7 +206,7 @@ export const ProductRegisterForm = () => {
       value: value,
       isActive: true,
       isPlate: true,
-      unitMeasurement: valuesForm.unitMeasurement,
+      productType: valuesForm.productType,
       show: valuesForm.show,
       ...valuesForm,
     };
@@ -249,7 +249,7 @@ export const ProductRegisterForm = () => {
   async function getProduct() {
     setLoading(true);
 
-    const request = await ProvisionsController.get(true);
+    const request = await ProvisionsController.getPlates();
 
     const data = request.data;
 

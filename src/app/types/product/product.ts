@@ -11,6 +11,8 @@ export type Product = {
 
   unitMeasurement: string;
 
+  productType: string;
+
   isActive: boolean;
 
   show: boolean;

@@ -385,7 +385,7 @@ export const StockRecordForm = () => {
   async function getProduct() {
     setLoading(true);
 
-    const request = await ProvisionsController.get(false);
+    const request = await ProvisionsController.get();
 
     const data = request.data;
 

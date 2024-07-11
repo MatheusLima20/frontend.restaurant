@@ -49,13 +49,13 @@ export const ProvisionsController = {
     }
   },
 
-  get: async (isproduct: boolean) => {
+  get: async () => {
     try {
       const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
-      const request = await axios.get(`/product/${isproduct}`, {
+      const request = await axios.get(`/product/`, {
         headers: { authorization: `Bearer ${token}` },
       });
 

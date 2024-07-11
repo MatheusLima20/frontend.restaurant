@@ -23,7 +23,7 @@ interface DataType {
   platform: number;
   value: number;
   amount: number;
-  unitMeasurement: string;
+  productType: string;
   isActive: boolean;
   show: boolean;
 }
@@ -164,18 +164,18 @@ export const ProductRegisterTable = (props: Props) => {
       width: 50,
     },
     {
-      key: 'unitMeasurement',
+      key: 'productType',
 
-      title: 'Unidade',
+      title: 'Tipo',
 
-      dataIndex: 'unitMeasurement',
+      dataIndex: 'productType',
 
       width: 50,
 
       sortOrder:
-        sortedInfo.columnKey === 'unitMeasurement' ? sortedInfo.order : null,
+        sortedInfo.columnKey === 'productType' ? sortedInfo.order : null,
 
-      sorter: (a, b) => a.unitMeasurement.localeCompare(b.unitMeasurement),
+      sorter: (a, b) => a.productType.localeCompare(b.productType),
     },
     {
       key: 'show',
@@ -213,7 +213,7 @@ export const ProductRegisterTable = (props: Props) => {
                       amount: data.amount,
                       isActive: data.isActive,
                       show: data.show,
-                      unitMeasurement: data.unitMeasurement,
+                      productType: data.productType,
                       ...(data as any),
                     });
                   }}
@@ -261,7 +261,7 @@ export const ProductRegisterTable = (props: Props) => {
         name: value.name,
         amount: value.amount,
         value: value.value,
-        unitMeasurement: value.unitMeasurement,
+        productType: value.productType,
         show: value.show,
         ...value,
       });
