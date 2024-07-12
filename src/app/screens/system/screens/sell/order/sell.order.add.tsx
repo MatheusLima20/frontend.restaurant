@@ -435,7 +435,7 @@ export const SellOrderAdd = (props: Props) => {
                     </div>
                     <div>Garçom: {item.createdBy}</div>
                     <div>
-                      Criado às {dayjs(item.createdAt).format('hh:mm:ss')}
+                      Criado às {dayjs(item.createdAt).format('HH:mm:ss')}
                     </div>
                   </div>
                 }

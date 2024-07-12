@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const OrginizeArrays = {
   joinItemsOrders: (array: any[]) => {
     const newArray: any[] = [];
@@ -22,12 +24,15 @@ export const OrginizeArrays = {
     return newArray;
   },
   sorterByHour: (a: any, b: any) => {
-    const date1: string = a.createdAt.split(' ')[1];
-    const date2: string = b.createdAt.split(' ')[1];
+    const formattedDate1 = dayjs(a.createdAt).format('YYYY-MM-DD hh:mm:ss');
+    const formattedDate2 = dayjs(b.createdAt).format('YYYY-MM-DD hh:mm:ss');
 
-    const dateA = date1.replaceAll(':', '');
+    const date1: string = formattedDate1.replaceAll('-', '');
+    const date2: string = formattedDate2.replaceAll('-', '');
 
-    const dateB = date2.replaceAll(':', '');
+    const dateA = date1.replaceAll(':', '').replaceAll(' ', '');
+
+    const dateB = date2.replaceAll(':', '').replaceAll(' ', '');
 
     const dateNumberA = Number.parseInt(dateA);
     const dateNumberB = Number.parseInt(dateB);

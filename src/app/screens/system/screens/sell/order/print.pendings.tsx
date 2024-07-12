@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react';
 import { Order } from '../../../../../types/order/order';
 import { TableRestaurant } from '../../../../../types/table/table';
 import { ProductType } from '../../../../../types/product/product';
+import dayjs from 'dayjs';
 
 interface Props {
   tables: TableRestaurant[];
@@ -39,7 +40,7 @@ export const PrintPendings = forwardRef(function order(props: Props, ref: any) {
               return;
             }
             return (
-              <Col span={24} key={index} style={{ pageBreakAfter: 'always' }}>
+              <Col span={24} key={index}>
                 <div>
                   <h3>
                     <strong>{value}</strong>
@@ -79,7 +80,9 @@ export const PrintPendings = forwardRef(function order(props: Props, ref: any) {
                               </div>
                             </Col>
                             <Col span={24} className="text-center">
-                              {item.createdAt}
+                              {dayjs(item.createdAt).format(
+                                'DD/MM/YYYY HH:mm:ss',
+                              )}
                             </Col>
                           </Row>
                         </List.Item>
