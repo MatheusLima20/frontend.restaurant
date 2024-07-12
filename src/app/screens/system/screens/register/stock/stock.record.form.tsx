@@ -6,6 +6,8 @@ import { BsBox2Fill } from 'react-icons/bs';
 import { SpendingController } from '../../../../../controller/spending/spending.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { StockRecordTable } from './stock.record.table';
+import { UnitMeasurementController } from '../../../../../controller/unit.measurement/unit.measurement.controller';
+import { UnitMeasurement } from '../../../../../types/unit.measurement/unit.measurement';
 
 const initialValues = {
   id: 0,
@@ -25,6 +27,8 @@ export const StockRecordForm = () => {
 
   const [valuesTable, setValuesTable] = useState([]);
 
+  const [unitMeasurement, setUnitMeasurement] = useState<UnitMeasurement[]>([]);
+
   const handleChange = (event: any) => {
     const { name, value } = event.target;
 
@@ -32,7 +36,8 @@ export const StockRecordForm = () => {
   };
 
   useEffect(() => {
-    getProduct();
+    getStock();
+    getUnitMeasurement();
   }, []);
 
   return (
@@ -147,15 +152,9 @@ export const StockRecordForm = () => {
                         handleChange(event);
                       }}
                       value={values.unitMeasurement}
-                      options={[
-                        { value: 'CX', label: 'Caixa' },
-                        { value: 'g', label: 'Grama' },
-                        { value: 'L', label: 'Litro' },
-                        { value: 'ml', label: 'Mililitro (ml)' },
-                        { value: 'PC', label: 'Pacote' },
-                        { value: 'KG', label: 'Quilo' },
-                        { value: 'UN', label: 'Unidade' },
-                      ]}
+                      options={unitMeasurement.map((value) => {
+                        return { value: value.name, label: value.description };
+                      })}
                     />
                   </Form.Item>
                 </Col>
@@ -295,7 +294,7 @@ export const StockRecordForm = () => {
         setValues(initialValues);
       }
     }, 1000);
-    await getProduct();
+    await getStock();
   }
 
   async function stock(add: number) {
@@ -345,7 +344,7 @@ export const StockRecordForm = () => {
         setValues(initialValues);
       }
     }, 1000);
-    await getProduct();
+    await getStock();
   }
 
   async function saveSpending(product: Product) {
@@ -382,7 +381,7 @@ export const StockRecordForm = () => {
     }
   }
 
-  async function getProduct() {
+  async function getStock() {
     setLoading(true);
 
     const request = await ProvisionsController.get();
@@ -395,6 +394,16 @@ export const StockRecordForm = () => {
 
     if (data) {
       setValuesTable(data);
+    }
+  }
+
+  async function getUnitMeasurement() {
+    const request = await UnitMeasurementController.get();
+
+    const data = request.data;
+
+    if (data) {
+      setUnitMeasurement(data);
     }
   }
 };
