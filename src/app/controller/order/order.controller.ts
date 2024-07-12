@@ -52,6 +52,7 @@ export const OrderController = {
       return { error: true, message };
     }
   },
+
   patchTableOrders: async (idTable1: number, idTable2: number) => {
     try {
       const request = await axios.patch(

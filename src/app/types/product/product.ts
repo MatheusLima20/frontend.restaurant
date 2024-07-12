@@ -25,3 +25,15 @@ export type Product = {
 
   updatedAt: string;
 };
+
+export type ProductTypes = {
+  id: string;
+  name: ProductType;
+};
+
+export type ProductType =
+  | 'Prato'
+  | 'Guarnição'
+  | 'Bebida'
+  | 'Sobremesa'
+  | 'Petisco';

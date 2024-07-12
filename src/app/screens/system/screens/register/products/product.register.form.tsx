@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
-import { Product } from '../../../../../types/product/product';
+import { Product, ProductTypes } from '../../../../../types/product/product';
 import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { ProductRegisterTable } from './product.register.table';
+import { ProductTypesController } from '../../../../../controller/product.types/product.types.controller';
 
 const initialValues = {
   id: 0,
@@ -22,6 +23,8 @@ export const ProductRegisterForm = () => {
 
   const [valuesTable, setValuesTable] = useState([]);
 
+  const [productTypes, setProductTypes] = useState<ProductTypes[]>([]);
+
   const handleChange = (event: any) => {
     const { name, value } = event.target;
 
@@ -30,6 +33,7 @@ export const ProductRegisterForm = () => {
 
   useEffect(() => {
     getProduct();
+    getProductTypes();
   }, []);
 
   return (
@@ -108,7 +112,7 @@ export const ProductRegisterForm = () => {
                 </Col>
 
                 <Col md={6}>
-                  <Form.Item label="Unidade" name="productType">
+                  <Form.Item label="Tipo" name="productType">
                     <Select
                       onChange={(value: string) => {
                         const event: any = {
@@ -120,11 +124,9 @@ export const ProductRegisterForm = () => {
                         handleChange(event);
                       }}
                       value={values.productType}
-                      options={[
-                        { value: 'PRATO', label: 'Prato' },
-                        { value: 'BEBIDA', label: 'Bebida' },
-                        { value: 'SOBREMESA', label: 'Sobremesa' },
-                      ]}
+                      options={productTypes.map((type) => {
+                        return { value: type.name, label: type.name };
+                      })}
                     />
                   </Form.Item>
                 </Col>
@@ -259,6 +261,22 @@ export const ProductRegisterForm = () => {
 
     if (data) {
       setValuesTable(data);
+    }
+  }
+
+  async function getProductTypes() {
+    setLoading(true);
+
+    const request = await ProductTypesController.get();
+
+    const data = request.data;
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+
+    if (data) {
+      setProductTypes(data);
     }
   }
 };
