@@ -418,7 +418,7 @@ export const SellOrderAdd = (props: Props) => {
             >
               <List.Item.Meta
                 avatar={
-                  item.productName.includes('Suco') ? (
+                  item.productType === 'BEBIDA' ? (
                     <FaGlassWater size={25} />
                   ) : (
                     <GiMeal size={30} />

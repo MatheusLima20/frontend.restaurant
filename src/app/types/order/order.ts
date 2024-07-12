@@ -1,3 +1,5 @@
+import { ProductType } from '../product/product';
+
 export type Order = {
   id: number;
   productId: number;
@@ -6,7 +8,7 @@ export type Order = {
   value: number;
   amount: number;
   isCancelled: boolean;
-  productType: string;
+  productType: ProductType;
   isOpen: boolean;
   paymentMethod: string;
   status: OrderStatus;

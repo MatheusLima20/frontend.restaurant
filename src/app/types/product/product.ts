@@ -32,8 +32,8 @@ export type ProductTypes = {
 };
 
 export type ProductType =
-  | 'Prato'
-  | 'Guarnição'
-  | 'Bebida'
-  | 'Sobremesa'
-  | 'Petisco';
+  | 'PRATO'
+  | 'GUARNIÇÃO'
+  | 'BEBIDA'
+  | 'SOBREMESA'
+  | 'PETISCO';

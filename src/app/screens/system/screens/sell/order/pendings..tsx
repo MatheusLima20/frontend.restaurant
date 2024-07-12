@@ -6,6 +6,7 @@ import { useReactToPrint } from 'react-to-print';
 import { PrintPendings } from './print.pendings';
 import { TableRestaurant } from '../../../../../types/table/table';
 import { OrderController } from '../../../../../controller/order/order.controller';
+import { OrginizeArrays } from '../../../../../util/arrays/organize';
 
 type Props = {
   tables: TableRestaurant[];
@@ -15,7 +16,9 @@ type Props = {
 
 export const Pendings = (props: Props) => {
   const tables = props.tables;
-  const pendings = props.pendings;
+  const pendings = props.pendings.sort((a, b) =>
+    OrginizeArrays.sorterByHour(a, b),
+  );
 
   const printPendings = useRef();
 
@@ -34,7 +37,7 @@ export const Pendings = (props: Props) => {
               for (let index = 0; index < pendings.length; index++) {
                 const order = pendings[index];
                 if (order.status === 'pendente') {
-                  patchStatus(order.id);
+                  //patchStatus(order.id);
                 }
               }
             }}
