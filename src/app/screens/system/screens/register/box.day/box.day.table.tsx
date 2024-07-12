@@ -17,6 +17,7 @@ import { BsPrinter } from 'react-icons/bs';
 import { OrderController } from '../../../../../controller/order/order.controller';
 import { PrintBoxDay } from './print.box.day';
 import { useReactToPrint } from 'react-to-print';
+import dayjs from 'dayjs';
 
 interface DataType {
   key: number;
@@ -342,15 +343,16 @@ export const BoxDayTable = (props: Props) => {
     const values: DataType[] = [];
 
     valuesData.map((value, index) => {
+      const createdAt = dayjs(value.createdAt).format('DD/MM/YYYY HH:mm:ss');
+
       return values.push({
         key: index,
         id: value.id,
         isOpen: value.isOpen,
         startValue: value.startValue,
-        createdAt: value.createdAt,
+        createdAt: createdAt,
         totalBoxDay: value.totalBoxDay,
         totalWithStartValue: value.totalWithStartValue,
-        ...value,
       });
     });
 

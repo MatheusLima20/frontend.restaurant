@@ -2,6 +2,7 @@ import { Col, List, Row } from 'antd';
 import React, { forwardRef } from 'react';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 import { Order } from '../../../../../types/order/order';
+import dayjs from 'dayjs';
 
 interface Props {
   id: number;
@@ -67,7 +68,11 @@ export const PrintBoxDay = forwardRef(function boxday(props: Props, ref: any) {
                     <Col span={24}>
                       {isCancelled ? 'Cancelado Por: ' + item.updatedBy : ''}
                     </Col>
-                    <Col span={24}>{isCancelled ? item.updatedAt : ''}</Col>
+                    <Col span={24}>
+                      {isCancelled
+                        ? dayjs(item.updatedAt).format('DD/MM/YYYY hh:mm:ss')
+                        : ''}
+                    </Col>
                   </Row>
                 </List.Item>
               );
