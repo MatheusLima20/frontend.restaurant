@@ -39,7 +39,7 @@ export const PrintPendings = forwardRef(function order(props: Props, ref: any) {
               return;
             }
             return (
-              <Col span={24} key={index}>
+              <Col span={24} key={index} style={{ pageBreakAfter: 'always' }}>
                 <div>
                   <h3>
                     <strong>{value}</strong>
