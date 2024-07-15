@@ -55,7 +55,7 @@ export const Pendings = (props: Props) => {
 
   async function patchStatus(id: number) {
     const orderId = id;
-    return;
+
     await OrderController.patch(orderId, {
       status: 'processando',
     } as any);
