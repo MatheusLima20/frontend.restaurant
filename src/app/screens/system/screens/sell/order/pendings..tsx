@@ -24,6 +24,15 @@ export const Pendings = (props: Props) => {
 
   const handlePrintPendings = useReactToPrint({
     content: () => printPendings.current,
+    onAfterPrint: () => {
+      for (let index = 0; index < pendings.length; index++) {
+        const order = pendings[index];
+        if (order.status === 'pendente') {
+          patchStatus(order.id);
+        }
+      }
+    },
+    removeAfterPrint: true,
   });
 
   return (
@@ -31,16 +40,10 @@ export const Pendings = (props: Props) => {
       <Col>
         <Badge count={pendings.length}>
           <Button
-            disabled={!pendings.length}
             onClick={() => {
               handlePrintPendings();
-              for (let index = 0; index < pendings.length; index++) {
-                const order = pendings[index];
-                if (order.status === 'pendente') {
-                  patchStatus(order.id);
-                }
-              }
             }}
+            disabled={!pendings.length}
             size="large"
           >
             <BiPrinter size={20} />

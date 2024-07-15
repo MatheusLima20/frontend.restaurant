@@ -73,13 +73,15 @@ export const PrintPendings = forwardRef(function order(props: Props, ref: any) {
                               </h5>
                             </Col>
                             <Col span={6}>
-                              <strong style={{ fontSize: 14 }}>
+                              <strong style={{ fontSize: 18 }}>
                                 {item.productName}
                               </strong>
                             </Col>
                             <Col span={6}>
                               <div>
-                                <strong>{' ' + item.amount + ' '}</strong>
+                                <strong style={{ fontSize: 18 }}>
+                                  {' ' + item.amount + ' '}
+                                </strong>
                               </div>
                             </Col>
                             <Col span={24} className="text-center">
