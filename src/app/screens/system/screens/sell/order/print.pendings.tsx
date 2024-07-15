@@ -4,6 +4,7 @@ import { Order } from '../../../../../types/order/order';
 import { TableRestaurant } from '../../../../../types/table/table';
 import { ProductType } from '../../../../../types/product/product';
 import dayjs from 'dayjs';
+import { OrginizeArrays } from '../../../../../util/arrays/organize';
 
 interface Props {
   tables: TableRestaurant[];
@@ -47,7 +48,7 @@ export const PrintPendings = forwardRef(function order(props: Props, ref: any) {
                   </h3>
                 </div>
                 <List size="large">
-                  {orders
+                  {OrginizeArrays.groupBy(orders, 'idTable')
                     .filter((product) => product.productType === value)
                     .map((item, index) => {
                       return (

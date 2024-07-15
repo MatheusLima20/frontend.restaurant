@@ -39,4 +39,23 @@ export const OrginizeArrays = {
     const result = dateNumberA - dateNumberB;
     return result;
   },
+
+  groupBy: (oldArray: any[], key: any) => {
+    let newArray: any[] = [];
+
+    oldArray.map((data) => {
+      let hasData: any[] = [];
+
+      if (newArray.length) {
+        hasData = newArray.filter((value) => value[key] === data[key]);
+      }
+
+      if (!hasData.length) {
+        const array = oldArray.filter((item) => item[key] === data[key]);
+        newArray = newArray.concat(array);
+      }
+    });
+
+    return newArray;
+  },
 };
