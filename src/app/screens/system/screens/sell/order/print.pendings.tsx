@@ -33,6 +33,7 @@ export const PrintPendings = forwardRef(function order(props: Props, ref: any) {
       >
         {orders.length &&
           productTypes.map((value, index) => {
+            const tablesPrint: string[] = [];
             const hasProductType = orders.filter(
               (type) => type.productType === value,
             );
@@ -51,6 +52,13 @@ export const PrintPendings = forwardRef(function order(props: Props, ref: any) {
                   {OrginizeArrays.groupBy(orders, 'idTable')
                     .filter((product) => product.productType === value)
                     .map((item, index) => {
+                      const tableName = tables.find(
+                        (value) => value.id === item.idTable,
+                      ).name;
+                      tablesPrint.push(tableName);
+                      const lessTwo =
+                        tablesPrint.filter((value) => value === tableName)
+                          .length < 2;
                       return (
                         <List.Item key={index}>
                           <Row
@@ -61,13 +69,7 @@ export const PrintPendings = forwardRef(function order(props: Props, ref: any) {
                           >
                             <Col span={24}>
                               <h5>
-                                <strong>
-                                  {
-                                    tables.find(
-                                      (value) => value.id === item.idTable,
-                                    ).name
-                                  }
-                                </strong>
+                                <strong>{lessTwo ? tableName : ''}</strong>
                               </h5>
                             </Col>
                             <Col span={6}>
