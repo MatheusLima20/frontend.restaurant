@@ -1,26 +1,29 @@
 import React from 'react';
 import { Col, Row, Tabs } from 'antd';
-import './menu.css';
-import { BiHome } from 'react-icons/bi';
 import { FaMoneyBill, FaSellsy } from 'react-icons/fa';
-import { HomeMobile } from '../../screens/home';
 import { ReportsMobileSpending } from '../../screens/reports/spending';
 import { ReportMobileSell } from '../../screens/reports/sell';
+import { ProfitMobile } from '../../screens/reports/profit';
+import { GiHotMeal, GiTakeMyMoney } from 'react-icons/gi';
+import './menu.css';
+import { SellOrderAddTableScreen } from '../../screens/sells/orders/sell.order.add.table.mobile';
 
 const items = [
-  { Icon: BiHome, label: 'Home', children: HomeMobile },
-  { Icon: FaSellsy, label: 'Gastos', children: ReportsMobileSpending },
   { Icon: FaMoneyBill, label: 'Vendas', children: ReportMobileSell },
+  { Icon: FaSellsy, label: 'Gastos', children: ReportsMobileSpending },
+  { Icon: GiTakeMyMoney, label: 'Lucro', children: ProfitMobile },
+  { Icon: GiHotMeal, label: 'Pedidos', children: SellOrderAddTableScreen },
 ];
+
+const style = { height: window.innerHeight - 120 };
 
 export const MenuMobileScreen = () => {
   return (
-    <Row className="border border-4">
+    <Row className="h-100">
       <Col span={24}>
         <Tabs
-          defaultActiveKey="2"
+          defaultActiveKey="1"
           tabPosition="bottom"
-          className="menu"
           centered={true}
           items={items.map((value, i) => {
             const id = String(i + 1);
@@ -28,8 +31,8 @@ export const MenuMobileScreen = () => {
             return {
               key: id,
               label: <strong>{label}</strong>,
-              icon: <value.Icon />,
-              children: <value.children />,
+              icon: <value.Icon size={20} />,
+              children: <value.children style={style} />,
             };
           })}
         />

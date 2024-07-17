@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, DatePicker, Form, Row, Select, Switch } from 'antd';
+import { Col, DatePicker, Row, Switch } from 'antd';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,7 +11,7 @@ import {
   Filler,
   PointElement,
 } from 'chart.js';
-import { Bar, Line, Pie, Radar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
 import dayjs from 'dayjs';
 import { Spending } from '../../../../../types/spending/spending';
@@ -43,7 +43,6 @@ const options = {
 export const ReportsMobileSpendingChart = () => {
   const [labels, setLabels] = useState([]);
   const [values, setValues] = useState<Spending[]>([]);
-  const [chart, setChart] = useState('barv');
   const [total, setTotal] = useState(0);
   const [isMoney, setMoney] = useState(true);
 
@@ -52,32 +51,13 @@ export const ReportsMobileSpendingChart = () => {
   }, []);
 
   return (
-    <Row justify={'center'} className="mt-5 mb-5" gutter={[0, 30]}>
+    <Row justify={'space-evenly'} className="mt-5 mb-5" gutter={[20, 10]}>
       <Col span={24} className="text-center">
         <h2>
           <strong>Relatório de Gastos</strong>
         </h2>
       </Col>
-      <Col>
-        <Form.Item label="Gráfico">
-          <Select
-            title="Tipo de Gráfico"
-            defaultValue={chart}
-            style={{ width: 200 }}
-            onChange={(value) => {
-              setChart(value);
-            }}
-            options={[
-              { value: 'barv', label: 'Barra Vertical' },
-              { value: 'barh', label: 'Barra Horizontal' },
-              { value: 'pie', label: 'Pizza' },
-              { value: 'areachat', label: 'Área' },
-              { value: 'radar', label: 'Radar' },
-            ]}
-          />
-        </Form.Item>
-      </Col>
-      <Col span={24} className="text-center">
+      <Col md={12} className="text-center">
         <DatePicker
           defaultValue={dayjs()}
           format={'MM-YYYY'}
@@ -87,7 +67,7 @@ export const ReportsMobileSpendingChart = () => {
           }}
         />
       </Col>
-      <Col span={24} className="text-center">
+      <Col md={12} className="text-center">
         <Switch
           defaultValue={isMoney}
           checkedChildren="Total em R$"
@@ -108,56 +88,14 @@ export const ReportsMobileSpendingChart = () => {
               })}
             </strong>
           </Col>
-          <Col span={20}>
-            {chart === 'barv' && (
-              <Bar
-                options={options}
-                data={{
-                  labels: labels,
-                  datasets: initGraphic(),
-                }}
-              />
-            )}
-
-            {chart === 'barh' && (
-              <Bar
-                options={{ ...options, indexAxis: 'y' as const }}
-                data={{
-                  labels: labels,
-                  datasets: initGraphic(),
-                }}
-              />
-            )}
-
-            {chart === 'pie' && (
-              <Pie
-                options={options}
-                data={{
-                  labels: labels,
-                  datasets: initGraphic(),
-                }}
-              />
-            )}
-
-            {chart === 'areachat' && (
-              <Line
-                options={options}
-                data={{
-                  labels: labels,
-                  datasets: initGraphic(),
-                }}
-              />
-            )}
-
-            {chart === 'radar' && (
-              <Radar
-                options={options}
-                data={{
-                  labels: labels,
-                  datasets: initGraphic(),
-                }}
-              />
-            )}
+          <Col span={24}>
+            <Pie
+              options={options}
+              data={{
+                labels: labels,
+                datasets: initGraphic(),
+              }}
+            />
           </Col>
         </Row>
       </Col>

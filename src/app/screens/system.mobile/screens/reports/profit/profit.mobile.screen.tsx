@@ -1,16 +1,16 @@
 import React from 'react';
 import { Col, Row } from 'antd';
-import { ReportsMobileSellChart } from './reports.mobile.sell.chart';
+import { ProfitMobileChart } from './profit.mobile.chat';
 
 type Props = {
   style: any;
 };
 
-export const ReportsMobileSellScreen = (props: Props) => {
+export const ProfitMobileScreen = (props: Props) => {
   return (
     <Row style={props.style}>
       <Col span={24}>
-        <ReportsMobileSellChart />
+        <ProfitMobileChart />
       </Col>
     </Row>
   );

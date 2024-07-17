@@ -9,7 +9,11 @@ import { GiHotMeal } from 'react-icons/gi';
 import './order.css';
 import { MdTableBar } from 'react-icons/md';
 
-export const SellOrderAddTableScreen = () => {
+type Props = {
+  style?: any;
+};
+
+export const SellOrderAddTableScreen = (props: Props) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [tables, setTables] = useState<TableRestaurant[]>([]);
   const [isOcuppied, setOcuppied] = useState<any[]>([]);
@@ -43,7 +47,7 @@ export const SellOrderAddTableScreen = () => {
   }, []);
 
   return (
-    <Row className="mt-5 mb-5" justify={'center'}>
+    <Row style={props.style} justify={'center'}>
       <Col span={24} className="text-center">
         <Row justify={'center'}>
           <Col span={24}>

@@ -1,6 +1,10 @@
 import React from 'react';
 import { ReportsMobileSpendingScreen } from './reports.mobile.spending.screen';
 
-export const ReportsMobileSpending = () => {
-  return <ReportsMobileSpendingScreen />;
+type Props = {
+  style: any;
+};
+
+export const ReportsMobileSpending = (props: Props) => {
+  return <ReportsMobileSpendingScreen style={props.style} />;
 };

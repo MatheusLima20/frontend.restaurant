@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, DatePicker, Form, Row, Select, Switch } from 'antd';
+import { Col, DatePicker, Row, Switch } from 'antd';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,7 +11,7 @@ import {
   Filler,
   PointElement,
 } from 'chart.js';
-import { Bar, Line, Pie, Radar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
 import dayjs from 'dayjs';
 import { Order } from '../../../../../types/order/order';
@@ -43,7 +43,6 @@ const options = {
 export const ReportsMobileSellChart = () => {
   const [labels, setLabels] = useState([]);
   const [values, setValues] = useState<Order[]>([]);
-  const [chart, setChart] = useState('barv');
   const [total, setTotal] = useState(0);
   const [isMoney, setMoney] = useState(true);
   const [isMonth, setMonth] = useState(false);
@@ -54,45 +53,16 @@ export const ReportsMobileSellChart = () => {
   }, []);
 
   return (
-    <Row justify={'center'} className="mt-5 mb-5" gutter={[0, 30]}>
+    <Row justify={'space-evenly'} align={'stretch'} gutter={[0, 20]}>
       <Col span={24} className="text-center">
-        <h2>
+        <h6>
           <strong>Relatório de Vendas</strong>
-        </h2>
-      </Col>
-      <Col>
-        <Form.Item label="Gráfico">
-          <Select
-            title="Tipo de Gráfico"
-            defaultValue={chart}
-            style={{ width: 200 }}
-            onChange={(value) => {
-              setChart(value);
-            }}
-            options={[
-              { value: 'barv', label: 'Barra Vertical' },
-              { value: 'barh', label: 'Barra Horizontal' },
-              { value: 'pie', label: 'Pizza' },
-              { value: 'areachat', label: 'Área' },
-              { value: 'radar', label: 'Radar' },
-            ]}
-          />
-        </Form.Item>
-      </Col>
-      <Col span={24} className="text-center">
-        <Switch
-          defaultValue={isMonth}
-          checkedChildren="Por mês"
-          unCheckedChildren="Por dia"
-          onChange={(value) => {
-            setMonth(value);
-            changeGraphic();
-          }}
-        />
+        </h6>
       </Col>
       <Col span={24} className="text-center">
         <DatePicker
           defaultValue={dayjs()}
+          size="middle"
           format={isMonth ? 'MM-YYYY' : 'DD-MM-YYYY'}
           picker={isMonth ? 'month' : 'date'}
           onChange={(value) => {
@@ -100,18 +70,27 @@ export const ReportsMobileSellChart = () => {
           }}
         />
       </Col>
-      <Col span={24} className="text-center">
+      <Col md={8} className="text-center">
+        <Switch
+          defaultValue={isMonth}
+          checkedChildren="Por mês"
+          unCheckedChildren="Por dia"
+          onChange={(value) => {
+            setMonth(value);
+          }}
+        />
+      </Col>
+      <Col span={8} className="text-center">
         <Switch
           defaultValue={isMoney}
           checkedChildren="Total em R$"
           unCheckedChildren="Total em Vendas"
           onChange={(value) => {
             setMoney(value);
-            changeGraphic();
           }}
         />
       </Col>
-      <Col span={20}>
+      <Col span={24}>
         <Row justify={'center'}>
           <Col span={24} className="text-center">
             <strong>
@@ -121,56 +100,14 @@ export const ReportsMobileSellChart = () => {
               })}
             </strong>
           </Col>
-          <Col span={20}>
-            {chart === 'barv' && (
-              <Bar
-                options={options}
-                data={{
-                  labels: labels,
-                  datasets: initGraphic(),
-                }}
-              />
-            )}
-
-            {chart === 'barh' && (
-              <Bar
-                options={{ ...options, indexAxis: 'y' as const }}
-                data={{
-                  labels: labels,
-                  datasets: initGraphic(),
-                }}
-              />
-            )}
-
-            {chart === 'pie' && (
-              <Pie
-                options={options}
-                data={{
-                  labels: labels,
-                  datasets: initGraphic(),
-                }}
-              />
-            )}
-
-            {chart === 'areachat' && (
-              <Line
-                options={options}
-                data={{
-                  labels: labels,
-                  datasets: initGraphic(),
-                }}
-              />
-            )}
-
-            {chart === 'radar' && (
-              <Radar
-                options={options}
-                data={{
-                  labels: labels,
-                  datasets: initGraphic(),
-                }}
-              />
-            )}
+          <Col span={24}>
+            <Pie
+              options={options}
+              data={{
+                labels: labels,
+                datasets: initGraphic(),
+              }}
+            />
           </Col>
         </Row>
       </Col>
@@ -195,14 +132,6 @@ export const ReportsMobileSellChart = () => {
       setTotal(total);
       setValues(data.orders);
     }
-  }
-
-  function changeGraphic() {
-    const data = values;
-
-    setValues([]);
-
-    setValues(data);
   }
 
   function initGraphic() {

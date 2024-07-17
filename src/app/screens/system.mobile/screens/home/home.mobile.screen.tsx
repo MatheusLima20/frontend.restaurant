@@ -1,10 +1,14 @@
 import React from 'react';
 import { Col, Row } from 'antd';
 
-export const HomeMobileScreen = () => {
+type Props = {
+  style: any;
+};
+
+export const HomeMobileScreen = (props: Props) => {
   return (
-    <Row>
-      <Col md={24}>Home System</Col>
+    <Row style={props.style}>
+      <Col span={24}>Home</Col>
     </Row>
   );
 };

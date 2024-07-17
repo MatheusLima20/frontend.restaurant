@@ -5,6 +5,7 @@ import { SellOrderMobile } from '../screens/sells/orders';
 import { cookies } from '../../../controller/user/adm.cookies';
 import { UserType } from '../../../types/user/user';
 import { MenuMobile } from '../includes/menu';
+import { Images } from '../../../config/images';
 
 const user = cookies.get('data.user');
 
@@ -16,7 +17,14 @@ export const SystemMobileRoutes = () => {
 
     if (userType === 'SUPER') {
       return (
-        <Layout style={{ backgroundColor: 'white', height: '100%' }}>
+        <Layout style={{ backgroundColor: 'white' }}>
+          <Layout.Header style={{ backgroundColor: 'white', height: 50 }}>
+            <img
+              src={Images.logo}
+              width={40}
+              style={{ marginTop: -15, marginLeft: -30 }}
+            />
+          </Layout.Header>
           <Layout.Content style={{ height: '100%' }}>
             <MenuMobile />
           </Layout.Content>

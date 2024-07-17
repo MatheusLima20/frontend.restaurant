@@ -1,6 +1,10 @@
 import React from 'react';
-import { ProfitScreen } from './profit.screen';
+import { ProfitMobileScreen } from './profit.mobile.screen';
 
-export const Profit = () => {
-  return <ProfitScreen />;
+type Props = {
+  style: any;
+};
+
+export const ProfitMobile = (props: Props) => {
+  return <ProfitMobileScreen style={props.style} />;
 };

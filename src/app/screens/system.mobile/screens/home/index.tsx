@@ -1,6 +1,10 @@
 import React from 'react';
 import { HomeMobileScreen } from './home.mobile.screen';
 
-export const HomeMobile = () => {
-  return <HomeMobileScreen />;
+type Props = {
+  style: any;
+};
+
+export const HomeMobile = (props: Props) => {
+  return <HomeMobileScreen style={props.style} />;
 };
