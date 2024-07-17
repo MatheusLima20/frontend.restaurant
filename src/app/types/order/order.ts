@@ -19,3 +19,5 @@ export type Order = {
 };
 
 export type OrderStatus = 'pendente' | 'processando' | 'finalizado';
+
+export type PaymentMethod = 'debito' | 'dinheiro' | 'pix' | 'credito';

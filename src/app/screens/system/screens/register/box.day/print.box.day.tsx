@@ -1,7 +1,7 @@
 import { Col, List, Row } from 'antd';
 import React, { forwardRef } from 'react';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
-import { Order } from '../../../../../types/order/order';
+import { Order, PaymentMethod } from '../../../../../types/order/order';
 import dayjs from 'dayjs';
 
 interface Props {
@@ -12,9 +12,12 @@ interface Props {
   isCancelled: boolean;
 }
 
+const paymentMethod: PaymentMethod[] = ['debito', 'dinheiro', 'pix', 'credito'];
+
 export const PrintBoxDay = forwardRef(function boxday(props: Props, ref: any) {
   const id = props.id;
   const isCancelled = props.isCancelled;
+  const orders = props.orders;
 
   return (
     <div style={{ display: 'none' }}>
@@ -31,7 +34,7 @@ export const PrintBoxDay = forwardRef(function boxday(props: Props, ref: any) {
         </Col>
         <Col span={24}>
           <List size="large">
-            {props.orders.map((item) => {
+            {orders.map((item) => {
               return (
                 <List.Item key={item.id}>
                   <Row
@@ -79,6 +82,27 @@ export const PrintBoxDay = forwardRef(function boxday(props: Props, ref: any) {
             })}
           </List>
         </Col>
+        {paymentMethod.map((method, index) => {
+          const ordersMethod = orders.filter(
+            (value) => value.paymentMethod === method,
+          );
+          let total = 0;
+
+          ordersMethod.map((amount) => {
+            total += amount.amount * amount.value;
+          });
+
+          return (
+            <Col span={24} key={index} className="mb-4">
+              <h3>
+                <strong>
+                  Total {method.toUpperCase()}{' '}
+                  {StringFormatter.realNumber(total)}
+                </strong>
+              </h3>
+            </Col>
+          );
+        })}
         <Col span={24}>
           <h3>
             <strong>
