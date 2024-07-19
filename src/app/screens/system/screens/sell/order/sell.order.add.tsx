@@ -289,6 +289,7 @@ export const SellOrderAdd = (props: Props) => {
                 <Select
                   defaultValue="credito"
                   style={{ width: 120 }}
+                  value={order.paymentMethod}
                   onChange={(value: string) => {
                     setOrder({ ...order, paymentMethod: value });
                   }}
@@ -568,8 +569,7 @@ export const SellOrderAdd = (props: Props) => {
     if (!error) {
       setTimeout(() => {
         props.getOrders();
-        setOrder(initialValues);
-      }, 500);
+      });
     }
   }
 
@@ -598,7 +598,6 @@ export const SellOrderAdd = (props: Props) => {
       content: tranlateMessage.text,
       duration: 4,
     });
-    setOrder(initialValues);
   }
 
   async function closeOrders(orders: Order[]) {
@@ -628,7 +627,6 @@ export const SellOrderAdd = (props: Props) => {
       duration: 4,
     });
     if (!error) {
-      setOrder(initialValues);
       setCheckedOrders([]);
       setTimeout(() => {
         props.getOrders();
