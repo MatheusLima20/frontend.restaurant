@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Button, Card, Col, Form, Modal, Row, message } from 'antd';
+import { Badge, Button, Card, Col, Modal, Row, Tooltip, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { MdOutlineTableBar, MdTableBar } from 'react-icons/md';
 import { TableRestaurant } from '../../../../../types/table/table';
@@ -61,7 +61,12 @@ export const SellOrderAddTableScreen = () => {
       <Col span={24} className="text-center">
         <Row justify={'center'}>
           <Col span={5}>
-            <Form.Item className="text-center">
+            <Tooltip
+              className="text-center"
+              placement="top"
+              title={'Ao clicar uma mesa é adicionada.'}
+              color="red"
+            >
               <Button
                 type="dashed"
                 style={{ height: 80 }}
@@ -73,7 +78,7 @@ export const SellOrderAddTableScreen = () => {
               >
                 <MdOutlineTableBar size={40} />
               </Button>
-            </Form.Item>
+            </Tooltip>
           </Col>
           <Col span={24} className="mb-4">
             <Row justify={'space-evenly'}>
