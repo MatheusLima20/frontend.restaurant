@@ -42,6 +42,7 @@ type InitialValues = {
   userName: string;
   userType: string;
   id: number;
+  plan: string;
 };
 
 const initialValues: InitialValues = {
@@ -62,6 +63,7 @@ const initialValues: InitialValues = {
   userName: '',
   userType: '',
   id: 0,
+  plan: '',
 };
 
 export const PlatformRegistrationForm = () => {
@@ -399,7 +401,7 @@ export const PlatformRegistrationForm = () => {
         <Row justify={'center'} className="mt-5 text-center">
           <Col md={24}>
             <Form.Item
-              name="radio-button"
+              name="pla"
               rules={[
                 {
                   required: true,
@@ -409,10 +411,10 @@ export const PlatformRegistrationForm = () => {
                 },
               ]}
             >
-              <Radio.Group>
+              <Radio.Group name="plan" onChange={handleChange}>
                 <Radio.Button value="Iniciante" className="h-100">
                   <div title="Iniciante" className="m-4" style={{ width: 300 }}>
-                    <p>
+                    <div>
                       <Row align={'middle'} gutter={[70, 0]}>
                         <Col
                           span={24}
@@ -423,8 +425,8 @@ export const PlatformRegistrationForm = () => {
                           </strong>
                         </Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div className="mt-4 mb-3">
                       <Row align={'middle'} gutter={[70, 0]}>
                         <Col>
                           <BiHappy size={30} />
@@ -433,70 +435,70 @@ export const PlatformRegistrationForm = () => {
                           <strong>Iniciante</strong>
                         </Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Pedidos Ilimitados</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">1 Caixa Por Dia</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">8 Mesas</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">4 Usuários</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <FiXCircle color="red" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Gastos.</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <FiXCircle color="red" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Vendas.</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <FiXCircle color="red" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Lucro.</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row justify={'center'} align={'middle'}>
                         <Col className="fs-5">
                           <strong>Apenas R$ 99,90/Mês</strong>
                         </Col>
                       </Row>
-                    </p>
+                    </div>
                   </div>
                 </Radio.Button>
                 <Radio.Button value="Profissional" className="h-100">
@@ -505,7 +507,7 @@ export const PlatformRegistrationForm = () => {
                     className="m-4"
                     style={{ width: 300 }}
                   >
-                    <p>
+                    <div>
                       <Row align={'middle'} gutter={[70, 0]}>
                         <Col span={24} className="text-center">
                           <div className="border rounded-pill border-danger border-2 ">
@@ -513,8 +515,8 @@ export const PlatformRegistrationForm = () => {
                           </div>
                         </Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div className="mt-4 mb-3">
                       <Row align={'middle'} gutter={[70, 0]}>
                         <Col>
                           <MdBusinessCenter size={30} />
@@ -523,75 +525,75 @@ export const PlatformRegistrationForm = () => {
                           <strong>Profissional</strong>
                         </Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Pedidos Ilimitados</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">3 Caixas Por Dia</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">20 Mesas</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">8 Usuários</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Gastos.</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Vendas.</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <FiXCircle color="red" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Lucro.</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row justify={'center'} align={'middle'}>
                         <Col className="fs-5">
                           <strong>Apenas R$ 149,90/Mês</strong>
                         </Col>
                       </Row>
-                    </p>
+                    </div>
                   </div>
                 </Radio.Button>
                 <Radio.Button value="Premium" className="h-100">
                   <div title="Premium" className="m-4" style={{ width: 300 }}>
-                    <p>
+                    <div>
                       <Row align={'middle'} gutter={[70, 0]}>
                         <Col span={24} className="fs-5 text-center mt-1">
                           <strong>
@@ -599,8 +601,8 @@ export const PlatformRegistrationForm = () => {
                           </strong>
                         </Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div className="mt-4 mb-3">
                       <Row align={'middle'} gutter={[70, 0]}>
                         <Col span={24}>
                           <strong> </strong>
@@ -612,70 +614,70 @@ export const PlatformRegistrationForm = () => {
                           <strong>Premium</strong>
                         </Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Pedidos Ilimitados</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Caixas Por Dia: A combinar</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Mesas: A combinar</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row justify={'start'} align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Usuários: A combinar</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Gastos.</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Vendas.</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Lucro.</Col>
                       </Row>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                       <Row justify={'center'} align={'middle'}>
                         <Col className="fs-5">
                           <strong>Negociável R$/Mês</strong>
                         </Col>
                       </Row>
-                    </p>
+                    </div>
                   </div>
                 </Radio.Button>
               </Radio.Group>
@@ -724,6 +726,7 @@ export const PlatformRegistrationForm = () => {
             { name: 'addressCodePostal', value: values.addressCodePostal },
             { name: 'email', value: values.email },
             { name: 'userName', value: values.userName },
+            { name: 'plan', value: values.plan },
             {
               name: 'addressNumber',
               value: values.addressNumber ? values.addressNumber : '',
@@ -751,6 +754,14 @@ export const PlatformRegistrationForm = () => {
               {current > 0 && (
                 <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
                   Anterior
+                </Button>
+              )}
+              {current == 0 && (
+                <Button
+                  style={{ margin: '0 8px', textDecoration: 'none' }}
+                  href="/"
+                >
+                  Voltar
                 </Button>
               )}
             </Col>
@@ -787,7 +798,7 @@ export const PlatformRegistrationForm = () => {
         phoneNumber: values.phoneNumber,
       } as any,
     };
-
+    console.log(values);
     return;
     const request = await UserController.storePlatform({
       ...dataValues,
