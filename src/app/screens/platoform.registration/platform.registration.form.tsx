@@ -7,22 +7,12 @@ import {
 } from 'react-icons/fa';
 import { BsCardHeading } from 'react-icons/bs';
 import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
-import { FiMapPin } from 'react-icons/fi';
+import { FiMapPin, FiXCircle } from 'react-icons/fi';
 import { GiModernCity } from 'react-icons/gi';
 import { BiCheckCircle, BiCurrentLocation, BiHappy } from 'react-icons/bi';
 import { RiLockPasswordFill, RiLockPasswordLine } from 'react-icons/ri';
 import { AiOutlineFieldNumber } from 'react-icons/ai';
-import {
-  Button,
-  Col,
-  ConfigProvider,
-  Form,
-  Input,
-  message,
-  Radio,
-  Row,
-  Steps,
-} from 'antd';
+import { Button, Col, Form, Input, message, Radio, Row, Steps } from 'antd';
 import { IoDiamondOutline } from 'react-icons/io5';
 import { MdBusinessCenter, MdEmail } from 'react-icons/md';
 import { GrStreetView } from 'react-icons/gr';
@@ -33,7 +23,6 @@ import { AddressSearchCEP } from '../../types/address/address';
 import { CepController } from '../../controller/cep/cep.controller';
 import { StringFormatter } from '../../util/string.formatter/string.formatter';
 import './platform.resgistrations.css';
-import ptBr from 'antd/es/locale/pt_BR';
 
 type InitialValues = {
   cpfcnpj: string;
@@ -76,7 +65,6 @@ const initialValues: InitialValues = {
 };
 
 export const PlatformRegistrationForm = () => {
-  const locale = ptBr;
   const [current, setCurrent] = useState(0);
 
   const next = () => {
@@ -426,6 +414,18 @@ export const PlatformRegistrationForm = () => {
                   <div title="Iniciante" className="m-4" style={{ width: 300 }}>
                     <p>
                       <Row align={'middle'} gutter={[70, 0]}>
+                        <Col
+                          span={24}
+                          className="fs-5 text-center border-2 mt-1"
+                        >
+                          <strong>
+                            <br />
+                          </strong>
+                        </Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'} gutter={[70, 0]}>
                         <Col>
                           <BiHappy size={30} />
                         </Col>
@@ -447,13 +447,29 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">2 Caixas Ao Dia</Col>
+                        <Col className="fs-5">1 Caixa Por Dia</Col>
                       </Row>
                     </p>
                     <p>
                       <Row align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">8 Mesas</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">4 Usuários</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <FiXCircle color="red" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Gastos.</Col>
                       </Row>
@@ -461,7 +477,7 @@ export const PlatformRegistrationForm = () => {
                     <p>
                       <Row align={'middle'}>
                         <Col>
-                          <BiCheckCircle color="green" size={20} />
+                          <FiXCircle color="red" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Vendas.</Col>
                       </Row>
@@ -469,25 +485,9 @@ export const PlatformRegistrationForm = () => {
                     <p>
                       <Row align={'middle'}>
                         <Col>
-                          <BiCheckCircle color="green" size={20} />
+                          <FiXCircle color="red" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Lucro.</Col>
-                      </Row>
-                    </p>
-                    <p>
-                      <Row align={'middle'}>
-                        <Col>
-                          <BiCheckCircle color="green" size={20} />
-                        </Col>
-                        <Col className="fs-5">10 Mesas</Col>
-                      </Row>
-                    </p>
-                    <p>
-                      <Row align={'middle'}>
-                        <Col>
-                          <BiCheckCircle color="green" size={20} />
-                        </Col>
-                        <Col className="fs-5">5 Usuários</Col>
                       </Row>
                     </p>
                     <p>
@@ -505,6 +505,15 @@ export const PlatformRegistrationForm = () => {
                     className="m-4"
                     style={{ width: 300 }}
                   >
+                    <p>
+                      <Row align={'middle'} gutter={[70, 0]}>
+                        <Col span={24} className="text-center">
+                          <div className="border rounded-pill border-danger border-2 ">
+                            Mais Popular
+                          </div>
+                        </Col>
+                      </Row>
+                    </p>
                     <p>
                       <Row align={'middle'} gutter={[70, 0]}>
                         <Col>
@@ -528,7 +537,23 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">4 Caixas Ao Dia</Col>
+                        <Col className="fs-5">3 Caixas Por Dia</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">20 Mesas</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">8 Usuários</Col>
                       </Row>
                     </p>
                     <p>
@@ -550,25 +575,9 @@ export const PlatformRegistrationForm = () => {
                     <p>
                       <Row align={'middle'}>
                         <Col>
-                          <BiCheckCircle color="green" size={20} />
+                          <FiXCircle color="red" size={20} />
                         </Col>
                         <Col className="fs-5">Relatório de Lucro.</Col>
-                      </Row>
-                    </p>
-                    <p>
-                      <Row align={'middle'}>
-                        <Col>
-                          <BiCheckCircle color="green" size={20} />
-                        </Col>
-                        <Col className="fs-5">25 Mesas</Col>
-                      </Row>
-                    </p>
-                    <p>
-                      <Row align={'middle'}>
-                        <Col>
-                          <BiCheckCircle color="green" size={20} />
-                        </Col>
-                        <Col className="fs-5">10 Usuários</Col>
                       </Row>
                     </p>
                     <p>
@@ -582,6 +591,15 @@ export const PlatformRegistrationForm = () => {
                 </Radio.Button>
                 <Radio.Button value="Premium" className="h-100">
                   <div title="Premium" className="m-4" style={{ width: 300 }}>
+                    <p>
+                      <Row align={'middle'} gutter={[70, 0]}>
+                        <Col span={24} className="fs-5 text-center mt-1">
+                          <strong>
+                            <br />
+                          </strong>
+                        </Col>
+                      </Row>
+                    </p>
                     <p>
                       <Row align={'middle'} gutter={[70, 0]}>
                         <Col span={24}>
@@ -608,7 +626,23 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">10 Caixas Ao Dia</Col>
+                        <Col className="fs-5">Caixas Por Dia: A combinar</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Mesas: A combinar</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row justify={'start'} align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Usuários: A combinar</Col>
                       </Row>
                     </p>
                     <p>
@@ -636,25 +670,9 @@ export const PlatformRegistrationForm = () => {
                       </Row>
                     </p>
                     <p>
-                      <Row align={'middle'}>
-                        <Col>
-                          <BiCheckCircle color="green" size={20} />
-                        </Col>
-                        <Col className="fs-5">70 Mesas</Col>
-                      </Row>
-                    </p>
-                    <p>
-                      <Row align={'middle'}>
-                        <Col>
-                          <BiCheckCircle color="green" size={20} />
-                        </Col>
-                        <Col className="fs-5">20 Usuários</Col>
-                      </Row>
-                    </p>
-                    <p>
                       <Row justify={'center'} align={'middle'}>
                         <Col className="fs-5">
-                          <strong>Apenas R$ 349,90/Mês</strong>
+                          <strong>Negociável R$/Mês</strong>
                         </Col>
                       </Row>
                     </p>
@@ -717,35 +735,25 @@ export const PlatformRegistrationForm = () => {
           ]}
         >
           <Row justify={'center'}>
-            <ConfigProvider
-              locale={locale}
-              theme={{
-                token: {
-                  colorPrimary: '#1a7a00',
-                  colorBgBase: '#fff',
-                },
-              }}
-            >
-              <Steps current={current} items={items} />
-              <Col span={23}>{steps[current].content}</Col>
-              <Col span={23} style={{ marginTop: 24 }}>
-                {current < steps.length - 1 && (
-                  <Button type="primary" htmlType="submit" onClick={next}>
-                    Proxímo
-                  </Button>
-                )}
-                {current === steps.length - 1 && (
-                  <Button type="primary" htmlType="submit">
-                    <strong>Enviar</strong>
-                  </Button>
-                )}
-                {current > 0 && (
-                  <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                    Anterior
-                  </Button>
-                )}
-              </Col>
-            </ConfigProvider>
+            <Steps current={current} items={items} />
+            <Col span={23}>{steps[current].content}</Col>
+            <Col span={23} style={{ marginTop: 24 }}>
+              {current < steps.length - 1 && (
+                <Button type="primary" htmlType="submit" onClick={next}>
+                  Proxímo
+                </Button>
+              )}
+              {current === steps.length - 1 && (
+                <Button type="primary" htmlType="submit">
+                  <strong>Enviar</strong>
+                </Button>
+              )}
+              {current > 0 && (
+                <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                  Anterior
+                </Button>
+              )}
+            </Col>
           </Row>
         </Form>
       </Col>
