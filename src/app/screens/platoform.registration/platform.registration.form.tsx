@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
 import {
   FaRegistered,
   FaRegRegistered,
@@ -10,11 +9,12 @@ import { BsCardHeading } from 'react-icons/bs';
 import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
 import { FiMapPin } from 'react-icons/fi';
 import { GiModernCity } from 'react-icons/gi';
-import { BiCurrentLocation } from 'react-icons/bi';
+import { BiCheckCircle, BiCurrentLocation, BiHappy } from 'react-icons/bi';
 import { RiLockPasswordFill, RiLockPasswordLine } from 'react-icons/ri';
 import { AiOutlineFieldNumber } from 'react-icons/ai';
-import { Button, Form, Input, message } from 'antd';
-import { MdEmail } from 'react-icons/md';
+import { Button, Col, Form, Input, message, Radio, Row, Steps } from 'antd';
+import { IoDiamondOutline } from 'react-icons/io5';
+import { MdBusinessCenter, MdEmail } from 'react-icons/md';
 import { GrStreetView } from 'react-icons/gr';
 import { Masks } from '../../util/masks/masks';
 import { UserMain } from '../../types/user/user';
@@ -22,6 +22,7 @@ import { UserController } from '../../controller/user/user.controller';
 import { AddressSearchCEP } from '../../types/address/address';
 import { CepController } from '../../controller/cep/cep.controller';
 import { StringFormatter } from '../../util/string.formatter/string.formatter';
+import './platform.resgistrations.css';
 
 type InitialValues = {
   cpfcnpj: string;
@@ -31,6 +32,7 @@ type InitialValues = {
   platformName: string;
   corporateName: string;
   password: string;
+  passwordRepeated: string;
   street: string;
   addressCodePostal: string;
   phoneNumber: string;
@@ -50,6 +52,7 @@ const initialValues: InitialValues = {
   platformName: '',
   corporateName: '',
   password: '',
+  passwordRepeated: '',
   street: '',
   addressCodePostal: '',
   phoneNumber: '',
@@ -62,6 +65,16 @@ const initialValues: InitialValues = {
 };
 
 export const PlatformRegistrationForm = () => {
+  const [current, setCurrent] = useState(0);
+
+  const next = () => {
+    setCurrent(current + 1);
+  };
+
+  const prev = () => {
+    setCurrent(current - 1);
+  };
+
   const [values, setValues] = useState(initialValues);
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -72,21 +85,581 @@ export const PlatformRegistrationForm = () => {
     setValues({ ...values, [name]: value });
   };
 
+  const steps = [
+    {
+      title: 'Dados Iniciais',
+      content: (
+        <Row justify={'center'} gutter={[30, 20]} className="mt-5">
+          <Col md={12}>
+            <Form.Item
+              label="Nome de Usuário"
+              name="userName"
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, digite seu nome!',
+                },
+              ]}
+            >
+              <Input
+                name="userName"
+                onChange={handleChange}
+                placeholder="Digite seu nome..."
+                prefix={<FaUserCircle size={20} />}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={12}>
+            <Form.Item
+              label="Razão Social"
+              name="corporateName"
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, insira a razão social!',
+                },
+              ]}
+            >
+              <Input
+                name="corporateName"
+                onChange={handleChange}
+                placeholder="Digite a razão social..."
+                prefix={<FaRegistered size={20} />}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={12}>
+            <Form.Item
+              label="Nome Fantasia"
+              name="companyName"
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, digite o nome fantasia!',
+                },
+              ]}
+            >
+              <Input
+                name="companyName"
+                onChange={handleChange}
+                placeholder="Digite o nome fantasia..."
+                prefix={<FaRegRegistered size={20} />}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={12}>
+            <Form.Item
+              label="CPF/CNPJ"
+              name="cpfcnpj"
+              rules={[
+                {
+                  max: 18,
+                  required: true,
+                  message: 'Por favor, digite o CNPJ!',
+                },
+              ]}
+            >
+              <Input
+                name="cpfcnpj"
+                onChange={(event) => {
+                  const value = event.target.value;
+                  const mask = cpfCnpjFormatter(value);
+                  setValues({ ...values, cpfcnpj: mask });
+                }}
+                placeholder="Digite..."
+                prefix={<BsCardHeading size={20} />}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      ),
+    },
+    {
+      title: 'Contato',
+      content: (
+        <Row gutter={[30, 20]} className="mt-5">
+          <Col md={12}>
+            <Form.Item
+              label="Fone"
+              name="phone"
+              rules={[
+                {
+                  min: 14,
+                  max: 14,
+                  required: true,
+                  message: 'Por favor, digite o numero de telefone!',
+                },
+              ]}
+            >
+              <Input
+                name="phone"
+                onChange={(event) => {
+                  const value = event.target.value;
+                  const mask = Masks.phone(value);
+                  setValues({ ...values, phoneNumber: mask });
+                }}
+                placeholder="Digite o Telefone..."
+                prefix={<HiOutlineDevicePhoneMobile size={20} />}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={12}>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, digite o email!',
+                  type: 'email',
+                },
+              ]}
+            >
+              <Input
+                name="email"
+                onChange={handleChange}
+                placeholder="Digite o email..."
+                prefix={<MdEmail size={20} />}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      ),
+    },
+    {
+      title: 'Endereço',
+      content: (
+        <Row justify={'center'} gutter={[30, 20]} className="mt-5">
+          <Col md={8}>
+            <Form.Item
+              label="CEP"
+              name="addressCodePostal"
+              rules={[
+                {
+                  min: 9,
+                  required: true,
+                  message: 'Por favor, digite o seu CEP!',
+                },
+              ]}
+            >
+              <Input
+                name="addressCodePostal"
+                onChange={(event) => {
+                  const value = event.target.value;
+                  const mask = Masks.cep(value);
+                  setValues({ ...values, addressCodePostal: mask });
+                }}
+                onBlur={(event) => {
+                  searchCEP(event.target.value);
+                }}
+                placeholder="Digite seu CEP..."
+                prefix={<BiCurrentLocation size={20} />}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={8}>
+            <Form.Item
+              label="Estado"
+              name="state"
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, digite o estado!',
+                },
+              ]}
+            >
+              <Input name="state" disabled prefix={<FiMapPin size={20} />} />
+            </Form.Item>
+          </Col>
+          <Col md={8}>
+            <Form.Item
+              label="Cidade"
+              name="city"
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, digite a cidade!',
+                },
+              ]}
+            >
+              <Input name="city" disabled prefix={<GiModernCity size={20} />} />
+            </Form.Item>
+          </Col>
+          <Col md={8}>
+            <Form.Item
+              label="Bairro"
+              name="district"
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, digite o seu bairro!',
+                },
+              ]}
+            >
+              <Input
+                name="district"
+                onChange={handleChange}
+                placeholder="Digite seu bairro..."
+                prefix={<FaStreetView size={20} />}
+              />
+            </Form.Item>
+          </Col>
+
+          <Col md={8}>
+            <Form.Item
+              label="Rua"
+              name="street"
+              rules={[
+                {
+                  required: true,
+                  message: 'A rua é obrigatória!',
+                },
+              ]}
+            >
+              <Input
+                name="street"
+                onChange={handleChange}
+                placeholder="Digite a rua..."
+                value={values.street}
+                prefix={<GrStreetView size={20} />}
+              />
+            </Form.Item>
+          </Col>
+
+          <Col md={8}>
+            <Form.Item
+              label="Numero"
+              name="addressNumber"
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, digite o numero do seu endereço!',
+                },
+              ]}
+            >
+              <Input
+                name="addressNumber"
+                onChange={handleChange}
+                placeholder="Digite seu numero..."
+                prefix={<AiOutlineFieldNumber size={20} />}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      ),
+    },
+    {
+      title: 'Senha de acesso',
+      content: (
+        <Row justify={'center'} gutter={[30, 20]} className="mt-5">
+          <Col md={12}>
+            <Form.Item
+              label="Senha"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, digite a senha!',
+                },
+              ]}
+            >
+              <Input.Password
+                name="password"
+                onChange={handleChange}
+                placeholder="Digite a senha..."
+                prefix={<RiLockPasswordLine size={20} />}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={12}>
+            <Form.Item
+              label="Repita a Senha"
+              name="passwordRepeated"
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, digite a confirmação da senha!',
+                },
+              ]}
+            >
+              <Input.Password
+                name="passwordRepeated"
+                onChange={handleChange}
+                placeholder="Digite a senha novamente..."
+                prefix={<RiLockPasswordFill size={20} />}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      ),
+    },
+    {
+      title: 'Plano',
+      content: (
+        <Row justify={'center'} className="mt-5 text-center">
+          <Col md={24}>
+            <Form.Item
+              name="radio-button"
+              rules={[
+                {
+                  required: true,
+                  message: (
+                    <div className="mt-5">Por favor, escolha um plano!</div>
+                  ),
+                },
+              ]}
+            >
+              <Radio.Group>
+                <Radio.Button value="Iniciante" className="h-100">
+                  <div title="Iniciante" className="m-4" style={{ width: 300 }}>
+                    <p>
+                      <Row align={'middle'} gutter={[70, 0]}>
+                        <Col>
+                          <BiHappy size={30} />
+                        </Col>
+                        <Col className="fs-5">
+                          <strong>Iniciante</strong>
+                        </Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Pedidos Ilimitados</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">2 Caixas Ao Dia</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Relatório de Gastos.</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Relatório de Vendas.</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Relatório de Lucro.</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">10 Mesas</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">5 Usuários</Col>
+                      </Row>
+                    </p>
+                  </div>
+                </Radio.Button>
+                <Radio.Button value="Profissional" className="h-100">
+                  <div
+                    title="Profissional"
+                    className="m-4"
+                    style={{ width: 300 }}
+                  >
+                    <p>
+                      <Row align={'middle'} gutter={[70, 0]}>
+                        <Col>
+                          <MdBusinessCenter size={30} />
+                        </Col>
+                        <Col className="fs-5">
+                          <strong>Profissional</strong>
+                        </Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Pedidos Ilimitados</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">4 Caixas Ao Dia</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Relatório de Gastos.</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Relatório de Vendas.</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Relatório de Lucro.</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">25 Mesas</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">10 Usuários</Col>
+                      </Row>
+                    </p>
+                  </div>
+                </Radio.Button>
+                <Radio.Button value="Premium" className="h-100">
+                  <div title="Premium" className="m-4" style={{ width: 300 }}>
+                    <p>
+                      <Row align={'middle'} gutter={[70, 0]}>
+                        <Col span={24}>
+                          <strong> </strong>
+                        </Col>
+                        <Col>
+                          <IoDiamondOutline size={30} />
+                        </Col>
+                        <Col className="fs-5">
+                          <strong>Premium</strong>
+                        </Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Pedidos Ilimitados</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">10 Caixas Ao Dia</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Relatório de Gastos.</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Relatório de Vendas.</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">Relatório de Lucro.</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">70 Mesas</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-5">20 Usuários</Col>
+                      </Row>
+                    </p>
+                  </div>
+                </Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+          </Col>
+        </Row>
+      ),
+    },
+  ];
+
   const handleReset = () => {
     const element = document.getElementById('form') as any;
     element.reset();
     setValues(initialValues);
   };
 
+  const items = steps.map((item) => ({ key: item.title, title: item.title }));
+
   return (
-    <Row>
+    <Row justify={'center'}>
       {contextHolder}
-      <Row className="mb-5">
+      <Col span={24}>
         <Form
           id="form"
           layout="vertical"
           size="large"
           requiredMark={false}
+          onFinish={() => {
+            const toNext = current < steps.length - 1;
+            if (toNext) {
+              next();
+              return;
+            }
+            save();
+          }}
           fields={[
             {
               name: 'cpfcnpj',
@@ -106,337 +679,37 @@ export const PlatformRegistrationForm = () => {
             },
             { name: 'corporateName', value: values.corporateName },
             { name: 'companyName', value: values.companyName },
+            { name: 'password', value: values.password },
+            { name: 'passwordRepeated', value: values.passwordRepeated },
           ]}
-          onFinish={save}
         >
-          <Row className="m-3 justify-content-center">
-            <Col>
-              <Row className="justify-content-between text-start">
-                <Col md={6}>
-                  <Form.Item
-                    label="Nome de Usuário"
-                    name="userName"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Por favor, digite seu nome!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="userName"
-                      onChange={handleChange}
-                      placeholder="Digite seu nome..."
-                      prefix={<FaUserCircle size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col md={6}>
-                  <Form.Item
-                    label="Razão Social"
-                    name="corporateName"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Por favor, insira a razão social!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="corporateName"
-                      onChange={handleChange}
-                      placeholder="Digite a razão social..."
-                      prefix={<FaRegistered size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Row className="justify-content-between text-start">
-                <Col md={6}>
-                  <Form.Item
-                    label="Nome Fantasia"
-                    name="companyName"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Por favor, digite o nome fantasia!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="companyName"
-                      onChange={handleChange}
-                      placeholder="Digite o nome fantasia..."
-                      prefix={<FaRegRegistered size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col md={6}>
-                  <Form.Item
-                    label="CPF/CNPJ"
-                    name="cpfcnpj"
-                    rules={[
-                      {
-                        max: 18,
-                        required: true,
-                        message: 'Por favor, digite o CNPJ!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="cpfcnpj"
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        const mask = cpfCnpjFormatter(value);
-                        setValues({ ...values, cpfcnpj: mask });
-                      }}
-                      placeholder="Digite..."
-                      prefix={<BsCardHeading size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Row className="justify-content-between text-start">
-                <Col md={6}>
-                  <Form.Item
-                    label="Fone"
-                    name="phone"
-                    rules={[
-                      {
-                        min: 14,
-                        max: 14,
-                        required: true,
-                        message: 'Por favor, digite o numero de telefone!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="phone"
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        const mask = Masks.phone(value);
-                        setValues({ ...values, phoneNumber: mask });
-                      }}
-                      placeholder="Digite o Telefone..."
-                      prefix={<HiOutlineDevicePhoneMobile size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col md={6}>
-                  <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Por favor, digite o email!',
-                        type: 'email',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="email"
-                      onChange={handleChange}
-                      placeholder="Digite o email..."
-                      prefix={<MdEmail size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Row className="justify-content-between text-start">
-                <Col md={4}>
-                  <Form.Item
-                    label="CEP"
-                    name="addressCodePostal"
-                    rules={[
-                      {
-                        min: 9,
-                        required: true,
-                        message: 'Por favor, digite o seu CEP!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="addressCodePostal"
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        const mask = Masks.cep(value);
-                        setValues({ ...values, addressCodePostal: mask });
-                      }}
-                      onBlur={(event) => {
-                        searchCEP(event.target.value);
-                      }}
-                      placeholder="Digite seu CEP..."
-                      prefix={<BiCurrentLocation size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col md={4}>
-                  <Form.Item
-                    label="Estado"
-                    name="state"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Por favor, digite o estado!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="state"
-                      disabled
-                      prefix={<FiMapPin size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col md={4}>
-                  <Form.Item
-                    label="Cidade"
-                    name="city"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Por favor, digite a cidade!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="city"
-                      disabled
-                      prefix={<GiModernCity size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Row className="justify-content-between text-start">
-                <Col md={4}>
-                  <Form.Item
-                    label="Bairro"
-                    name="district"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Por favor, digite o seu bairro!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="district"
-                      onChange={handleChange}
-                      placeholder="Digite seu bairro..."
-                      prefix={<FaStreetView size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col md={4}>
-                  <Form.Item
-                    label="Rua"
-                    name="street"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'A rua é obrigatória!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="street"
-                      onChange={handleChange}
-                      placeholder="Digite a rua..."
-                      value={values.street}
-                      prefix={<GrStreetView size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col md={4}>
-                  <Form.Item
-                    label="Numero"
-                    name="addressNumber"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Por favor, digite o numero do seu endereço!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      name="addressNumber"
-                      onChange={handleChange}
-                      placeholder="Digite seu numero..."
-                      prefix={<AiOutlineFieldNumber size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Row className="justify-content-between text-start">
-                <Col md={6}>
-                  <Form.Item
-                    label="Senha"
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Por favor, digite a senha!',
-                      },
-                    ]}
-                  >
-                    <Input.Password
-                      name="password"
-                      onChange={handleChange}
-                      placeholder="Digite a senha..."
-                      prefix={<RiLockPasswordLine size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col md={6}>
-                  <Form.Item
-                    label="Repita a Senha"
-                    name="passwordRepeated"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Por favor, digite a confirmação da senha!',
-                      },
-                    ]}
-                  >
-                    <Input.Password
-                      name="passwordRepeated"
-                      onChange={handleChange}
-                      placeholder="Digite a senha novamente..."
-                      prefix={<RiLockPasswordFill size={20} />}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Row className="justify-content-center text-center">
-                <Col md={2} className="mt-3">
-                  <Button type="primary" htmlType="submit">
-                    <strong>Enviar</strong>
-                  </Button>
-                </Col>
-
-                <Col md={2} className="mt-3">
-                  <Button type="default" onClick={handleReset}>
-                    <strong>Limpar</strong>
-                  </Button>
-                </Col>
-              </Row>
+          <Row justify={'center'}>
+            <Steps current={current} items={items} />
+            <Col span={23}>{steps[current].content}</Col>
+            <Col span={23} style={{ marginTop: 24 }}>
+              {current < steps.length - 1 && (
+                <Button type="primary" htmlType="submit" onClick={next}>
+                  Proxímo
+                </Button>
+              )}
+              {current === steps.length - 1 && (
+                <Button type="primary" htmlType="submit">
+                  <strong>Enviar</strong>
+                </Button>
+              )}
+              {current > 0 && (
+                <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                  Anterior
+                </Button>
+              )}
             </Col>
           </Row>
         </Form>
-      </Row>
+      </Col>
     </Row>
   );
 
-  async function save(valuesForm: any) {
+  async function save() {
     messageApi.open({
       key: 'platform.registration',
       type: 'loading',
@@ -444,27 +717,27 @@ export const PlatformRegistrationForm = () => {
       duration: 7,
     });
 
-    const cpfcnpj = StringFormatter.onlyNumber(valuesForm.cpfcnpj);
+    const cpfcnpj = StringFormatter.onlyNumber(values.cpfcnpj);
 
     const dataValues: UserMain = {
       cpfcnpj: cpfcnpj,
-      email: valuesForm.email,
-      companyName: valuesForm.companyName,
-      corporateName: valuesForm.corporateName,
-      password: valuesForm.password,
-      userName: valuesForm.userName,
-      passwordRepeated: valuesForm.passwordRepeated,
-      platformName: valuesForm.companyName,
+      email: values.email,
+      companyName: values.companyName,
+      corporateName: values.corporateName,
+      password: values.password,
+      userName: values.userName,
+      passwordRepeated: values.passwordRepeated,
+      platformName: values.companyName,
       address: {
-        ...valuesForm.address,
-        district: valuesForm.district,
-        addressCodePostal: valuesForm.addressCodePostal,
-        addressNumber: valuesForm.addressNumber,
-        street: valuesForm.street,
-        phoneNumber: valuesForm.phone,
-      },
+        district: values.district,
+        addressCodePostal: values.addressCodePostal,
+        addressNumber: values.addressNumber,
+        street: values.street,
+        phoneNumber: values.phoneNumber,
+      } as any,
     };
 
+    return;
     const request = await UserController.storePlatform({
       ...dataValues,
     });
