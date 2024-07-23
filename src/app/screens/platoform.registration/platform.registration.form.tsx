@@ -12,7 +12,17 @@ import { GiModernCity } from 'react-icons/gi';
 import { BiCheckCircle, BiCurrentLocation, BiHappy } from 'react-icons/bi';
 import { RiLockPasswordFill, RiLockPasswordLine } from 'react-icons/ri';
 import { AiOutlineFieldNumber } from 'react-icons/ai';
-import { Button, Col, Form, Input, message, Radio, Row, Steps } from 'antd';
+import {
+  Button,
+  Col,
+  ConfigProvider,
+  Form,
+  Input,
+  message,
+  Radio,
+  Row,
+  Steps,
+} from 'antd';
 import { IoDiamondOutline } from 'react-icons/io5';
 import { MdBusinessCenter, MdEmail } from 'react-icons/md';
 import { GrStreetView } from 'react-icons/gr';
@@ -23,6 +33,7 @@ import { AddressSearchCEP } from '../../types/address/address';
 import { CepController } from '../../controller/cep/cep.controller';
 import { StringFormatter } from '../../util/string.formatter/string.formatter';
 import './platform.resgistrations.css';
+import ptBr from 'antd/es/locale/pt_BR';
 
 type InitialValues = {
   cpfcnpj: string;
@@ -65,6 +76,7 @@ const initialValues: InitialValues = {
 };
 
 export const PlatformRegistrationForm = () => {
+  const locale = ptBr;
   const [current, setCurrent] = useState(0);
 
   const next = () => {
@@ -478,6 +490,13 @@ export const PlatformRegistrationForm = () => {
                         <Col className="fs-5">5 Usuários</Col>
                       </Row>
                     </p>
+                    <p>
+                      <Row justify={'center'} align={'middle'}>
+                        <Col className="fs-5">
+                          <strong>Apenas R$ 99,90/Mês</strong>
+                        </Col>
+                      </Row>
+                    </p>
                   </div>
                 </Radio.Button>
                 <Radio.Button value="Profissional" className="h-100">
@@ -550,6 +569,13 @@ export const PlatformRegistrationForm = () => {
                           <BiCheckCircle color="green" size={20} />
                         </Col>
                         <Col className="fs-5">10 Usuários</Col>
+                      </Row>
+                    </p>
+                    <p>
+                      <Row justify={'center'} align={'middle'}>
+                        <Col className="fs-5">
+                          <strong>Apenas R$ 149,90/Mês</strong>
+                        </Col>
                       </Row>
                     </p>
                   </div>
@@ -625,6 +651,13 @@ export const PlatformRegistrationForm = () => {
                         <Col className="fs-5">20 Usuários</Col>
                       </Row>
                     </p>
+                    <p>
+                      <Row justify={'center'} align={'middle'}>
+                        <Col className="fs-5">
+                          <strong>Apenas R$ 349,90/Mês</strong>
+                        </Col>
+                      </Row>
+                    </p>
                   </div>
                 </Radio.Button>
               </Radio.Group>
@@ -684,25 +717,35 @@ export const PlatformRegistrationForm = () => {
           ]}
         >
           <Row justify={'center'}>
-            <Steps current={current} items={items} />
-            <Col span={23}>{steps[current].content}</Col>
-            <Col span={23} style={{ marginTop: 24 }}>
-              {current < steps.length - 1 && (
-                <Button type="primary" htmlType="submit" onClick={next}>
-                  Proxímo
-                </Button>
-              )}
-              {current === steps.length - 1 && (
-                <Button type="primary" htmlType="submit">
-                  <strong>Enviar</strong>
-                </Button>
-              )}
-              {current > 0 && (
-                <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                  Anterior
-                </Button>
-              )}
-            </Col>
+            <ConfigProvider
+              locale={locale}
+              theme={{
+                token: {
+                  colorPrimary: '#1a7a00',
+                  colorBgBase: '#fff',
+                },
+              }}
+            >
+              <Steps current={current} items={items} />
+              <Col span={23}>{steps[current].content}</Col>
+              <Col span={23} style={{ marginTop: 24 }}>
+                {current < steps.length - 1 && (
+                  <Button type="primary" htmlType="submit" onClick={next}>
+                    Proxímo
+                  </Button>
+                )}
+                {current === steps.length - 1 && (
+                  <Button type="primary" htmlType="submit">
+                    <strong>Enviar</strong>
+                  </Button>
+                )}
+                {current > 0 && (
+                  <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                    Anterior
+                  </Button>
+                )}
+              </Col>
+            </ConfigProvider>
           </Row>
         </Form>
       </Col>
