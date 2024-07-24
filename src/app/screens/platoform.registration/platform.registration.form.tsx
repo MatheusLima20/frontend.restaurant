@@ -10,7 +10,11 @@ import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
 import { FiMapPin, FiXCircle } from 'react-icons/fi';
 import { GiModernCity } from 'react-icons/gi';
 import { BiCheckCircle, BiCurrentLocation, BiHappy } from 'react-icons/bi';
-import { RiLockPasswordFill, RiLockPasswordLine } from 'react-icons/ri';
+import {
+  RiLockPasswordFill,
+  RiLockPasswordLine,
+  RiWhatsappFill,
+} from 'react-icons/ri';
 import { AiOutlineFieldNumber } from 'react-icons/ai';
 import { Button, Col, Form, Input, message, Radio, Row, Steps } from 'antd';
 import { IoDiamondOutline } from 'react-icons/io5';
@@ -413,12 +417,12 @@ export const PlatformRegistrationForm = () => {
             >
               <Radio.Group name="plan" onChange={handleChange}>
                 <Radio.Button value="Iniciante" className="h-100">
-                  <div title="Iniciante" className="m-4" style={{ width: 300 }}>
+                  <div title="Iniciante" className="m-4" style={{ width: 250 }}>
                     <div>
                       <Row align={'middle'} gutter={[70, 0]}>
                         <Col
                           span={24}
-                          className="fs-5 text-center border-2 mt-1"
+                          className="fs-6 text-center border-2 mt-1"
                         >
                           <strong>
                             <br />
@@ -431,7 +435,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiHappy size={30} />
                         </Col>
-                        <Col className="fs-5">
+                        <Col className="fs-6">
                           <strong>Iniciante</strong>
                         </Col>
                       </Row>
@@ -441,7 +445,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Pedidos Ilimitados</Col>
+                        <Col className="fs-6">Pedidos Ilimitados</Col>
                       </Row>
                     </div>
                     <div>
@@ -449,7 +453,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">1 Caixa Por Dia</Col>
+                        <Col className="fs-6">1 Caixa Por Dia</Col>
                       </Row>
                     </div>
                     <div>
@@ -457,7 +461,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">8 Mesas</Col>
+                        <Col className="fs-6">8 Mesas</Col>
                       </Row>
                     </div>
                     <div>
@@ -465,7 +469,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">4 Usuários</Col>
+                        <Col className="fs-6">4 Usuários</Col>
                       </Row>
                     </div>
                     <div>
@@ -473,7 +477,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <FiXCircle color="red" size={20} />
                         </Col>
-                        <Col className="fs-5">Relatório de Gastos.</Col>
+                        <Col className="fs-6">Relatório de Gastos.</Col>
                       </Row>
                     </div>
                     <div>
@@ -481,7 +485,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <FiXCircle color="red" size={20} />
                         </Col>
-                        <Col className="fs-5">Relatório de Vendas.</Col>
+                        <Col className="fs-6">Relatório de Vendas.</Col>
                       </Row>
                     </div>
                     <div>
@@ -489,12 +493,20 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <FiXCircle color="red" size={20} />
                         </Col>
-                        <Col className="fs-5">Relatório de Lucro.</Col>
+                        <Col className="fs-6">Relatório de Lucro.</Col>
+                      </Row>
+                    </div>
+                    <div>
+                      <Row justify={'start'} align={'middle'}>
+                        <Col>
+                          <FiXCircle color="red" size={20} />
+                        </Col>
+                        <Col className="fs-6">Baixa automatica no estoque.</Col>
                       </Row>
                     </div>
                     <div>
                       <Row justify={'center'} align={'middle'}>
-                        <Col className="fs-5">
+                        <Col className="fs-6">
                           <strong>Apenas R$ 99,90/Mês</strong>
                         </Col>
                       </Row>
@@ -505,7 +517,7 @@ export const PlatformRegistrationForm = () => {
                   <div
                     title="Profissional"
                     className="m-4"
-                    style={{ width: 300 }}
+                    style={{ width: 250 }}
                   >
                     <div>
                       <Row align={'middle'} gutter={[70, 0]}>
@@ -521,7 +533,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <MdBusinessCenter size={30} />
                         </Col>
-                        <Col className="fs-5">
+                        <Col className="fs-6">
                           <strong>Profissional</strong>
                         </Col>
                       </Row>
@@ -531,7 +543,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Pedidos Ilimitados</Col>
+                        <Col className="fs-6">Pedidos Ilimitados</Col>
                       </Row>
                     </div>
                     <div>
@@ -539,7 +551,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">3 Caixas Por Dia</Col>
+                        <Col className="fs-6">3 Caixas Por Dia</Col>
                       </Row>
                     </div>
                     <div>
@@ -547,7 +559,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">20 Mesas</Col>
+                        <Col className="fs-6">20 Mesas</Col>
                       </Row>
                     </div>
                     <div>
@@ -555,7 +567,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">8 Usuários</Col>
+                        <Col className="fs-6">8 Usuários</Col>
                       </Row>
                     </div>
                     <div>
@@ -563,7 +575,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Relatório de Gastos.</Col>
+                        <Col className="fs-6">Relatório de Gastos.</Col>
                       </Row>
                     </div>
                     <div>
@@ -571,7 +583,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Relatório de Vendas.</Col>
+                        <Col className="fs-6">Relatório de Vendas.</Col>
                       </Row>
                     </div>
                     <div>
@@ -579,12 +591,20 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <FiXCircle color="red" size={20} />
                         </Col>
-                        <Col className="fs-5">Relatório de Lucro.</Col>
+                        <Col className="fs-6">Relatório de Lucro.</Col>
+                      </Row>
+                    </div>
+                    <div>
+                      <Row justify={'start'} align={'middle'}>
+                        <Col>
+                          <FiXCircle color="red" size={20} />
+                        </Col>
+                        <Col className="fs-6">Baixa automatica no estoque.</Col>
                       </Row>
                     </div>
                     <div>
                       <Row justify={'center'} align={'middle'}>
-                        <Col className="fs-5">
+                        <Col className="fs-6">
                           <strong>Apenas R$ 149,90/Mês</strong>
                         </Col>
                       </Row>
@@ -592,10 +612,13 @@ export const PlatformRegistrationForm = () => {
                   </div>
                 </Radio.Button>
                 <Radio.Button value="Premium" className="h-100">
-                  <div title="Premium" className="m-4" style={{ width: 300 }}>
+                  <div title="Premium" className="m-4" style={{ width: 250 }}>
                     <div>
                       <Row align={'middle'} gutter={[70, 0]}>
-                        <Col span={24} className="fs-5 text-center mt-1">
+                        <Col
+                          span={24}
+                          className="fs-6 text-center border-2 mt-1"
+                        >
                           <strong>
                             <br />
                           </strong>
@@ -610,7 +633,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <IoDiamondOutline size={30} />
                         </Col>
-                        <Col className="fs-5">
+                        <Col className="fs-6">
                           <strong>Premium</strong>
                         </Col>
                       </Row>
@@ -620,7 +643,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Pedidos Ilimitados</Col>
+                        <Col className="fs-6">Pedidos Ilimitados.</Col>
                       </Row>
                     </div>
                     <div>
@@ -628,7 +651,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Caixas Por Dia: A combinar</Col>
+                        <Col className="fs-6">Caixas: Personalizado.</Col>
                       </Row>
                     </div>
                     <div>
@@ -636,7 +659,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Mesas: A combinar</Col>
+                        <Col className="fs-6">Mesas: Personalizado.</Col>
                       </Row>
                     </div>
                     <div>
@@ -644,7 +667,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Usuários: A combinar</Col>
+                        <Col className="fs-6">Usuários: Personalizado.</Col>
                       </Row>
                     </div>
                     <div>
@@ -652,7 +675,7 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Relatório de Gastos.</Col>
+                        <Col className="fs-6">Relatório de Gastos.</Col>
                       </Row>
                     </div>
                     <div>
@@ -660,21 +683,32 @@ export const PlatformRegistrationForm = () => {
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Relatório de Vendas.</Col>
+                        <Col className="fs-6">Relatório de Vendas.</Col>
                       </Row>
                     </div>
                     <div>
-                      <Row align={'middle'}>
+                      <Row justify={'start'} align={'middle'}>
                         <Col>
                           <BiCheckCircle color="green" size={20} />
                         </Col>
-                        <Col className="fs-5">Relatório de Lucro.</Col>
+                        <Col className="fs-6">Relatório de Lucro.</Col>
+                      </Row>
+                    </div>
+                    <div>
+                      <Row justify={'start'} align={'middle'}>
+                        <Col>
+                          <BiCheckCircle color="green" size={20} />
+                        </Col>
+                        <Col className="fs-6">Baixa automatica no estoque.</Col>
                       </Row>
                     </div>
                     <div>
                       <Row justify={'center'} align={'middle'}>
-                        <Col className="fs-5">
-                          <strong>Negociável R$/Mês</strong>
+                        <Col className="fs-6">
+                          <strong>
+                            <RiWhatsappFill color="green" size={30} /> Entrar em
+                            contato
+                          </strong>
                         </Col>
                       </Row>
                     </div>
@@ -799,6 +833,16 @@ export const PlatformRegistrationForm = () => {
       } as any,
     };
     console.log(values);
+
+    setTimeout(() => {
+      messageApi.open({
+        key: 'platform.registration',
+        type: 'success',
+        content: 'ok',
+        duration: 7,
+      });
+    }, 1000);
+
     return;
     const request = await UserController.storePlatform({
       ...dataValues,
