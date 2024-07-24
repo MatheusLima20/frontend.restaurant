@@ -457,7 +457,7 @@ export const PlatformRegistrationForm = () => {
             <Col span={23}>{steps[current].content}</Col>
             <Col span={23} style={{ marginTop: 24 }}>
               {current < steps.length - 1 && (
-                <Button type="primary" htmlType="submit" onClick={next}>
+                <Button type="primary" htmlType="submit">
                   Proxímo
                 </Button>
               )}
@@ -513,18 +513,7 @@ export const PlatformRegistrationForm = () => {
         phoneNumber: values.phoneNumber,
       } as any,
     };
-    console.log(values);
 
-    setTimeout(() => {
-      messageApi.open({
-        key: 'platform.registration',
-        type: 'success',
-        content: 'ok',
-        duration: 7,
-      });
-    }, 1000);
-
-    return;
     const request = await UserController.storePlatform({
       ...dataValues,
     });
@@ -557,7 +546,7 @@ export const PlatformRegistrationForm = () => {
 
     const data: AddressSearchCEP = request.data;
 
-    if (cep) {
+    if (data) {
       setValues({
         ...values,
         city: data.city,
