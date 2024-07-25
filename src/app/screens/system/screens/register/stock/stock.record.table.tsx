@@ -214,22 +214,21 @@ export const StockRecordTable = (props: Props) => {
         return (
           <Row>
             <Col>
-              <Button>
-                <BiEdit
-                  size={20}
-                  onClick={() => {
-                    props.getRowValues({
-                      id: data.id,
-                      name: data.name,
-                      value: data.value,
-                      amount: data.amount,
-                      isActive: data.isActive,
-                      show: data.show,
-                      unitMeasurement: data.unitMeasurement,
-                      ...(data as any),
-                    });
-                  }}
-                />
+              <Button
+                onClick={() => {
+                  props.getRowValues({
+                    id: data.id,
+                    name: data.name,
+                    value: data.value,
+                    amount: data.amount,
+                    isActive: data.isActive,
+                    show: data.show,
+                    unitMeasurement: data.unitMeasurement,
+                    ...(data as any),
+                  });
+                }}
+              >
+                <BiEdit size={20} />
               </Button>
             </Col>
           </Row>

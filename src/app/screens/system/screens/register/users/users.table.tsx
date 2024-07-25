@@ -193,19 +193,18 @@ export const UsersTable = (props: Props) => {
         return (
           <Row>
             <Col>
-              <Button>
-                <BiEdit
-                  size={20}
-                  onClick={() => {
-                    props.getRowValues({
-                      emailUser: data.email,
-                      isActive: data.isActive,
-                      nameUser: data.userName,
-                      userType: data.userType,
-                      ...(data as any),
-                    });
-                  }}
-                />
+              <Button
+                onClick={() => {
+                  props.getRowValues({
+                    emailUser: data.email,
+                    isActive: data.isActive,
+                    nameUser: data.userName,
+                    userType: data.userType,
+                    ...(data as any),
+                  });
+                }}
+              >
+                <BiEdit size={20} />
               </Button>
             </Col>
           </Row>

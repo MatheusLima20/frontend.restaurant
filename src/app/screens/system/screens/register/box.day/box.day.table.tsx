@@ -286,18 +286,18 @@ export const BoxDayTable = (props: Props) => {
               </Button>
             </Col>
             <Col>
-              <Button loading={loadingPrint}>
-                <BiEdit
-                  size={20}
-                  onClick={() => {
-                    props.getRowValues({
-                      id: data.id,
-                      isOpen: data.isOpen,
-                      createdAt: data.createdAt,
-                      ...(data as any),
-                    });
-                  }}
-                />
+              <Button
+                loading={loadingPrint}
+                onClick={() => {
+                  props.getRowValues({
+                    id: data.id,
+                    isOpen: data.isOpen,
+                    createdAt: data.createdAt,
+                    ...(data as any),
+                  });
+                }}
+              >
+                <BiEdit size={20} />
               </Button>
             </Col>
           </Row>

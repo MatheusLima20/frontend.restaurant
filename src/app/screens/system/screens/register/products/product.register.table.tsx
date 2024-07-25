@@ -202,22 +202,21 @@ export const ProductRegisterTable = (props: Props) => {
         return (
           <Row>
             <Col>
-              <Button>
-                <BiEdit
-                  size={20}
-                  onClick={() => {
-                    props.getRowValues({
-                      id: data.id,
-                      name: data.name,
-                      value: data.value,
-                      amount: data.amount,
-                      isActive: data.isActive,
-                      show: data.show,
-                      productType: data.productType,
-                      ...(data as any),
-                    });
-                  }}
-                />
+              <Button
+                onClick={() => {
+                  props.getRowValues({
+                    id: data.id,
+                    name: data.name,
+                    value: data.value,
+                    amount: data.amount,
+                    isActive: data.isActive,
+                    show: data.show,
+                    productType: data.productType,
+                    ...(data as any),
+                  });
+                }}
+              >
+                <BiEdit size={20} />
               </Button>
             </Col>
           </Row>
