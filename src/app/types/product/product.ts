@@ -36,4 +36,5 @@ export type ProductType =
   | 'GUARNIÇÃO'
   | 'BEBIDA'
   | 'SOBREMESA'
-  | 'PETISCO';
+  | 'PETISCO'
+  | 'DRINK';
