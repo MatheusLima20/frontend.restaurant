@@ -53,6 +53,30 @@ export const OrderController = {
     }
   },
 
+  patchs: async (order: Order[], status: string) => {
+    const values = order;
+
+    try {
+      const request = await axios.patch(
+        `/orders/`,
+        { orders: values, status },
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
+      );
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
+
   patchTableOrders: async (idTable1: number, idTable2: number) => {
     try {
       const request = await axios.patch(
@@ -126,6 +150,28 @@ export const OrderController = {
       const token = cookie.token;
 
       const request = await axios.get(`/order-boxday/${id}/${isCancelled}`, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message, data: data.data };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
+
+  getByStatus: async (status: string) => {
+    try {
+      const cookie = cookies.get('data.user');
+
+      const token = cookie.token;
+
+      const request = await axios.get(`/order-status/${status}`, {
         headers: { authorization: `Bearer ${token}` },
       });
 

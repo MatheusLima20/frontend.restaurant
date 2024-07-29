@@ -25,12 +25,11 @@ export const Pendings = (props: Props) => {
   const handlePrintPendings = useReactToPrint({
     content: () => printPendings.current,
     onAfterPrint: () => {
-      for (let index = 0; index < pendings.length; index++) {
-        const order = pendings[index];
-        if (order.status === 'pendente') {
-          patchStatus(order.id);
-        }
-      }
+      const pendingOrders = pendings.filter(
+        (pending) => pending.status === 'pendente',
+      );
+      const orders = OrginizeArrays.groupBy(pendingOrders, 'idTable');
+      patchStatus(orders);
     },
     removeAfterPrint: true,
   });
@@ -56,12 +55,8 @@ export const Pendings = (props: Props) => {
     </Row>
   );
 
-  async function patchStatus(id: number) {
-    const orderId = id;
-
-    await OrderController.patch(orderId, {
-      status: 'processando',
-    } as any);
+  async function patchStatus(orders: any) {
+    await OrderController.patchs(orders, 'processando');
 
     props.update();
   }
