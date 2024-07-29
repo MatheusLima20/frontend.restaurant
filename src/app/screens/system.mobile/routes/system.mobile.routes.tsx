@@ -18,8 +18,8 @@ export const SystemMobileRoutes = () => {
 
     if (userType === 'SUPER') {
       return (
-        <Layout style={{ backgroundColor: 'white' }}>
-          <Layout.Header style={{ backgroundColor: 'white', height: 50 }}>
+        <Layout style={{ backgroundColor: '#d3d3d3' }}>
+          <Layout.Header style={{ backgroundColor: '#d3d3d3', height: 50 }}>
             <img
               src={Images.logo}
               width={40}
@@ -35,7 +35,7 @@ export const SystemMobileRoutes = () => {
 
     if (userType === 'COOK') {
       return (
-        <Layout style={{ backgroundColor: 'white' }}>
+        <Layout style={{ backgroundColor: '#d3d3d3' }}>
           <Layout.Content>
             <Routes>
               <Route index path="*" element={KitchenMobile()} />
@@ -46,7 +46,7 @@ export const SystemMobileRoutes = () => {
     }
 
     return (
-      <Layout style={{ backgroundColor: 'white' }}>
+      <Layout style={{ backgroundColor: '#d3d3d3' }}>
         <Layout.Content>
           <Routes>
             <Route index path="*" element={SellOrderMobile()} />

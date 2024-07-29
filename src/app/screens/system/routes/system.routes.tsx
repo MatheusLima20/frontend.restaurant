@@ -19,11 +19,11 @@ export const SystemRoutes = () => {
 
   function userRoutes() {
     return (
-      <Layout style={{ backgroundColor: 'white' }}>
+      <Layout style={{ backgroundColor: '#f0f0f0' }}>
         <Menu />
 
-        <Layout style={{ backgroundColor: 'white' }}>
-          <Layout.Header style={{ backgroundColor: 'white' }}>
+        <Layout style={{ backgroundColor: '#f0f0f0' }}>
+          <Layout.Header style={{ backgroundColor: '#f0f0f0' }}>
             <Header />
           </Layout.Header>
           <Layout.Content className="ms-3">
@@ -50,7 +50,7 @@ export const SystemRoutes = () => {
               <Route index path="/reports/profit/" element={Profit()} />
             </Routes>
           </Layout.Content>
-          <Layout.Footer style={{ backgroundColor: 'white' }}>
+          <Layout.Footer style={{ backgroundColor: '#f0f0f0' }}>
             <Footer />
           </Layout.Footer>
         </Layout>
