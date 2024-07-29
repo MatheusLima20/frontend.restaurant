@@ -6,6 +6,7 @@ export type UserType =
   | 'CUSTOMER'
   | 'WAITER'
   | 'DELIVERYMAN'
+  | 'COOK'
   | '';
 
 export type UserLogin = {

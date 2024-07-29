@@ -25,6 +25,7 @@ export const UsersForm = () => {
     { userType: 'SUPER', label: 'SUPER' },
     { userType: 'ADM', label: 'ADM' },
     { userType: 'WAITER', label: 'GARÇOM' },
+    { userType: 'COOK', label: 'COZINHEIRO' },
   ];
 
   const handleChange = (event: any) => {
@@ -299,13 +300,17 @@ export const UsersForm = () => {
 
     const request2 = await UserController.getUsers('ADM');
 
+    const request3 = await UserController.getUsers('COOK');
+
     const data = request.data;
 
     const data2 = request2.data;
 
+    const data3 = request3.data;
+
     let newData: any[] = [];
 
-    newData = newData.concat(data, data2);
+    newData = newData.concat(data, data2, data3);
 
     setTimeout(() => {
       setLoading(false);

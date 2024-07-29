@@ -25,6 +25,15 @@ export const AppRoutes = (props: Props) => {
       </Routes>
     );
   } else {
+    if (dataUser.userType === 'COOK') {
+      return (
+        <Routes>
+          <Route path="*" element={SystemMobileNavigation()} />;
+          <Route path="/logout/" element={Logout()} />;
+        </Routes>
+      );
+    }
+
     if (!screenMobile) {
       return (
         <Routes>

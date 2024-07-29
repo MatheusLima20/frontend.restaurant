@@ -26,10 +26,14 @@ export const LoginScreen = () => {
                 label="Email"
                 name="email"
                 rules={[
-                  { required: true, message: 'Por favor, digite seu nome!' },
+                  {
+                    required: true,
+                    message: 'Por favor, digite seu nome!',
+                    type: 'email',
+                  },
                 ]}
               >
-                <Input />
+                <Input type="email" />
               </Form.Item>
 
               <Form.Item
