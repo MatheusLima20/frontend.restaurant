@@ -28,8 +28,6 @@ const socket = io.connect(baseURL);
 const user: UserDataLogged = cookies.get('data.user');
 const platform = user.platformId;
 
-socket.emit('platform', platform);
-
 export const SellOrderAddTableScreen = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [orders, setOrders] = useState<Order[]>([]);
@@ -59,6 +57,10 @@ export const SellOrderAddTableScreen = () => {
   const sendOrders = () => {
     socket.emit('send_orders', { message: 'ok', platform });
   };
+
+  useEffect(() => {
+    socket.emit('platform', platform);
+  }, []);
 
   useEffect(() => {
     getTablesRestaurant(true);
@@ -199,9 +201,7 @@ export const SellOrderAddTableScreen = () => {
             loading={loading}
             orders={orders}
             tableName={tableName}
-            onUpdate={() => {
-              sendOrders();
-            }}
+            onUpdate={sendOrders}
           />
         </Modal>
       </Col>

@@ -22,8 +22,6 @@ const socket = io.connect(baseURL);
 const user: UserDataLogged = cookies.get('data.user');
 const platform = user.platformId;
 
-socket.emit('platform', platform);
-
 export const SellOrderAddTableScreen = (props: Props) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [tables, setTables] = useState<TableRestaurant[]>([]);
@@ -47,13 +45,17 @@ export const SellOrderAddTableScreen = (props: Props) => {
     setIsModalOpen(false);
   };
 
-  useEffect(() => {
-    getTablesRestaurant(true);
-  }, [loading]);
-
   const sendOrders = () => {
     socket.emit('send_orders', { message: 'ok', platform });
   };
+
+  useEffect(() => {
+    socket.emit('platform', platform);
+  }, []);
+
+  useEffect(() => {
+    getTablesRestaurant(true);
+  }, [loading]);
 
   useEffect(() => {
     socket.on('receive_orders', () => {
