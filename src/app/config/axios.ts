@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'https://restaurants.back.flatheadinteractive.com';
+const baseURL = 'http://10.90.1.118:3333';
 
 export default axios.create({
   baseURL: baseURL,
