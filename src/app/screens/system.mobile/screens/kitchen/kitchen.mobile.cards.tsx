@@ -25,8 +25,6 @@ const socket = io.connect(baseURL);
 const user: UserDataLogged = cookies.get('data.user');
 const platform = user.platformId;
 
-socket.emit('platform', platform);
-
 export const KitchenMobileCards = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -36,6 +34,11 @@ export const KitchenMobileCards = () => {
   const sendOrders = () => {
     socket.emit('send_orders', { message, platform });
   };
+
+  useEffect(() => {
+    socket.emit('platform', platform);
+    getTablesRestaurant();
+  }, []);
 
   useEffect(() => {
     socket.on('receive_orders', () => {

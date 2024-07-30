@@ -58,6 +58,8 @@ export const Pendings = (props: Props) => {
   async function patchStatus(orders: any) {
     await OrderController.patchs(orders, 'processando');
 
-    props.update();
+    setTimeout(() => {
+      props.update();
+    }, 500);
   }
 };

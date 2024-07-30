@@ -322,128 +322,138 @@ export const SellOrderAdd = (props: Props) => {
               </Col>
             </Row>
           }
-          renderItem={(item) => (
-            <List.Item
-              key={item.id}
-              style={{
-                backgroundColor:
-                  item.status === 'pendente'
-                    ? 'rgba(248, 92, 92, 0.2)'
-                    : 'rgba(92, 191, 248, 0.2)',
-              }}
-              actions={[
-                <Checkbox
-                  key={item.id}
-                  onChange={(event) => {
-                    const isChecked = event.target.checked;
+          renderItem={(item) => {
+            const status = item.status;
+            let backColor = 'rgba(248, 92, 92, 0.2)';
 
-                    const totalItem = item.value * item.amount;
+            if (status === 'processando') {
+              backColor = 'rgba(92, 191, 248, 0.2)';
+            }
 
-                    const value = isChecked
-                      ? totalChecked + totalItem
-                      : totalChecked - totalItem;
-                    setTotalChecked(value);
+            if (status === 'finalizado') {
+              backColor = 'rgba(0, 255, 0, 0.2)';
+            }
 
-                    if (isChecked) {
-                      checkedOrders.push(item);
-                    } else {
-                      const newArray = checkedOrders.filter(
-                        (value) => value.id !== item.id,
-                      );
-                      setCheckedOrders(newArray);
-                    }
-                  }}
-                ></Checkbox>,
-                <Button
-                  key={item.id}
-                  loading={loandingPrint}
-                  onClick={() => {
-                    setOrder({
-                      ...order,
-                      productName: item.productName,
-                      amount: item.amount,
-                    });
-                    setLoadingPrint(true);
-                    setTimeout(() => {
-                      handlePrintOrder();
-                      setLoadingPrint(false);
-                      patchStatus(item.id);
-                    }, 500);
-                  }}
-                >
-                  <BiPrinter size={20} />
-                </Button>,
-                <Button
-                  key={item.id}
-                  loading={loandingPrint}
-                  onClick={() => {
-                    setOrder({
-                      ...order,
-                      orderId: item.id,
-                      productName:
-                        item.productName +
-                        StringFormatter.realNumber(item.value),
-                      productId: products.find(
-                        (value) => value.name === item.productName,
-                      ).id,
-                      amount: item.amount,
-                    });
-                  }}
-                >
-                  <BiEditAlt size={20} />
-                </Button>,
-                <Popconfirm
-                  key={item.id}
-                  title="Cancelar Pedido"
-                  description="Deseja realmente cancelar o pedido?"
-                  onConfirm={() => {
-                    cancel(item.id);
-                  }}
-                  okText="Sim"
-                  cancelText="Não"
-                >
+            return (
+              <List.Item
+                key={item.id}
+                style={{
+                  backgroundColor: backColor,
+                }}
+                actions={[
+                  <Checkbox
+                    key={item.id}
+                    onChange={(event) => {
+                      const isChecked = event.target.checked;
+
+                      const totalItem = item.value * item.amount;
+
+                      const value = isChecked
+                        ? totalChecked + totalItem
+                        : totalChecked - totalItem;
+                      setTotalChecked(value);
+
+                      if (isChecked) {
+                        checkedOrders.push(item);
+                      } else {
+                        const newArray = checkedOrders.filter(
+                          (value) => value.id !== item.id,
+                        );
+                        setCheckedOrders(newArray);
+                      }
+                    }}
+                  ></Checkbox>,
                   <Button
-                    danger={true}
+                    key={item.id}
                     loading={loandingPrint}
                     onClick={() => {
                       setOrder({
                         ...order,
                         productName: item.productName,
-                        amount: item.amount * -1,
+                        amount: item.amount,
+                      });
+                      setLoadingPrint(true);
+                      setTimeout(() => {
+                        handlePrintOrder();
+                        setLoadingPrint(false);
+                        patchStatus(item.id);
+                      }, 500);
+                    }}
+                  >
+                    <BiPrinter size={20} />
+                  </Button>,
+                  <Button
+                    key={item.id}
+                    loading={loandingPrint}
+                    onClick={() => {
+                      setOrder({
+                        ...order,
+                        orderId: item.id,
+                        productName:
+                          item.productName +
+                          StringFormatter.realNumber(item.value),
+                        productId: products.find(
+                          (value) => value.name === item.productName,
+                        ).id,
+                        amount: item.amount,
                       });
                     }}
                   >
-                    <BsTrash size={20} />
-                  </Button>
-                </Popconfirm>,
-              ]}
-            >
-              <List.Item.Meta
-                avatar={
-                  item.productType === 'BEBIDA' ? (
-                    <FaGlassWater size={25} />
-                  ) : (
-                    <GiMeal size={30} />
-                  )
-                }
-                title={
-                  <strong style={{ fontSize: 14 }}>{item.productName}</strong>
-                }
-                description={
-                  <div>
+                    <BiEditAlt size={20} />
+                  </Button>,
+                  <Popconfirm
+                    key={item.id}
+                    title="Cancelar Pedido"
+                    description="Deseja realmente cancelar o pedido?"
+                    onConfirm={() => {
+                      cancel(item.id);
+                    }}
+                    okText="Sim"
+                    cancelText="Não"
+                  >
+                    <Button
+                      danger={true}
+                      loading={loandingPrint}
+                      onClick={() => {
+                        setOrder({
+                          ...order,
+                          productName: item.productName,
+                          amount: item.amount * -1,
+                        });
+                      }}
+                    >
+                      <BsTrash size={20} />
+                    </Button>
+                  </Popconfirm>,
+                ]}
+              >
+                <List.Item.Meta
+                  avatar={
+                    item.productType === 'BEBIDA' ? (
+                      <FaGlassWater size={25} />
+                    ) : (
+                      <GiMeal size={30} />
+                    )
+                  }
+                  title={
+                    <strong style={{ fontSize: 14 }}>{item.productName}</strong>
+                  }
+                  description={
                     <div>
-                      {StringFormatter.realNumber(item.value * item.amount)}
-                      Quantidade: {item.amount}
+                      <div>
+                        {StringFormatter.realNumber(item.value * item.amount)}
+                        Quantidade: {item.amount}
+                      </div>
+                      <div>Garçom: {item.createdBy}</div>
+                      <div>
+                        Criado às {dayjs(item.createdAt).format('HH:mm:ss')}
+                      </div>
                     </div>
-                    <div>Garçom: {item.createdBy}</div>
-                    <div>
-                      Criado às {dayjs(item.createdAt).format('HH:mm:ss')}
-                    </div>
-                  </div>
-                }
-              ></List.Item.Meta>
-            </List.Item>
-          )}
+                  }
+                ></List.Item.Meta>
+              </List.Item>
+            );
+          }}
         />
       </Col>
 

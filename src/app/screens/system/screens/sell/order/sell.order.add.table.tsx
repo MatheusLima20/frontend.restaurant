@@ -115,6 +115,7 @@ export const SellOrderAddTableScreen = () => {
                   pendings={pendings}
                   update={() => {
                     getTablesRestaurant();
+                    sendOrders();
                   }}
                 />
               </Col>
