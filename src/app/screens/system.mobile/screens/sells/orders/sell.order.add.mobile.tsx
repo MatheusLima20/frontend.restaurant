@@ -30,6 +30,7 @@ interface Props {
   tableName: string;
   loading: boolean;
   getOrders: () => any;
+  onUpdate: () => any;
 }
 
 const initialValues = {
@@ -323,6 +324,7 @@ export const SellOrderAddMobile = (props: Props) => {
       setOrder(initialValues);
       setTimeout(() => {
         props.getOrders();
+        props.onUpdate();
       }, 500);
     }
   }
@@ -345,6 +347,10 @@ export const SellOrderAddMobile = (props: Props) => {
     const tranlateMessage = await TranslateController.get(message);
 
     await props.getOrders();
+
+    if (type === 'success') {
+      props.onUpdate();
+    }
 
     messageApi.open({
       key: 'register.orders',

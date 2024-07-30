@@ -8,10 +8,21 @@ import { Order } from '../../../../../types/order/order';
 import { GiHotMeal } from 'react-icons/gi';
 import './order.css';
 import { MdTableBar } from 'react-icons/md';
+import * as io from 'socket.io-client';
+import { baseURL } from '../../../../../config/axios';
+import { UserDataLogged } from '../../../../../types/user/user';
+import { cookies } from '../../../../../controller/user/adm.cookies';
 
 type Props = {
   style?: any;
 };
+
+const socket = io.connect(baseURL);
+
+const user: UserDataLogged = cookies.get('data.user');
+const platform = user.platformId;
+
+socket.emit('platform', platform);
 
 export const SellOrderAddTableScreen = (props: Props) => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -40,11 +51,15 @@ export const SellOrderAddTableScreen = (props: Props) => {
     getTablesRestaurant(true);
   }, [loading]);
 
+  const sendOrders = () => {
+    socket.emit('send_orders', { message: 'ok', platform });
+  };
+
   useEffect(() => {
-    setInterval(() => {
+    socket.on('receive_orders', () => {
       getTablesRestaurant();
-    }, 30000);
-  }, []);
+    });
+  }, [socket]);
 
   return (
     <Row style={props.style} justify={'center'}>
@@ -116,6 +131,7 @@ export const SellOrderAddTableScreen = (props: Props) => {
             loading={loading}
             orders={orders}
             tableName={tableName}
+            onUpdate={sendOrders}
           />
         </Modal>
       </Col>

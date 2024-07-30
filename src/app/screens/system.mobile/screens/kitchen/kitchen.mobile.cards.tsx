@@ -15,6 +15,17 @@ import { Order } from '../../../../types/order/order';
 import { OrderController } from '../../../../controller/order/order.controller';
 import { BiCheckCircle, BiXCircle } from 'react-icons/bi';
 import { TranslateController } from '../../../../controller/translate/translate.controller';
+import * as io from 'socket.io-client';
+import { baseURL } from '../../../../config/axios';
+import { cookies } from '../../../../controller/user/adm.cookies';
+import { UserDataLogged } from '../../../../types/user/user';
+
+const socket = io.connect(baseURL);
+
+const user: UserDataLogged = cookies.get('data.user');
+const platform = user.platformId;
+
+socket.emit('platform', platform);
 
 export const KitchenMobileCards = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -22,15 +33,15 @@ export const KitchenMobileCards = () => {
   const [tables, setTables] = useState<TableRestaurant[]>([]);
   const [processings, setProcessings] = useState<Order[]>([]);
 
-  useEffect(() => {
-    getTablesRestaurant();
-  }, []);
+  const sendOrders = () => {
+    socket.emit('send_orders', { message, platform });
+  };
 
   useEffect(() => {
-    setInterval(() => {
+    socket.on('receive_orders', () => {
       getTablesRestaurant();
-    }, 10000);
-  }, []);
+    });
+  }, [socket]);
 
   return (
     <Row justify={'center'}>
@@ -183,6 +194,7 @@ export const KitchenMobileCards = () => {
     });
     if (!error) {
       await getTablesRestaurant();
+      sendOrders();
     }
   }
 

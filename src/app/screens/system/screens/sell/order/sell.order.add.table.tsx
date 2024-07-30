@@ -13,11 +13,22 @@ import { NewNameTableForm } from './new.name.table.form';
 import './order.css';
 import { GrUpdate } from 'react-icons/gr';
 import { Pendings } from './pendings.';
+import * as io from 'socket.io-client';
+import { baseURL } from '../../../../../config/axios';
+import { UserDataLogged } from '../../../../../types/user/user';
+import { cookies } from '../../../../../controller/user/adm.cookies';
 
 const changeTableValues = {
   table01: 0,
   table02: 0,
 };
+
+const socket = io.connect(baseURL);
+
+const user: UserDataLogged = cookies.get('data.user');
+const platform = user.platformId;
+
+socket.emit('platform', platform);
 
 export const SellOrderAddTableScreen = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -45,15 +56,19 @@ export const SellOrderAddTableScreen = () => {
     setIsModalOpen(false);
   };
 
+  const sendOrders = () => {
+    socket.emit('send_orders', { message: 'ok', platform });
+  };
+
   useEffect(() => {
     getTablesRestaurant(true);
   }, [loading]);
 
   useEffect(() => {
-    setInterval(() => {
+    socket.on('receive_orders', () => {
       getTablesRestaurant();
-    }, 30000);
-  }, []);
+    });
+  }, [socket]);
 
   return (
     <Row className="mt-5">
@@ -184,6 +199,9 @@ export const SellOrderAddTableScreen = () => {
             loading={loading}
             orders={orders}
             tableName={tableName}
+            onUpdate={() => {
+              sendOrders();
+            }}
           />
         </Modal>
       </Col>

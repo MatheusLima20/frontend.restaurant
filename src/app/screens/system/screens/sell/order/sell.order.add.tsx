@@ -33,6 +33,7 @@ interface Props {
   tableName: string;
   loading: boolean;
   getOrders: () => any;
+  onUpdate: () => any;
 }
 
 const initialValues = {
@@ -541,6 +542,7 @@ export const SellOrderAdd = (props: Props) => {
       setOrder(initialValues);
       setTimeout(() => {
         props.getOrders();
+        props.onUpdate();
       }, 500);
     }
   }
@@ -569,6 +571,7 @@ export const SellOrderAdd = (props: Props) => {
     if (!error) {
       setTimeout(() => {
         props.getOrders();
+        props.onUpdate();
       });
     }
   }
@@ -591,6 +594,10 @@ export const SellOrderAdd = (props: Props) => {
     const tranlateMessage = await TranslateController.get(message);
 
     await props.getOrders();
+
+    if (type === 'success') {
+      props.onUpdate();
+    }
 
     messageApi.open({
       key: 'register.orders',
@@ -630,6 +637,7 @@ export const SellOrderAdd = (props: Props) => {
       setCheckedOrders([]);
       setTimeout(() => {
         props.getOrders();
+        props.onUpdate();
       }, 500);
     }
   }
