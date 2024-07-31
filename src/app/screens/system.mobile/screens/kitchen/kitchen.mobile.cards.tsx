@@ -19,15 +19,25 @@ import * as io from 'socket.io-client';
 import { baseURL } from '../../../../config/axios';
 import { cookies } from '../../../../controller/user/adm.cookies';
 import { UserDataLogged } from '../../../../types/user/user';
+import { ProductType } from '../../../../types/product/product';
 
 const socket = io.connect(baseURL);
 
 const user: UserDataLogged = cookies.get('data.user');
 const platform = user.platformId;
 
+const orderType: ProductType[] = [
+  'BEBIDA',
+  'DRINK',
+  'GUARNIÇÃO',
+  'PETISCO',
+  'PRATO',
+  'SOBREMESA',
+];
+
 export const KitchenMobileCards = () => {
   const [messageApi, contextHolder] = message.useMessage();
-
+  const [productType, setProductType] = useState(orderType);
   const [tables, setTables] = useState<TableRestaurant[]>([]);
   const [processings, setProcessings] = useState<Order[]>([]);
 
@@ -58,6 +68,7 @@ export const KitchenMobileCards = () => {
                 checkedChildren="EXIBIR"
                 unCheckedChildren="ESCONDER"
                 defaultChecked
+                onChange={() => handleChange('PRATO')}
               />
             </Form.Item>
           </Col>
@@ -68,6 +79,7 @@ export const KitchenMobileCards = () => {
                 checkedChildren="EXIBIR"
                 unCheckedChildren="ESCONDER"
                 defaultChecked
+                onChange={() => handleChange('GUARNIÇÃO')}
               />
             </Form.Item>
           </Col>
@@ -78,6 +90,9 @@ export const KitchenMobileCards = () => {
                 checkedChildren="EXIBIR"
                 unCheckedChildren="ESCONDER"
                 defaultChecked
+                onChange={() => {
+                  handleChange('BEBIDA');
+                }}
               />
             </Form.Item>
           </Col>
@@ -88,6 +103,7 @@ export const KitchenMobileCards = () => {
                 checkedChildren="EXIBIR"
                 unCheckedChildren="ESCONDER"
                 defaultChecked
+                onChange={() => handleChange('SOBREMESA')}
               />
             </Form.Item>
           </Col>
@@ -98,6 +114,7 @@ export const KitchenMobileCards = () => {
                 checkedChildren="EXIBIR"
                 unCheckedChildren="ESCONDER"
                 defaultChecked
+                onChange={() => handleChange('DRINK')}
               />
             </Form.Item>
           </Col>
@@ -106,7 +123,7 @@ export const KitchenMobileCards = () => {
       <Col span={22}>
         {tables.length !== 0 && (
           <Row justify={'center'} gutter={[0, 40]}>
-            {processings.map((processing, index) => {
+            {filterProductsByType().map((processing, index) => {
               const table = tables.find(
                 (table) => table.id === processing.idTable,
               );
@@ -223,6 +240,32 @@ export const KitchenMobileCards = () => {
 
     if (data) {
       setProcessings(pendings);
+    }
+  }
+
+  function filterProductsByType() {
+    let products: Order[] = [];
+
+    productType.map((type) => {
+      const product = processings.filter(
+        (process) => process.productType === type,
+      );
+      products = products.concat(product);
+    });
+
+    const newArray = products.sort((a, b) => a.order - b.order);
+
+    return newArray;
+  }
+
+  function handleChange(type: ProductType) {
+    const hasType = productType.filter((value) => value === type);
+    if (hasType.length) {
+      const newArray = productType.filter((value) => value !== type);
+      setProductType(newArray);
+    } else {
+      const newArray = productType.concat(type);
+      setProductType(newArray);
     }
   }
 };

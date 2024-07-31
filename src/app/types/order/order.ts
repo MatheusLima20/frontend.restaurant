@@ -12,6 +12,7 @@ export type Order = {
   isOpen: boolean;
   paymentMethod: string;
   status: OrderStatus;
+  order: number;
   createdBy: string;
   updatedBy: string;
   createdAt: string;
