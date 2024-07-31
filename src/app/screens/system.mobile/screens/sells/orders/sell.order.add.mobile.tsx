@@ -67,7 +67,7 @@ export const SellOrderAddMobile = (props: Props) => {
   }, [loading]);
 
   return (
-    <Row justify={'center'} style={{ height: 600 }}>
+    <Row justify={'center'}>
       {contextHolder}
       <Col span={24} className="text-center">
         <h4>{props.tableName}</h4>
@@ -87,7 +87,7 @@ export const SellOrderAddMobile = (props: Props) => {
           >
             <Row justify={'center'} align={'middle'}>
               <Col span={24}>
-                <Row gutter={[0, 10]}>
+                <Row gutter={[0, 0]}>
                   <Col span={24}>
                     <Form.Item
                       label="Pedido"
@@ -240,68 +240,77 @@ export const SellOrderAddMobile = (props: Props) => {
               </Col>
             </Row>
           }
-          renderItem={(item) => (
-            <List.Item
-              key={item.id}
-              style={{
-                backgroundColor:
-                  item.status === 'pendente'
-                    ? 'rgba(248, 92, 92, 0.2)'
-                    : 'rgba(92, 191, 248, 0.2)',
-              }}
-              actions={[
-                <Popconfirm
-                  key={item.id}
-                  title="Cancelar Pedido"
-                  description="Deseja realmente cancelar o pedido?"
-                  onConfirm={() => {
-                    cancel(item.id);
-                  }}
-                  okText="Sim"
-                  cancelText="Não"
-                >
-                  <Button
-                    danger={true}
-                    onClick={() => {
-                      setOrder({
-                        ...order,
-                        productName: item.productName,
-                        amount: item.amount * -1,
-                      });
+          renderItem={(item) => {
+            const status = item.status;
+            let backColor = 'rgba(248, 92, 92, 0.2)';
+
+            if (status === 'processando') {
+              backColor = 'rgba(92, 191, 248, 0.2)';
+            }
+
+            if (status === 'finalizado') {
+              backColor = 'rgba(0, 255, 0, 0.2)';
+            }
+            return (
+              <List.Item
+                key={item.id}
+                style={{
+                  backgroundColor: backColor,
+                }}
+                actions={[
+                  <Popconfirm
+                    key={item.id}
+                    title="Cancelar Pedido"
+                    description="Deseja realmente cancelar o pedido?"
+                    onConfirm={() => {
+                      cancel(item.id);
                     }}
+                    okText="Sim"
+                    cancelText="Não"
                   >
-                    <BsTrash size={20} />
-                  </Button>
-                </Popconfirm>,
-              ]}
-            >
-              <List.Item.Meta
-                avatar={
-                  item.productName.includes('Suco') ? (
-                    <FaGlassWater size={25} />
-                  ) : (
-                    <GiMeal size={30} />
-                  )
-                }
-                title={
-                  <strong style={{ fontSize: 14 }}>{item.productName}</strong>
-                }
-                description={
-                  <div>
+                    <Button
+                      danger={true}
+                      onClick={() => {
+                        setOrder({
+                          ...order,
+                          productName: item.productName,
+                          amount: item.amount * -1,
+                        });
+                      }}
+                    >
+                      <BsTrash size={20} />
+                    </Button>
+                  </Popconfirm>,
+                ]}
+              >
+                <List.Item.Meta
+                  avatar={
+                    item.productName.includes('Suco') ? (
+                      <FaGlassWater size={25} />
+                    ) : (
+                      <GiMeal size={30} />
+                    )
+                  }
+                  title={
+                    <strong style={{ fontSize: 14 }}>{item.productName}</strong>
+                  }
+                  description={
                     <div>
-                      {StringFormatter.realNumber(item.value * item.amount)}
-                      Quantidade: {item.amount}
+                      <div>
+                        {StringFormatter.realNumber(item.value * item.amount)}
+                        Quantidade: {item.amount}
+                      </div>
+                      <div>Garçom: {item.createdBy}</div>
+                      {item.observation && <div>Obs: {item.observation}</div>}
+                      <div>
+                        Criado às {dayjs(item.createdAt).format('hh:mm:ss')}
+                      </div>
                     </div>
-                    <div>Garçom: {item.createdBy}</div>
-                    {item.observation && <div>Obs: {item.observation}</div>}
-                    <div>
-                      Criado às {dayjs(item.createdAt).format('hh:mm:ss')}
-                    </div>
-                  </div>
-                }
-              ></List.Item.Meta>
-            </List.Item>
-          )}
+                  }
+                ></List.Item.Meta>
+              </List.Item>
+            );
+          }}
         />
       </Col>
     </Row>
