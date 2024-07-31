@@ -306,6 +306,10 @@ export const SellOrderAddTableScreen = () => {
     }
 
     await getTablesRestaurant();
+
+    if (type === 'success') {
+      sendOrders();
+    }
   }
 
   function startPendings(tables: any, pendings: any) {

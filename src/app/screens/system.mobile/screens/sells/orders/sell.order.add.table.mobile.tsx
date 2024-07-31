@@ -43,6 +43,7 @@ export const SellOrderAddTableScreen = (props: Props) => {
 
   const handleOk = () => {
     setIsModalOpen(false);
+    sendOrders();
   };
 
   const sendOrders = () => {
@@ -76,7 +77,12 @@ export const SellOrderAddTableScreen = (props: Props) => {
             >
               {tables.map(({ id, name }, index) => {
                 return (
-                  <Col key={id} span={20} className="mt-3">
+                  <Col
+                    key={id}
+                    span={20}
+                    className="mt-3"
+                    title="Clique para adicionar pedidos."
+                  >
                     <Card
                       hoverable
                       bordered={true}

@@ -324,7 +324,6 @@ export const SellOrderAddMobile = (props: Props) => {
       setOrder(initialValues);
       setTimeout(() => {
         props.getOrders();
-        props.onUpdate();
       }, 500);
     }
   }
