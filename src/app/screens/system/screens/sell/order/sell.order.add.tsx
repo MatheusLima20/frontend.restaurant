@@ -240,10 +240,7 @@ export const SellOrderAdd = (props: Props) => {
             <Row justify={'space-between'} align={'middle'} className="mb-3">
               <Col>
                 <Button
-                  onClick={() => {
-                    handlePrintBill();
-                    patchsStatus();
-                  }}
+                  onClick={handlePrintBill}
                   disabled={!orders.length}
                   size="large"
                   title="Imprimir Conta"
@@ -376,7 +373,6 @@ export const SellOrderAdd = (props: Props) => {
                       setTimeout(() => {
                         handlePrintOrder();
                         setLoadingPrint(false);
-                        patchStatus(item.id);
                       }, 500);
                     }}
                   >
@@ -557,35 +553,6 @@ export const SellOrderAdd = (props: Props) => {
     }
   }
 
-  async function patchStatus(id: number) {
-    const orderId = id;
-
-    const request = await OrderController.patch(orderId, {
-      status: 'processando',
-    } as any);
-
-    const error = request.error;
-
-    const message = request.message;
-
-    const type = error ? 'error' : 'success';
-
-    const tranlateMessage = await TranslateController.get(message);
-
-    messageApi.open({
-      key: 'register.orders',
-      type: type,
-      content: tranlateMessage.text,
-      duration: 4,
-    });
-    if (!error) {
-      setTimeout(() => {
-        props.getOrders();
-        props.onUpdate();
-      });
-    }
-  }
-
   async function cancel(id: number) {
     const idOrder = id;
     handlePrintOrder();
@@ -626,6 +593,7 @@ export const SellOrderAdd = (props: Props) => {
       request = await OrderController.patch(orders[index].id, {
         isOpen: false,
         paymentMethod: order.paymentMethod,
+        status: 'finalizado',
       } as any);
     }
 
@@ -660,21 +628,6 @@ export const SellOrderAdd = (props: Props) => {
     const data: Product[] = request.data;
     if (data) {
       setProducts(data.filter((product) => product.show));
-    }
-  }
-
-  function patchsStatus() {
-    const pendings = orders.filter((order) => order.status === 'pendente');
-
-    const hasPending = pendings.length !== 0;
-
-    if (hasPending) {
-      for (let index = 0; index < orders.length; index++) {
-        const order = orders[index];
-        if (order.status === 'pendente') {
-          patchStatus(order.id);
-        }
-      }
     }
   }
 };
