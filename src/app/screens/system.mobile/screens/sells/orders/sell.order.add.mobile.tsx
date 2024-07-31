@@ -38,6 +38,7 @@ const initialValues = {
   productId: 0,
   productName: '',
   amount: 0,
+  observation: '',
   paymentMethod: 'credito',
 };
 
@@ -79,6 +80,7 @@ export const SellOrderAddMobile = (props: Props) => {
             layout={'horizontal'}
             fields={[
               { name: 'productName', value: order.productName },
+              { name: 'observation', value: order.observation },
               { name: 'amount', value: order.amount },
             ]}
             onFinish={save}
@@ -155,6 +157,27 @@ export const SellOrderAddMobile = (props: Props) => {
                         onChange={(event) => {
                           const value = Number.parseFloat(event.target.value);
                           setOrder({ ...order, amount: value });
+                        }}
+                      />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={24}>
+                    <Form.Item
+                      label="Obs:"
+                      name="observation"
+                      rules={[
+                        {
+                          message: 'Digite a observação!',
+                        },
+                      ]}
+                    >
+                      <Input
+                        name="observation"
+                        value={order.observation}
+                        onChange={(event) => {
+                          const value = event.target.value;
+                          setOrder({ ...order, observation: value });
                         }}
                       />
                     </Form.Item>
@@ -270,6 +293,7 @@ export const SellOrderAddMobile = (props: Props) => {
                       Quantidade: {item.amount}
                     </div>
                     <div>Garçom: {item.createdBy}</div>
+                    {item.observation && <div>Obs: {item.observation}</div>}
                     <div>
                       Criado às {dayjs(item.createdAt).format('hh:mm:ss')}
                     </div>
@@ -293,11 +317,13 @@ export const SellOrderAddMobile = (props: Props) => {
         idProduct: order.productId,
         idTable: props.idTable,
         amount: values.amount,
+        observation: order.observation,
       } as any);
     } else {
       request = await OrderController.patch(idOrder, {
         productId: order.productId,
         amount: values.amount,
+        observation: order.observation,
       } as any);
 
       const isPrint = values.amount < 0;

@@ -13,6 +13,7 @@ export type Order = {
   paymentMethod: string;
   status: OrderStatus;
   order: number;
+  observation: string;
   createdBy: string;
   updatedBy: string;
   createdAt: string;

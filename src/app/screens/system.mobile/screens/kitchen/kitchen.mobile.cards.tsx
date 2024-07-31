@@ -176,6 +176,11 @@ export const KitchenMobileCards = () => {
                         <h3>
                           <strong>{processing.productName}</strong>
                         </h3>
+                        {processing.observation && (
+                          <h4>
+                            <strong>OBS: {processing.observation}</strong>
+                          </h4>
+                        )}
                         <h4>
                           <strong>x {processing.amount}</strong>
                         </h4>

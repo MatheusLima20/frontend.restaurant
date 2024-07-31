@@ -40,6 +40,7 @@ const initialValues = {
   orderId: 0,
   productId: 0,
   productName: '',
+  observation: '',
   amount: 0,
   paymentMethod: 'credito',
 };
@@ -100,6 +101,7 @@ export const SellOrderAdd = (props: Props) => {
             fields={[
               { name: 'productName', value: order.productName },
               { name: 'amount', value: order.amount },
+              { name: 'observation', value: order.observation },
             ]}
             onFinish={save}
           >
@@ -173,6 +175,27 @@ export const SellOrderAdd = (props: Props) => {
                         onChange={(event) => {
                           const value = Number.parseFloat(event.target.value);
                           setOrder({ ...order, amount: value });
+                        }}
+                      />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={24}>
+                    <Form.Item
+                      label="Obs:"
+                      name="observation"
+                      rules={[
+                        {
+                          message: 'Digite a observação!',
+                        },
+                      ]}
+                    >
+                      <Input
+                        name="observation"
+                        value={order.observation}
+                        onChange={(event) => {
+                          const value = event.target.value;
+                          setOrder({ ...order, observation: value });
                         }}
                       />
                     </Form.Item>
@@ -441,6 +464,7 @@ export const SellOrderAdd = (props: Props) => {
                         Quantidade: {item.amount}
                       </div>
                       <div>Garçom: {item.createdBy}</div>
+                      {item.observation && <div>Obs: {item.observation}</div>}
                       <div>
                         Criado às {dayjs(item.createdAt).format('HH:mm:ss')}
                       </div>
@@ -517,11 +541,13 @@ export const SellOrderAdd = (props: Props) => {
         idProduct: order.productId,
         idTable: props.idTable,
         amount: values.amount,
+        observation: order.observation,
       } as any);
     } else {
       request = await OrderController.patch(idOrder, {
         productId: order.productId,
         amount: values.amount,
+        observation: order.observation,
       } as any);
 
       const isPrint = values.amount < 0;
