@@ -536,18 +536,20 @@ export const SellOrderAdd = (props: Props) => {
 
     let request;
 
+    const observation = order.observation ? order.observation : undefined;
+
     if (!idOrder) {
       request = await OrderController.store({
         idProduct: order.productId,
         idTable: props.idTable,
         amount: values.amount,
-        observation: order.observation,
+        observation: observation,
       } as any);
     } else {
       request = await OrderController.patch(idOrder, {
         productId: order.productId,
         amount: values.amount,
-        observation: order.observation,
+        observation: observation,
       } as any);
 
       const isPrint = values.amount < 0;
