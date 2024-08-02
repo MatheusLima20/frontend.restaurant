@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from 'react-use-cookie';
+import { getCookie, removeCookie, setCookie } from 'react-use-cookie';
 
 export type Key = 'data.user' | 'accept.cookies' | 'primary.access';
 
@@ -19,7 +19,7 @@ export const cookies = {
   },
 
   remove: (key: Key) => {
-    document.cookie = key + '=;expires=0;SameSite=Lax';
+    removeCookie(key);
   },
 
   removeAll: () => {
@@ -29,7 +29,7 @@ export const cookies = {
       const cookie = cookies[i];
       const eqPos = cookie.indexOf('=');
       const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
-      document.cookie = name + '=;expires=0;SameSite=Lax';
+      removeCookie(name);
     }
   },
 };

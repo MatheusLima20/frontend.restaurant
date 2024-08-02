@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
-import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { cookies } from '../../controller/user/adm.cookies';
+import { Content } from 'antd/es/layout/layout';
+import { Col, Row, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 export const LogoutScreen = () => {
   useEffect(() => {
@@ -8,18 +10,21 @@ export const LogoutScreen = () => {
   }, []);
 
   return (
-    <Container className="g-0 m-0 p-0" style={{ minWidth: 250 }}>
-      <Row className="p-0 g-0 m-0">
-        <Col style={{ fontSize: 30 }}>
-          <Spinner />
+    <Content>
+      <Row>
+        <Col span={24}>
+          <Spin
+            size="large"
+            fullscreen={true}
+            indicator={<LoadingOutlined style={{ fontSize: 70 }} />}
+          />
         </Col>
       </Row>
-    </Container>
+    </Content>
   );
 
   function logout() {
     cookies.remove('data.user');
-    cookies.remove('primary.access');
     setTimeout(() => {
       document.location = '/';
     }, 3000);
