@@ -18,6 +18,7 @@ const productTypes: ProductType[] = [
   'PRATO',
   'SOBREMESA',
   'DRINK',
+  'LUNCH',
 ];
 
 export const PrintPendings = forwardRef(function order(props: Props, ref: any) {

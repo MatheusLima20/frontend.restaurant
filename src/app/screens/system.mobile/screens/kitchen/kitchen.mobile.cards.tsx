@@ -33,6 +33,7 @@ const orderType: ProductType[] = [
   'PETISCO',
   'PRATO',
   'SOBREMESA',
+  'LUNCH',
 ];
 
 export const KitchenMobileCards = () => {
@@ -73,6 +74,17 @@ export const KitchenMobileCards = () => {
             </Form.Item>
           </Col>
           <Col md={4}>
+            <Form.Item layout="vertical" label="Lunch">
+              <Switch
+                title="Lunch"
+                checkedChildren="EXIBIR"
+                unCheckedChildren="ESCONDER"
+                defaultChecked
+                onChange={() => handleChange('LUNCH')}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={4}>
             <Form.Item layout="vertical" label="Guarnição">
               <Switch
                 title="GUARNIÇÃO"
@@ -80,6 +92,17 @@ export const KitchenMobileCards = () => {
                 unCheckedChildren="ESCONDER"
                 defaultChecked
                 onChange={() => handleChange('GUARNIÇÃO')}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={4}>
+            <Form.Item layout="vertical" label="Petisco">
+              <Switch
+                title="PETISCO"
+                checkedChildren="EXIBIR"
+                unCheckedChildren="ESCONDER"
+                defaultChecked
+                onChange={() => handleChange('PETISCO')}
               />
             </Form.Item>
           </Col>

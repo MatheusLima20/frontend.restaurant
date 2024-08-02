@@ -17,6 +17,8 @@ export type Product = {
 
   show: boolean;
 
+  toCook: boolean;
+
   isPlate: false;
 
   add?: boolean;
@@ -37,4 +39,5 @@ export type ProductType =
   | 'BEBIDA'
   | 'SOBREMESA'
   | 'PETISCO'
-  | 'DRINK';
+  | 'DRINK'
+  | 'LUNCH';

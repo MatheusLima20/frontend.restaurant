@@ -12,6 +12,7 @@ const initialValues = {
   value: 0,
   productType: 'PRATO',
   show: true,
+  toCook: true,
 };
 
 export const ProductRegisterForm = () => {
@@ -68,12 +69,16 @@ export const ProductRegisterForm = () => {
               name: 'show',
               value: values.show,
             },
+            {
+              name: 'toCook',
+              value: values.toCook,
+            },
           ]}
           onFinish={save}
         >
           <Row justify={'center'}>
             <Col span={24}>
-              <Row gutter={[30, 10]}>
+              <Row justify={'center'} gutter={[30, 10]}>
                 <Col md={8}>
                   <Form.Item
                     label="Nome"
@@ -130,7 +135,7 @@ export const ProductRegisterForm = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col md={3}>
+                <Col md={5}>
                   <Form.Item
                     label="Exibir"
                     name="show"
@@ -149,6 +154,29 @@ export const ProductRegisterForm = () => {
                         handleChange(event);
                       }}
                       checked={values.show}
+                      defaultChecked
+                    />
+                  </Form.Item>
+                </Col>
+                <Col md={5}>
+                  <Form.Item
+                    label="Para a Cozinha"
+                    name="toCook"
+                    tooltip="Caso este produto seja feito na cozinha."
+                  >
+                    <Switch
+                      checkedChildren="Sim"
+                      unCheckedChildren="Não"
+                      onChange={(value: boolean) => {
+                        const event: any = {
+                          target: {
+                            name: 'toCook',
+                            value: value,
+                          },
+                        };
+                        handleChange(event);
+                      }}
+                      checked={values.toCook}
                       defaultChecked
                     />
                   </Form.Item>
@@ -208,6 +236,7 @@ export const ProductRegisterForm = () => {
       value: value,
       isActive: true,
       isPlate: true,
+      toCook: valuesForm.toCook,
       productType: valuesForm.productType,
       show: valuesForm.show,
       ...valuesForm,

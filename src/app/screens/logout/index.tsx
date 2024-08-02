@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogoutScreen } from './logged.menu.screen';
+import { LogoutScreen } from './logout.screen';
 
 export const Logout = () => {
   return <LogoutScreen />;
