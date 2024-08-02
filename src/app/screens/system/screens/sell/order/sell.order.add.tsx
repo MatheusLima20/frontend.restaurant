@@ -133,8 +133,14 @@ export const SellOrderAdd = (props: Props) => {
                         placeholder="Selecione..."
                         optionFilterProp="children"
                         filterOption={(input, option) =>
-                          (option?.label.toLowerCase() ?? '').includes(
-                            input.toLowerCase(),
+                          (
+                            StringFormatter.replaceSpecialChars(
+                              option?.label,
+                            ).toLowerCase() ?? ''
+                          ).includes(
+                            StringFormatter.replaceSpecialChars(
+                              input,
+                            ).toLowerCase(),
                           )
                         }
                         filterSort={(optionA, optionB) =>

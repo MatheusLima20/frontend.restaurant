@@ -15,6 +15,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { Product } from '../../../../../types/product/product';
 import { BiEdit } from 'react-icons/bi';
+import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 
 interface DataType {
   key: number;
@@ -119,7 +120,7 @@ export const ProductRegisterTable = (props: Props) => {
       />
     ),
     onFilter: (value, record: any) =>
-      record[dataIndex]
+      StringFormatter.replaceSpecialChars(record[dataIndex])
         .toString()
         .toLowerCase()
         .includes((value as string).toLowerCase()),
