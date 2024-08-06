@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Col, DatePicker, Form, Row, Select, Switch } from 'antd';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Form,
+  Modal,
+  Row,
+  Select,
+  Switch,
+} from 'antd';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,6 +25,9 @@ import 'chart.js/auto';
 import dayjs from 'dayjs';
 import { Order } from '../../../../../types/order/order';
 import { OrderController } from '../../../../../controller/order/order.controller';
+import { ReportDetails } from './reports.details';
+import { BsGraphUpArrow } from 'react-icons/bs';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -47,6 +59,18 @@ export const ReportsSellChart = () => {
   const [total, setTotal] = useState(0);
   const [isMoney, setMoney] = useState(true);
   const [isMonth, setMonth] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [graphic, setGraphic] = useState<any>();
+
+  const showModal = () => {
+    const chart = document.getElementById('chart');
+    setGraphic(chart);
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const date = isMonth ? 'YYYY-MM' : 'YYYY-MM-DD';
@@ -124,6 +148,7 @@ export const ReportsSellChart = () => {
           <Col span={20}>
             {chart === 'barv' && (
               <Bar
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -134,6 +159,7 @@ export const ReportsSellChart = () => {
 
             {chart === 'barh' && (
               <Bar
+                id="chart"
                 options={{ ...options, indexAxis: 'y' as const }}
                 data={{
                   labels: labels,
@@ -144,6 +170,7 @@ export const ReportsSellChart = () => {
 
             {chart === 'pie' && (
               <Pie
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -154,6 +181,7 @@ export const ReportsSellChart = () => {
 
             {chart === 'areachat' && (
               <Line
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -164,6 +192,7 @@ export const ReportsSellChart = () => {
 
             {chart === 'radar' && (
               <Radar
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -173,6 +202,28 @@ export const ReportsSellChart = () => {
             )}
           </Col>
         </Row>
+      </Col>
+      <Col span={20} className="text-center">
+        <Button title="Detalhes" size="large" onClick={showModal}>
+          <BsGraphUpArrow size={30} />
+        </Button>
+      </Col>
+      <Col>
+        <Modal
+          open={isModalOpen}
+          onCancel={() => {
+            handleOk();
+          }}
+          style={{ top: 20 }}
+          width={'75%'}
+          footer={() => (
+            <>
+              <Button onClick={handleOk}>Voltar</Button>
+            </>
+          )}
+        >
+          <ReportDetails orders={values} graphic={graphic} />
+        </Modal>
       </Col>
     </Row>
   );
