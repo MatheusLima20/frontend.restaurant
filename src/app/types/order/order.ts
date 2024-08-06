@@ -20,6 +20,24 @@ export type Order = {
   updatedAt: string;
 };
 
+export type OrderKey =
+  | 'id'
+  | 'productId'
+  | 'productName'
+  | 'idTable'
+  | 'value'
+  | 'amount'
+  | 'isCancelled'
+  | 'productType'
+  | 'paymentMethod'
+  | 'status'
+  | 'order'
+  | 'observation'
+  | 'createdBy'
+  | 'updatedBy'
+  | 'createdAt'
+  | 'updatedAt';
+
 export type OrderStatus = 'pendente' | 'processando' | 'finalizado';
 
 export type PaymentMethod = 'debito' | 'dinheiro' | 'pix' | 'credito';

@@ -27,6 +27,8 @@ import { Order } from '../../../../../types/order/order';
 import { OrderController } from '../../../../../controller/order/order.controller';
 import { ReportDetails } from './reports.details';
 import { BsGraphUpArrow } from 'react-icons/bs';
+import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
+import { Product } from '../../../../../types/product/product';
 
 ChartJS.register(
   CategoryScale,
@@ -61,6 +63,7 @@ export const ReportsSellChart = () => {
   const [isMonth, setMonth] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [graphic, setGraphic] = useState<any>();
+  const [products, setProducts] = useState<Product[]>([]);
 
   const showModal = () => {
     const chart = document.getElementById('chart');
@@ -75,6 +78,7 @@ export const ReportsSellChart = () => {
   useEffect(() => {
     const date = isMonth ? 'YYYY-MM' : 'YYYY-MM-DD';
     searchSell(dayjs().format(date));
+    getPlates();
   }, []);
 
   return (
@@ -204,7 +208,12 @@ export const ReportsSellChart = () => {
         </Row>
       </Col>
       <Col span={20} className="text-center">
-        <Button title="Detalhes" size="large" onClick={showModal}>
+        <Button
+          title="Detalhes"
+          size="large"
+          disabled={!values.length}
+          onClick={showModal}
+        >
           <BsGraphUpArrow size={30} />
         </Button>
       </Col>
@@ -222,7 +231,11 @@ export const ReportsSellChart = () => {
             </>
           )}
         >
-          <ReportDetails orders={values} graphic={graphic} />
+          <ReportDetails
+            orders={values}
+            products={products}
+            graphic={graphic}
+          />
         </Modal>
       </Col>
     </Row>
@@ -306,5 +319,14 @@ export const ReportsSellChart = () => {
     ];
 
     return result;
+  }
+
+  async function getPlates() {
+    const request = await ProvisionsController.getPlates();
+
+    const data: Product[] = request.data;
+    if (data) {
+      setProducts(data.filter((product) => product.show));
+    }
   }
 };
