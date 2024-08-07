@@ -5,6 +5,7 @@ import { ProvisionsController } from '../../../../../controller/provisions/provi
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { ProductRegisterTable } from './product.register.table';
 import { ProductTypesController } from '../../../../../controller/product.types/product.types.controller';
+import { RawMaterialForm } from './raw.material.form';
 
 const initialValues = {
   id: 0,
@@ -26,6 +27,8 @@ export const ProductRegisterForm = () => {
 
   const [productTypes, setProductTypes] = useState<ProductTypes[]>([]);
 
+  const [stok, setStok] = useState<Product[]>([]);
+
   const handleChange = (event: any) => {
     const { name, value } = event.target;
 
@@ -35,6 +38,7 @@ export const ProductRegisterForm = () => {
   useEffect(() => {
     getProduct();
     getProductTypes();
+    getStock();
   }, []);
 
   return (
@@ -183,28 +187,34 @@ export const ProductRegisterForm = () => {
                 </Col>
               </Row>
             </Col>
-          </Row>
 
-          <Form.Item>
-            <Row justify={'center'} gutter={[20, 0]} className="mt-2">
-              <Col>
-                <Button type="primary" htmlType="submit">
-                  Salvar
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  type="default"
-                  onClick={() => {
-                    setValues(initialValues);
-                  }}
-                >
-                  Limpar
-                </Button>
-              </Col>
-            </Row>
-          </Form.Item>
+            <Col span={24}>
+              <Form.Item>
+                <Row justify={'center'} gutter={[20, 0]} className="mt-2">
+                  <Col>
+                    <Button type="primary" htmlType="submit">
+                      Salvar
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button
+                      type="default"
+                      onClick={() => {
+                        setValues(initialValues);
+                      }}
+                    >
+                      Limpar
+                    </Button>
+                  </Col>
+                </Row>
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
+      </Col>
+
+      <Col span={24}>
+        <RawMaterialForm stok={stok} />
       </Col>
 
       <Col span={24}>
@@ -290,6 +300,22 @@ export const ProductRegisterForm = () => {
 
     if (data) {
       setValuesTable(data);
+    }
+  }
+
+  async function getStock() {
+    setLoading(true);
+
+    const request = await ProvisionsController.get();
+
+    const data = request.data;
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+
+    if (data) {
+      setStok(data);
     }
   }
 
