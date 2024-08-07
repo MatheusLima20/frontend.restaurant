@@ -27,7 +27,7 @@ export const RawMaterialForm = (props: Props) => {
                     <Col span={8}>
                       <Form.Item
                         {...restField}
-                        name={[name, 'materialId']}
+                        name={[name, 'rawMaterialId']}
                         rules={[
                           {
                             required: true,
