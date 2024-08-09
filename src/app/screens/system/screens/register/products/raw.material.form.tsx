@@ -1,23 +1,29 @@
 import React from 'react';
-import { Button, Col, Form, Input, Row, Select } from 'antd';
+import { Button, Col, Form, Input, message, Row, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Product } from '../../../../../types/product/product';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 
 type Props = {
   stok: Product[];
+  items: any[];
+  onSave: (values: any[]) => void;
 };
 
 export const RawMaterialForm = (props: Props) => {
+  const [messageApi, contextHolder] = message.useMessage();
   const stok = props.stok.sort((a, b) => a.name.localeCompare(b.name));
 
-  const initialItems: any[] = [{ rawMaterialId: 15, amount: 2 }];
+  const initialItems: any[] = props.items;
   const fields = initialItems.map((item) => {
     return { rawMaterialId: item.rawMaterialId, amount: item.amount };
   });
 
+  const onSave = props.onSave;
+
   return (
     <Row justify={'center'}>
+      {contextHolder}
       <Col span={24}>
         <Form
           name="dynamic_form_nest_item"
@@ -87,7 +93,10 @@ export const RawMaterialForm = (props: Props) => {
                                 },
                               ]}
                             >
-                              <Input placeholder="Quantidade..." />
+                              <Input
+                                placeholder="Quantidade..."
+                                type="number"
+                              />
                             </Form.Item>
                           </Col>
                           <Col>
@@ -107,7 +116,7 @@ export const RawMaterialForm = (props: Props) => {
                           block
                           icon={<PlusOutlined />}
                         >
-                          Adicionar Material do Estoque
+                          Vincular Produtos
                         </Button>
                       </Form.Item>
                     </Col>
@@ -117,8 +126,8 @@ export const RawMaterialForm = (props: Props) => {
             </Col>
             <Col>
               <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Salvar
+                <Button type="dashed" htmlType="submit">
+                  Adicionar
                 </Button>
               </Form.Item>
             </Col>
@@ -130,6 +139,15 @@ export const RawMaterialForm = (props: Props) => {
 
   function onFinish(values: any) {
     const rawMaterial = values.items;
-    console.log('Received values of form:', rawMaterial[0].rawMaterialId);
+    if (!rawMaterial[0]) {
+      return;
+    }
+    onSave(rawMaterial);
+    messageApi.open({
+      key: 'register.raw.material',
+      type: 'info',
+      content: 'Material Adicionado!',
+      duration: 4,
+    });
   }
 };

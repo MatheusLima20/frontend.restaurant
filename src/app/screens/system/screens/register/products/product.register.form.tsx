@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
-import { Product, ProductTypes } from '../../../../../types/product/product';
+import {
+  Product,
+  ProductTypes,
+  RawMaterial,
+} from '../../../../../types/product/product';
 import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { ProductRegisterTable } from './product.register.table';
 import { ProductTypesController } from '../../../../../controller/product.types/product.types.controller';
 import { RawMaterialForm } from './raw.material.form';
+import { RawMaterialController } from '../../../../../controller/raw.material/raw.material.controller';
 
 const initialValues = {
   id: 0,
@@ -28,6 +33,8 @@ export const ProductRegisterForm = () => {
   const [productTypes, setProductTypes] = useState<ProductTypes[]>([]);
 
   const [stok, setStok] = useState<Product[]>([]);
+
+  const [rawMaterial, setRawMaterial] = useState<RawMaterial[]>([]);
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -213,8 +220,12 @@ export const ProductRegisterForm = () => {
         </Form>
       </Col>
 
-      <Col span={24}>
-        <RawMaterialForm stok={stok} />
+      <Col span={20}>
+        <RawMaterialForm
+          stok={stok}
+          onSave={setRawMaterial}
+          items={rawMaterial}
+        />
       </Col>
 
       <Col span={24}>
@@ -260,6 +271,14 @@ export const ProductRegisterForm = () => {
       request = await ProvisionsController.store({
         ...dataValues,
       });
+
+      const data = request.data;
+
+      const hasRawMaterial = rawMaterial.length !== 0;
+
+      if (hasRawMaterial) {
+        saveRawMaterial(data.id);
+      }
     } else {
       request = await ProvisionsController.patch(id, { ...dataValues });
     }
@@ -285,6 +304,43 @@ export const ProductRegisterForm = () => {
       }
     }, 1000);
     await getProduct();
+  }
+
+  async function saveRawMaterial(productId: number) {
+    const values = rawMaterial.map((value) => {
+      const amount = Number.parseFloat(String(value.amount));
+      return {
+        productId: productId,
+        rawMaterialId: value.rawMaterialId,
+        amount: amount,
+      };
+    });
+    console.log(values);
+    let request;
+
+    for (let index = 0; index < values.length; index++) {
+      request = await RawMaterialController.store({ ...values[index] });
+
+      const error = request.error;
+
+      if (error) {
+        const message = request.message;
+
+        const type = error ? 'error' : 'success';
+
+        const tranlateMessage = await TranslateController.get(message);
+
+        setTimeout(() => {
+          messageApi.open({
+            key: 'register.products',
+            type: type,
+            content: tranlateMessage.text,
+            duration: 4,
+          });
+        }, 1000);
+        break;
+      }
+    }
   }
 
   async function getProduct() {

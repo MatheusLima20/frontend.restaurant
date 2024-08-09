@@ -41,3 +41,9 @@ export type ProductType =
   | 'PETISCO'
   | 'DRINK'
   | 'LUNCH';
+
+export type RawMaterial = {
+  productId: number;
+  rawMaterialId: number;
+  amount: number;
+};

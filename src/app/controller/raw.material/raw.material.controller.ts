@@ -1,5 +1,5 @@
 import axios from '../../config/axios';
-import { Product } from '../../types/product/product';
+import { RawMaterial } from '../../types/product/product';
 import { Error } from '../errors/check.errors';
 import { cookies } from '../user/adm.cookies';
 
@@ -7,21 +7,31 @@ const cookie = cookies.get('data.user');
 
 const token = cookie.token;
 
-export const ProvisionsController = {
-  store: async (product: Product) => {
+export const RawMaterialController = {
+  store: async (rawMaterial: RawMaterial) => {
     let request;
     let data;
 
+    const values = {
+      productId: rawMaterial.productId,
+      rawMaterialId: rawMaterial.rawMaterialId,
+      amount: rawMaterial.amount,
+    };
+
     try {
-      request = await axios.post('/product/', product, {
-        headers: { authorization: `Bearer ${token}` },
-      });
+      request = await axios.post(
+        '/raw-material/',
+        { ...values },
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
+      );
 
       data = request.data;
 
       const message = data.message;
 
-      return { error: false, message, data: data.data };
+      return { error: false, message };
     } catch (error: any) {
       const message = await Error.check(error);
 
@@ -29,13 +39,15 @@ export const ProvisionsController = {
     }
   },
 
-  patch: async (id: number, dataUser: Product) => {
-    const values = dataUser;
-
+  patch: async (id: number, isActive?: boolean, name?: string) => {
     try {
-      const request = await axios.patch(`/product/${id}`, values, {
-        headers: { authorization: `Bearer ${token}` },
-      });
+      const request = await axios.patch(
+        `/table/${id}`,
+        { isActive, name },
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
+      );
 
       const data = request.data;
 
@@ -55,29 +67,7 @@ export const ProvisionsController = {
 
       const token = cookie.token;
 
-      const request = await axios.get(`/product/`, {
-        headers: { authorization: `Bearer ${token}` },
-      });
-
-      const data = request.data;
-
-      const message = data.message;
-
-      return { error: false, message, data: data.data };
-    } catch (error: any) {
-      const message = await Error.check(error);
-
-      return { error: true, message };
-    }
-  },
-
-  getPlates: async () => {
-    try {
-      const cookie = cookies.get('data.user');
-
-      const token = cookie.token;
-
-      const request = await axios.get('/plates', {
+      const request = await axios.get('/tables/', {
         headers: { authorization: `Bearer ${token}` },
       });
 
