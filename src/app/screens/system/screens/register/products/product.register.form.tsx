@@ -28,6 +28,8 @@ export const ProductRegisterForm = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [loadingRawForm, setLoadingRawForm] = useState(false);
+
   const [valuesTable, setValuesTable] = useState([]);
 
   const [productTypes, setProductTypes] = useState<ProductTypes[]>([]);
@@ -220,18 +222,21 @@ export const ProductRegisterForm = () => {
         </Form>
       </Col>
 
-      <Col span={20}>
-        <RawMaterialForm
-          stok={stok}
-          onSave={setRawMaterial}
-          items={rawMaterial}
-        />
-      </Col>
+      {!loadingRawForm && (
+        <Col span={20}>
+          <RawMaterialForm
+            stok={stok}
+            onSave={setRawMaterial}
+            items={rawMaterial}
+          />
+        </Col>
+      )}
 
       <Col span={24}>
         <ProductRegisterTable
           loading={loading}
           getRowValues={(editValues: Product) => {
+            getRawMaterialById(editValues.id);
             setValues(editValues);
           }}
           valuesTable={valuesTable}
@@ -310,16 +315,25 @@ export const ProductRegisterForm = () => {
     const values = rawMaterial.map((value) => {
       const amount = Number.parseFloat(String(value.amount));
       return {
+        id: value.id,
         productId: productId,
         rawMaterialId: value.rawMaterialId,
         amount: amount,
       };
     });
-    console.log(values);
+
     let request;
 
     for (let index = 0; index < values.length; index++) {
-      request = await RawMaterialController.store({ ...values[index] });
+      const element = values[index];
+
+      const id = element.productId;
+
+      if (!id) {
+        request = await RawMaterialController.store({ ...element } as any);
+      } else {
+        request = await RawMaterialController.patch(id, { ...element } as any);
+      }
 
       const error = request.error;
 
@@ -388,6 +402,20 @@ export const ProductRegisterForm = () => {
 
     if (data) {
       setProductTypes(data);
+    }
+  }
+
+  async function getRawMaterialById(id: number) {
+    setLoadingRawForm(true);
+    const request = await RawMaterialController.getById(id);
+
+    const data = request.data;
+
+    if (data) {
+      setRawMaterial(data);
+      setTimeout(() => {
+        setLoadingRawForm(false);
+      }, 500);
     }
   }
 };

@@ -39,11 +39,17 @@ export const RawMaterialController = {
     }
   },
 
-  patch: async (id: number, isActive?: boolean, name?: string) => {
+  patch: async (id: number, rawMaterial: RawMaterial) => {
+    const values = {
+      productId: rawMaterial.productId,
+      rawMaterialId: rawMaterial.rawMaterialId,
+      amount: rawMaterial.amount,
+    };
+
     try {
       const request = await axios.patch(
-        `/table/${id}`,
-        { isActive, name },
+        `/raw-material/${id}`,
+        { ...values },
         {
           headers: { authorization: `Bearer ${token}` },
         },
@@ -61,13 +67,13 @@ export const RawMaterialController = {
     }
   },
 
-  get: async () => {
+  getById: async (id: number) => {
     try {
       const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
-      const request = await axios.get('/tables/', {
+      const request = await axios.get(`/raw-material/${id}`, {
         headers: { authorization: `Bearer ${token}` },
       });
 

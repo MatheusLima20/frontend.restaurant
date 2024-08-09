@@ -43,6 +43,7 @@ export type ProductType =
   | 'LUNCH';
 
 export type RawMaterial = {
+  id: number;
   productId: number;
   rawMaterialId: number;
   amount: number;

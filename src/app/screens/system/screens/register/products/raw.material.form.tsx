@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, message, Row, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Product } from '../../../../../types/product/product';
+import { Product, RawMaterial } from '../../../../../types/product/product';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 
 type Props = {
   stok: Product[];
-  items: any[];
+  items: RawMaterial[];
   onSave: (values: any[]) => void;
 };
 
@@ -14,12 +14,18 @@ export const RawMaterialForm = (props: Props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const stok = props.stok.sort((a, b) => a.name.localeCompare(b.name));
 
-  const initialItems: any[] = props.items;
-  const fields = initialItems.map((item) => {
-    return { rawMaterialId: item.rawMaterialId, amount: item.amount };
-  });
+  const [values, setValues] = useState([]);
+
+  const [add, setAdd] = useState([]);
 
   const onSave = props.onSave;
+
+  useEffect(() => {
+    const fields: any[] = props.items.map((item) => {
+      return { rawMaterialId: item.rawMaterialId, amount: item.amount };
+    });
+    setValues(fields);
+  }, [props.items]);
 
   return (
     <Row justify={'center'}>
@@ -27,101 +33,107 @@ export const RawMaterialForm = (props: Props) => {
       <Col span={24}>
         <Form
           name="dynamic_form_nest_item"
+          fields={[{ name: [0, 'rawMaterialId'], value: 1 }]}
           onFinish={onFinish}
           autoComplete="off"
         >
           <Row gutter={20} justify={'center'}>
             <Col span={24}>
-              <Form.List name="items" initialValue={fields}>
-                {(fields, { add, remove }) => (
-                  <Row justify={'center'}>
-                    <Col span={24}>
-                      {fields.map(({ key, name, ...restField }) => (
-                        <Row key={key} gutter={20} justify={'center'}>
-                          <Col span={8}>
-                            <Form.Item
-                              {...restField}
-                              name={[name, 'rawMaterialId']}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Selecione um item do estoque.',
-                                },
-                              ]}
-                            >
-                              <Select
-                                showSearch
-                                optionFilterProp="children"
-                                filterOption={(input, option) =>
-                                  (
-                                    StringFormatter.replaceSpecialChars(
-                                      option?.label,
-                                    ).toLowerCase() ?? ''
-                                  ).includes(
-                                    StringFormatter.replaceSpecialChars(
-                                      input,
-                                    ).toLowerCase(),
-                                  )
-                                }
-                                filterSort={(optionA, optionB) =>
-                                  (optionA?.label ?? '')
-                                    .toLowerCase()
-                                    .localeCompare(
-                                      (optionB?.label ?? '').toLowerCase(),
-                                    )
-                                }
-                                options={stok.map((value) => {
-                                  return {
-                                    value: value.id,
-                                    label:
-                                      value.name +
-                                      ' : ' +
-                                      value.unitMeasurement,
-                                  };
-                                })}
-                              />
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              {...restField}
-                              name={[name, 'amount']}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Digite a quantidade.',
-                                },
-                              ]}
-                            >
-                              <Input
-                                placeholder="Quantidade..."
-                                type="number"
-                              />
-                            </Form.Item>
-                          </Col>
-                          <Col>
-                            <MinusCircleOutlined
-                              size={50}
-                              onClick={() => remove(name)}
-                            />
-                          </Col>
-                        </Row>
-                      ))}
-                    </Col>
-                    <Col>
-                      <Form.Item>
-                        <Button
-                          type="dashed"
-                          onClick={() => add()}
-                          block
-                          icon={<PlusOutlined />}
-                        >
-                          Vincular Produtos
-                        </Button>
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                )}
+              <Form.List name="items" initialValue={values}>
+                {(fields, { add, remove }) => {
+                  return (
+                    <Row justify={'center'}>
+                      <Col span={24}>
+                        {fields.map(({ key, name, ...restField }) => {
+                          console.log(name);
+                          return (
+                            <Row key={key} gutter={20} justify={'center'}>
+                              <Col span={8}>
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, 'rawMaterialId']}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: 'Selecione um item do estoque.',
+                                    },
+                                  ]}
+                                >
+                                  <Select
+                                    showSearch
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) =>
+                                      (
+                                        StringFormatter.replaceSpecialChars(
+                                          option?.label,
+                                        ).toLowerCase() ?? ''
+                                      ).includes(
+                                        StringFormatter.replaceSpecialChars(
+                                          input,
+                                        ).toLowerCase(),
+                                      )
+                                    }
+                                    filterSort={(optionA, optionB) =>
+                                      (optionA?.label ?? '')
+                                        .toLowerCase()
+                                        .localeCompare(
+                                          (optionB?.label ?? '').toLowerCase(),
+                                        )
+                                    }
+                                    options={stok.map((value) => {
+                                      return {
+                                        value: value.id,
+                                        label:
+                                          value.name +
+                                          ' : ' +
+                                          value.unitMeasurement,
+                                      };
+                                    })}
+                                  />
+                                </Form.Item>
+                              </Col>
+                              <Col span={8}>
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, 'amount']}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: 'Digite a quantidade.',
+                                    },
+                                  ]}
+                                >
+                                  <Input
+                                    placeholder="Quantidade..."
+                                    type="number"
+                                  />
+                                </Form.Item>
+                              </Col>
+                              <Col>
+                                <MinusCircleOutlined
+                                  size={50}
+                                  onClick={() => remove(name)}
+                                />
+                              </Col>
+                            </Row>
+                          );
+                        })}
+                      </Col>
+                      <Col>
+                        <Form.Item>
+                          <Button
+                            type="dashed"
+                            onClick={() => add()}
+                            block
+                            icon={<PlusOutlined />}
+                          >
+                            Vincular Produtos
+                          </Button>
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  );
+                }}
               </Form.List>
             </Col>
             <Col>
@@ -139,6 +151,7 @@ export const RawMaterialForm = (props: Props) => {
 
   function onFinish(values: any) {
     const rawMaterial = values.items;
+    console.log(rawMaterial);
     if (!rawMaterial[0]) {
       return;
     }
