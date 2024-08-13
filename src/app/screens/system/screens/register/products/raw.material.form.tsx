@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, Col, Form, Input, message, Row, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Product, RawMaterial } from '../../../../../types/product/product';
+import { Product } from '../../../../../types/product/product';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 
 type Props = {
   stok: Product[];
-  items: RawMaterial[];
+  items: any[];
   onSave: (values: any[]) => void;
 };
 
@@ -14,18 +14,9 @@ export const RawMaterialForm = (props: Props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const stok = props.stok.sort((a, b) => a.name.localeCompare(b.name));
 
-  const [values, setValues] = useState([]);
-
-  const [add, setAdd] = useState([]);
+  const items = props.items;
 
   const onSave = props.onSave;
-
-  useEffect(() => {
-    const fields: any[] = props.items.map((item) => {
-      return { rawMaterialId: item.rawMaterialId, amount: item.amount };
-    });
-    setValues(fields);
-  }, [props.items]);
 
   return (
     <Row justify={'center'}>
@@ -33,19 +24,18 @@ export const RawMaterialForm = (props: Props) => {
       <Col span={24}>
         <Form
           name="dynamic_form_nest_item"
-          fields={[{ name: [0, 'rawMaterialId'], value: 1 }]}
           onFinish={onFinish}
+          initialValues={{ items: items }}
           autoComplete="off"
         >
           <Row gutter={20} justify={'center'}>
             <Col span={24}>
-              <Form.List name="items" initialValue={values}>
+              <Form.List name="items" initialValue={items}>
                 {(fields, { add, remove }) => {
                   return (
                     <Row justify={'center'}>
                       <Col span={24}>
                         {fields.map(({ key, name, ...restField }) => {
-                          console.log(name);
                           return (
                             <Row key={key} gutter={20} justify={'center'}>
                               <Col span={8}>
@@ -151,7 +141,7 @@ export const RawMaterialForm = (props: Props) => {
 
   function onFinish(values: any) {
     const rawMaterial = values.items;
-    console.log(rawMaterial);
+
     if (!rawMaterial[0]) {
       return;
     }

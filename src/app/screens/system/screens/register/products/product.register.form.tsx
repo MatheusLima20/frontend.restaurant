@@ -206,12 +206,7 @@ export const ProductRegisterForm = () => {
                     </Button>
                   </Col>
                   <Col>
-                    <Button
-                      type="default"
-                      onClick={() => {
-                        setValues(initialValues);
-                      }}
-                    >
+                    <Button type="default" onClick={clearValues}>
                       Limpar
                     </Button>
                   </Col>
@@ -227,7 +222,9 @@ export const ProductRegisterForm = () => {
           <RawMaterialForm
             stok={stok}
             onSave={setRawMaterial}
-            items={rawMaterial}
+            items={rawMaterial.map((item) => {
+              return { rawMaterialId: item.rawMaterialId, amount: item.amount };
+            })}
           />
         </Col>
       )}
@@ -286,6 +283,11 @@ export const ProductRegisterForm = () => {
       }
     } else {
       request = await ProvisionsController.patch(id, { ...dataValues });
+      const hasRawMaterial = rawMaterial.length !== 0;
+
+      if (hasRawMaterial) {
+        saveRawMaterial(id);
+      }
     }
 
     const error = request.error;
@@ -305,7 +307,7 @@ export const ProductRegisterForm = () => {
       });
       setLoading(false);
       if (!error) {
-        setValues(initialValues);
+        clearValues();
       }
     }, 1000);
     await getProduct();
@@ -327,7 +329,7 @@ export const ProductRegisterForm = () => {
     for (let index = 0; index < values.length; index++) {
       const element = values[index];
 
-      const id = element.productId;
+      const id = element.id;
 
       if (!id) {
         request = await RawMaterialController.store({ ...element } as any);
@@ -417,5 +419,14 @@ export const ProductRegisterForm = () => {
         setLoadingRawForm(false);
       }, 500);
     }
+  }
+
+  function clearValues() {
+    setValues(initialValues);
+    setRawMaterial([]);
+    setLoadingRawForm(true);
+    setTimeout(() => {
+      setLoadingRawForm(false);
+    }, 500);
   }
 };
