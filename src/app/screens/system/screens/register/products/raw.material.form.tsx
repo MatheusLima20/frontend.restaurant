@@ -36,6 +36,11 @@ export const RawMaterialForm = (props: Props) => {
                     <Row justify={'center'}>
                       <Col span={24}>
                         {fields.map(({ key, name, ...restField }) => {
+                          let hasId = false;
+                          if (items.length) {
+                            hasId = items[key]?.id !== undefined;
+                          }
+
                           return (
                             <Row key={key} gutter={20} justify={'center'}>
                               <Col span={8}>
@@ -100,10 +105,12 @@ export const RawMaterialForm = (props: Props) => {
                                 </Form.Item>
                               </Col>
                               <Col>
-                                <MinusCircleOutlined
-                                  size={50}
+                                <Button
+                                  disabled={hasId}
                                   onClick={() => remove(name)}
-                                />
+                                >
+                                  <MinusCircleOutlined size={50} />
+                                </Button>
                               </Col>
                             </Row>
                           );
@@ -117,7 +124,7 @@ export const RawMaterialForm = (props: Props) => {
                             block
                             icon={<PlusOutlined />}
                           >
-                            Vincular Produtos
+                            Produtos
                           </Button>
                         </Form.Item>
                       </Col>

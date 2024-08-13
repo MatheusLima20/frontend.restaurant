@@ -221,9 +221,16 @@ export const ProductRegisterForm = () => {
         <Col span={20}>
           <RawMaterialForm
             stok={stok}
-            onSave={setRawMaterial}
+            onSave={(values) => {
+              setRawMaterial(values);
+              console.log(rawMaterial);
+            }}
             items={rawMaterial.map((item) => {
-              return { rawMaterialId: item.rawMaterialId, amount: item.amount };
+              return {
+                id: item.id,
+                rawMaterialId: item.rawMaterialId,
+                amount: item.amount,
+              };
             })}
           />
         </Col>
