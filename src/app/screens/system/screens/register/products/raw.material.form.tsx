@@ -56,6 +56,7 @@ export const RawMaterialForm = (props: Props) => {
                                 >
                                   <Select
                                     showSearch
+                                    placeholder="Selecione a Materia Prima..."
                                     optionFilterProp="children"
                                     filterOption={(input, option) =>
                                       (
@@ -120,6 +121,7 @@ export const RawMaterialForm = (props: Props) => {
                         <Form.Item>
                           <Button
                             type="dashed"
+                            title="Adicionar Material ao produto."
                             onClick={() => add()}
                             block
                             icon={<PlusOutlined />}
