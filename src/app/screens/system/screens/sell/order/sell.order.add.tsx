@@ -591,7 +591,6 @@ export const SellOrderAdd = (props: Props) => {
     const idOrder = id;
     handlePrintOrder();
     const request = await OrderController.patch(idOrder, {
-      productId: id,
       isCancelled: true,
       isOpen: false,
     } as any);

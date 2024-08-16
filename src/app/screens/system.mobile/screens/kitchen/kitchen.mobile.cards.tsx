@@ -174,7 +174,11 @@ export const KitchenMobileCards = () => {
                           const status = isCancelled
                             ? 'cancelado'
                             : 'finalizado';
-                          patchStatus(processing.id, status);
+                          patchStatus(
+                            processing.id,
+                            processing.productId,
+                            status,
+                          );
                         }}
                         okText="Sim"
                         cancelText="Não"
@@ -219,10 +223,11 @@ export const KitchenMobileCards = () => {
     </Row>
   );
 
-  async function patchStatus(id: number, status: string) {
+  async function patchStatus(id: number, productId: number, status: string) {
     const orderId = id;
 
     const request = await OrderController.patch(orderId, {
+      productId: productId,
       status: status,
     } as any);
 
