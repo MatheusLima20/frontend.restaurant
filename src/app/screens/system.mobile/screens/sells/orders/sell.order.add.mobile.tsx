@@ -406,9 +406,10 @@ export const SellOrderAddMobile = (props: Props) => {
   async function getPlates() {
     const request = await ProvisionsController.getPlates();
 
-    const data = request.data;
+    const data: Product[] = request.data;
     if (data) {
-      setProducts(data);
+      const products = data.filter((value) => value.show);
+      setProducts(products);
     }
   }
 };
