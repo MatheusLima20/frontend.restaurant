@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  message,
-  Popconfirm,
-  Row,
-  Switch,
-} from 'antd';
+import { Col, Form, message, Row, Switch } from 'antd';
 import { TableController } from '../../../../controller/table/table.controller';
 import { TableRestaurant } from '../../../../types/table/table';
 import { Order } from '../../../../types/order/order';
 import { OrderController } from '../../../../controller/order/order.controller';
-import { BiCheckCircle, BiXCircle } from 'react-icons/bi';
 import { TranslateController } from '../../../../controller/translate/translate.controller';
 import * as io from 'socket.io-client';
 import { baseURL } from '../../../../config/axios';
 import { cookies } from '../../../../controller/user/adm.cookies';
 import { UserDataLogged } from '../../../../types/user/user';
 import { ProductType } from '../../../../types/product/product';
+import { Cards } from './cards';
 
 const socket = io.connect(baseURL);
 
@@ -147,73 +138,13 @@ export const KitchenMobileCards = () => {
         {tables.length !== 0 && (
           <Row justify={'center'} gutter={[0, 40]}>
             {filterProductsByType().map((processing, index) => {
-              const table = tables.find(
-                (table) => table.id === processing.idTable,
-              );
-              const isCancelled = processing.isCancelled;
-              const textWhite = isCancelled ? 'text-white' : '';
               return (
                 <Col key={index} span={24}>
-                  <Card
-                    title={
-                      <div className={`text-center fs-1 ${textWhite}`}>
-                        {table.name}
-                      </div>
-                    }
-                    bordered={true}
-                    style={{
-                      backgroundColor: !isCancelled ? '#b5b5b5' : 'red',
-                    }}
-                    hoverable
-                    actions={[
-                      <Popconfirm
-                        key={index}
-                        title="Finalizar pedido."
-                        description="Deseja realmente finalizar o pedido?"
-                        onConfirm={() => {
-                          const status = isCancelled
-                            ? 'cancelado'
-                            : 'finalizado';
-                          patchStatus(
-                            processing.id,
-                            processing.productId,
-                            status,
-                          );
-                        }}
-                        okText="Sim"
-                        cancelText="Não"
-                      >
-                        <Button size="large" type="text">
-                          {isCancelled ? (
-                            <BiXCircle size={40} color="red" />
-                          ) : (
-                            <BiCheckCircle size={40} color="green" />
-                          )}
-                        </Button>
-                      </Popconfirm>,
-                    ]}
-                  >
-                    <Row className="m-5">
-                      <Col span={24} className={`text-center ${textWhite}`}>
-                        <h3>
-                          <strong>{isCancelled ? 'Cancelado' : ''}</strong>
-                        </h3>
-                      </Col>
-                      <Col span={24} className={`text-center ${textWhite}`}>
-                        <h3>
-                          <strong>{processing.productName}</strong>
-                        </h3>
-                        {processing.observation && (
-                          <h4>
-                            <strong>OBS: {processing.observation}</strong>
-                          </h4>
-                        )}
-                        <h4>
-                          <strong>x {processing.amount}</strong>
-                        </h4>
-                      </Col>
-                    </Row>
-                  </Card>
+                  <Cards
+                    order={processing}
+                    tables={tables}
+                    patchStatus={patchStatus}
+                  />
                 </Col>
               );
             })}
