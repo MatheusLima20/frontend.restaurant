@@ -630,7 +630,7 @@ export const SellOrderAdd = (props: Props) => {
         paymentMethod: order.paymentMethod,
         status: 'finalizado',
       } as any);
-      await patchLowStock(order.id, order.productId);
+      patchLowStock(order.id, order.productId);
     }
 
     const error = request.error;
