@@ -67,6 +67,28 @@ export const RawMaterialController = {
     }
   },
 
+  patchLowStock: async (orderId: number, productId: number) => {
+    try {
+      const request = await axios.patch(
+        `/raw-material-low-stock/${orderId}/${productId}`,
+        {},
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
+      );
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message: message };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
+
   getById: async (id: number) => {
     try {
       const cookie = cookies.get('data.user');

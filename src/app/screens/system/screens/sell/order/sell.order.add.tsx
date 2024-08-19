@@ -25,6 +25,7 @@ import { useReactToPrint } from 'react-to-print';
 import { PrintBill } from './print.bill';
 import { PrintOrder } from './print.order';
 import dayjs from 'dayjs';
+import { RawMaterialController } from '../../../../../controller/raw.material/raw.material.controller';
 
 interface Props {
   idTable: number;
@@ -623,11 +624,13 @@ export const SellOrderAdd = (props: Props) => {
     let request;
 
     for (let index = 0; index < orders.length; index++) {
+      const order = orders[index];
       request = await OrderController.patch(orders[index].id, {
         isOpen: false,
         paymentMethod: order.paymentMethod,
         status: 'finalizado',
       } as any);
+      await patchLowStock(order.id, order.productId);
     }
 
     const error = request.error;
@@ -650,6 +653,32 @@ export const SellOrderAdd = (props: Props) => {
         props.getOrders();
         props.onUpdate();
       }, 500);
+    }
+  }
+
+  async function patchLowStock(orderId: number, productId: number) {
+    const request = await RawMaterialController.patchLowStock(
+      orderId,
+      productId,
+    );
+
+    const error = request.error;
+
+    const message = request.message;
+
+    const type = error ? 'error' : 'success';
+
+    const tranlateMessage = await TranslateController.get(message);
+
+    if (error) {
+      setTimeout(() => {
+        messageApi.open({
+          key: 'stock.products',
+          type: type,
+          content: tranlateMessage.text,
+          duration: 4,
+        });
+      }, 1000);
     }
   }
 
