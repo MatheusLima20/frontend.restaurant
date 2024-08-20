@@ -1,8 +1,10 @@
-import { Button, Card, Col, Popconfirm, Row, Switch } from 'antd';
+import { Button, Card, Col, message, Popconfirm, Row, Switch } from 'antd';
 import React, { useState } from 'react';
 import { BiCheckCircle, BiXCircle } from 'react-icons/bi';
 import { Order } from '../../../../types/order/order';
 import { TableRestaurant } from '../../../../types/table/table';
+import { RawMaterialController } from '../../../../controller/raw.material/raw.material.controller';
+import { TranslateController } from '../../../../controller/translate/translate.controller';
 
 interface Props {
   order: Order;
@@ -17,6 +19,8 @@ export const Cards = (props: Props) => {
   const textWhite = isCancelled ? 'text-white' : '';
   const table = props.tables.find((table) => table.id === processing.idTable);
   const [low, setLow] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+
   return (
     <Card
       title={
@@ -32,9 +36,7 @@ export const Cards = (props: Props) => {
           key={processing.id}
           title="Finalizar pedido."
           description="Deseja realmente finalizar o pedido?"
-          onConfirm={() => {
-            props.patchStatus(processing.id, processing.productId, status);
-          }}
+          onConfirm={onConfirm}
           okText="Sim"
           cancelText="Não"
         >
@@ -49,6 +51,7 @@ export const Cards = (props: Props) => {
       ]}
     >
       <Row className="m-5">
+        {contextHolder}
         <Col span={24} className={`text-center ${textWhite}`}>
           <h3>
             <strong>{isCancelled ? 'Cancelado' : ''}</strong>
@@ -70,6 +73,7 @@ export const Cards = (props: Props) => {
             <div>
               <Switch
                 title="Baixa automatica"
+                size="default"
                 checkedChildren="Da Baixa"
                 unCheckedChildren="Não dá Baixa"
                 defaultChecked={false}
@@ -81,4 +85,39 @@ export const Cards = (props: Props) => {
       </Row>
     </Card>
   );
+
+  function onConfirm() {
+    const orderId = processing.id;
+    const productId = processing.productId;
+    props.patchStatus(orderId, productId, status);
+    if (low) {
+      patchLowStock(orderId, productId);
+    }
+  }
+
+  async function patchLowStock(orderId: number, productId: number) {
+    const request = await RawMaterialController.patchLowStock(
+      orderId,
+      productId,
+    );
+
+    const error = request.error;
+
+    const message = request.message;
+
+    const type = error ? 'error' : 'success';
+
+    const tranlateMessage = await TranslateController.get(message);
+
+    if (error) {
+      setTimeout(() => {
+        messageApi.open({
+          key: 'stock.products',
+          type: type,
+          content: tranlateMessage.text,
+          duration: 4,
+        });
+      }, 1000);
+    }
+  }
 };
