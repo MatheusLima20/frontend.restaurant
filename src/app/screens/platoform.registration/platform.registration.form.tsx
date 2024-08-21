@@ -505,6 +505,8 @@ export const PlatformRegistrationForm = () => {
       userName: values.userName,
       passwordRepeated: values.passwordRepeated,
       platformName: values.companyName,
+      isMonthPlan: values.isMonthPlan,
+      plan: values.plan,
       address: {
         district: values.district,
         addressCodePostal: values.addressCodePostal,

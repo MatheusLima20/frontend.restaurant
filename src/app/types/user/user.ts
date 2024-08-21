@@ -42,6 +42,8 @@ export type UserMain = {
   id?: number;
   platformCPFCNPJ?: string;
   platformName: string;
+  isMonthPlan: boolean;
+  plan: string;
   cpfcnpj: string;
   companyName: string;
   corporateName: string;

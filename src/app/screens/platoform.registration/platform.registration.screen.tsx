@@ -4,7 +4,7 @@ import { Col, Row } from 'antd';
 
 export const PlatformRegistrationScreen = () => {
   return (
-    <Row justify={'center'} className="bg-body ">
+    <Row justify={'center'}>
       <Col span={23}>
         <Row justify="center" className="mt-5 mb-5">
           <Col>
