@@ -3,6 +3,7 @@ import { Col, Row } from 'antd';
 import { Order } from '../../../../../types/order/order';
 import { OrginizeArrays } from '../../../../../util/arrays/organize';
 import { Product } from '../../../../../types/product/product';
+import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 
 type Props = {
   products: Product[];
@@ -37,36 +38,36 @@ export const ReportDetails = (props: Props) => {
         <Row justify={'space-between'} gutter={[10, 10]}>
           <Col span={8}>
             <h2>
-              <strong>Mais Vendidos</strong>
+              <strong>+ Vendidos</strong>
             </h2>
             {ordersJoin
               .sort((a, b) => b.amount - a.amount)
+              .slice(0, 10)
               .map((product, index) => {
-                if (index > 9) {
-                  return;
-                }
                 return (
                   <Row key={index} gutter={[20, 20]}>
                     <Col>{product.productName}</Col>
-                    <Col>X {product.amount}</Col>
+                    <Col>
+                      <strong>X {product.amount}</strong>
+                    </Col>
                   </Row>
                 );
               })}
           </Col>
           <Col span={8}>
             <h2>
-              <strong>Menos Vendidos</strong>
+              <strong>- Vendidos</strong>
             </h2>
             {ordersJoin
               .sort((a, b) => a.amount - b.amount)
+              .slice(1, 10)
               .map((product, index) => {
-                if (index > 9) {
-                  return;
-                }
                 return (
                   <Row key={index} gutter={[20, 20]}>
                     <Col>{product.productName}</Col>
-                    <Col>X {product.amount}</Col>
+                    <Col>
+                      <strong>X {product.amount}</strong>
+                    </Col>
                   </Row>
                 );
               })}
@@ -82,7 +83,59 @@ export const ReportDetails = (props: Props) => {
                 return (
                   <Row key={index} gutter={[20, 20]}>
                     <Col>{product.name}</Col>
-                    <Col>X {product.amount}</Col>
+                    <Col>
+                      <strong>X {product.amount}</strong>
+                    </Col>
+                  </Row>
+                );
+              })}
+          </Col>
+        </Row>
+      </Col>
+      <Col span={24} className="mt-5">
+        <Row justify={'space-between'} gutter={[10, 10]}>
+          <Col md={8}>
+            <h2>
+              <strong>+ Vendidos em R$</strong>
+            </h2>
+            {ordersJoin
+              .sort((a, b) => {
+                const totalA = a.value * a.amount;
+                const totalB = b.value * b.amount;
+                return totalB - totalA;
+              })
+              .slice(0, 10)
+              .map((product, index) => {
+                const total = product.amount * product.value;
+                return (
+                  <Row key={index} gutter={[20, 20]}>
+                    <Col>{product.productName}</Col>
+                    <Col>
+                      <strong>{StringFormatter.realNumber(total)}</strong>
+                    </Col>
+                  </Row>
+                );
+              })}
+          </Col>
+          <Col md={8}>
+            <h2>
+              <strong>- Vendidos em R$</strong>
+            </h2>
+            {ordersJoin
+              .sort((a, b) => {
+                const totalA = a.value * a.amount;
+                const totalB = b.value * b.amount;
+                return totalA - totalB;
+              })
+              .slice(1, 10)
+              .map((product, index) => {
+                const total = product.amount * product.value;
+                return (
+                  <Row key={index} gutter={[20, 20]}>
+                    <Col>{product.productName}</Col>
+                    <Col>
+                      <strong>{StringFormatter.realNumber(total)}</strong>
+                    </Col>
                   </Row>
                 );
               })}
