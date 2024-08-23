@@ -202,6 +202,7 @@ export const ReportDetails = (props: Props) => {
               <strong>Mais Rapidos</strong>
             </h2>
             {orders
+              .filter((value) => value.deliveryDate)
               .sort((a, b) => {
                 const date1A = dayjs(a.deliveryDate);
                 const date2A = dayjs(a.createdAt);
@@ -259,6 +260,7 @@ export const ReportDetails = (props: Props) => {
               <strong>Mais Demorados</strong>
             </h2>
             {orders
+              .filter((value) => value.deliveryDate)
               .sort((a, b) => {
                 const date1A = dayjs(a.deliveryDate);
                 const date2A = dayjs(a.createdAt);
