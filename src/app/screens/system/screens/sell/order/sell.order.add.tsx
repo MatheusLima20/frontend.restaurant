@@ -624,13 +624,13 @@ export const SellOrderAdd = (props: Props) => {
     let request;
 
     for (let index = 0; index < orders.length; index++) {
-      const order = orders[index];
+      const value = orders[index];
       request = await OrderController.patch(orders[index].id, {
         isOpen: false,
         paymentMethod: order.paymentMethod,
         status: 'finalizado',
       } as any);
-      patchLowStock(order.id, order.productId);
+      patchLowStock(value.id, value.productId);
     }
 
     const error = request.error;

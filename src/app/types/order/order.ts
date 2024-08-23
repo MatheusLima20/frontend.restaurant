@@ -14,6 +14,7 @@ export type Order = {
   status: OrderStatus;
   order: number;
   observation: string;
+  deliveryDate: string;
   createdBy: string;
   updatedBy: string;
   createdAt: string;

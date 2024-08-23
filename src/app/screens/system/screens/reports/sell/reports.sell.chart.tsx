@@ -217,14 +217,14 @@ export const ReportsSellChart = () => {
           <BsGraphUpArrow size={30} />
         </Button>
       </Col>
-      <Col>
+      <Col span={22}>
         <Modal
           open={isModalOpen}
           onCancel={() => {
             handleOk();
           }}
           style={{ top: 20 }}
-          width={'75%'}
+          width={'95%'}
           footer={() => (
             <>
               <Button onClick={handleOk}>Voltar</Button>
