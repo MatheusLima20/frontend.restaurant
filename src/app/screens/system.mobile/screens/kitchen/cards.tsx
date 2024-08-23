@@ -93,6 +93,9 @@ export const Cards = (props: Props) => {
     if (low) {
       patchLowStock(orderId, productId);
     }
+    if (status !== 'cancelado') {
+      patchLowStock(orderId, productId);
+    }
   }
 
   async function patchLowStock(orderId: number, productId: number) {

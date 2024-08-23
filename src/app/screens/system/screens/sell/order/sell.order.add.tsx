@@ -216,7 +216,7 @@ export const SellOrderAdd = (props: Props) => {
                 <Col>
                   <Button
                     type="primary"
-                    disabled={order.orderId !== 0}
+                    disabled={order.orderId !== 0 || loading}
                     htmlType="submit"
                   >
                     {txtButtonSave}
@@ -630,7 +630,9 @@ export const SellOrderAdd = (props: Props) => {
         paymentMethod: order.paymentMethod,
         status: 'finalizado',
       } as any);
-      patchLowStock(value.id, value.productId);
+      if (value.status !== 'finalizado') {
+        patchLowStock(value.id, value.productId);
+      }
     }
 
     const error = request.error;
