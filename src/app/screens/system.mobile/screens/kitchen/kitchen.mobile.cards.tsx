@@ -177,7 +177,7 @@ export const KitchenMobileCards = () => {
       duration: 4,
     });
     if (!error) {
-      await getTablesRestaurant();
+      getTablesRestaurant();
       sendOrders();
     }
   }
@@ -191,7 +191,7 @@ export const KitchenMobileCards = () => {
 
     if (tables) {
       setTables(tables);
-      await getProcessing();
+      getProcessing();
     }
   }
 
