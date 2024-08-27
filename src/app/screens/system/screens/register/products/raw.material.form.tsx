@@ -1,13 +1,26 @@
 import React from 'react';
-import { Button, Col, Form, Input, message, Row, Select } from 'antd';
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  message,
+  Popconfirm,
+  Row,
+  Select,
+} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Product } from '../../../../../types/product/product';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
+import { RawMaterialController } from '../../../../../controller/raw.material/raw.material.controller';
+import { TranslateController } from '../../../../../controller/translate/translate.controller';
+import { BiTrash } from 'react-icons/bi';
 
 type Props = {
   stok: Product[];
   items: any[];
   onSave: (values: any[]) => void;
+  onRemove: (id: number) => void;
 };
 
 export const RawMaterialForm = (props: Props) => {
@@ -106,12 +119,30 @@ export const RawMaterialForm = (props: Props) => {
                                 </Form.Item>
                               </Col>
                               <Col>
-                                <Button
-                                  disabled={hasId}
-                                  onClick={() => remove(name)}
-                                >
-                                  <MinusCircleOutlined size={50} />
-                                </Button>
+                                {!hasId && (
+                                  <Button onClick={() => remove(name)}>
+                                    <MinusCircleOutlined size={70} />
+                                  </Button>
+                                )}
+                                {hasId && (
+                                  <Popconfirm
+                                    title="Deseja."
+                                    placement="bottomLeft"
+                                    description="Deseja realmente deletar?"
+                                    onConfirm={() =>
+                                      deleteRawMaterial(
+                                        items[key].id,
+                                        items[key].productId,
+                                      )
+                                    }
+                                    okText="Sim"
+                                    cancelText="Não"
+                                  >
+                                    <Button title="Deletar" danger>
+                                      <BiTrash size={20} />
+                                    </Button>
+                                  </Popconfirm>
+                                )}
                               </Col>
                             </Row>
                           );
@@ -161,5 +192,30 @@ export const RawMaterialForm = (props: Props) => {
       content: 'Material Adicionado!',
       duration: 4,
     });
+  }
+
+  async function deleteRawMaterial(id: number, productId: number) {
+    const request = await RawMaterialController.delete(id);
+
+    const error = request.error;
+
+    const message = request.message;
+
+    const type = error ? 'error' : 'success';
+
+    const tranlateMessage = await TranslateController.get(message);
+
+    if (error) {
+      setTimeout(() => {
+        messageApi.open({
+          key: 'register.products',
+          type: type,
+          content: tranlateMessage.text,
+          duration: 4,
+        });
+      }, 1000);
+    } else {
+      props.onRemove(productId);
+    }
   }
 };

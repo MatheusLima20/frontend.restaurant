@@ -223,9 +223,11 @@ export const ProductRegisterForm = () => {
             onSave={(values) => {
               setRawMaterial(values);
             }}
+            onRemove={getRawMaterialById}
             items={rawMaterial.map((item) => {
               return {
                 id: item.id,
+                productId: item.productId,
                 rawMaterialId: item.rawMaterialId,
                 amount: item.amount,
               };

@@ -110,4 +110,22 @@ export const RawMaterialController = {
       return { error: true, message };
     }
   },
+
+  delete: async (id: number) => {
+    try {
+      const request = await axios.delete(`/raw-material/${id}`, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
 };
