@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { Order, OrderKey } from '../../types/order/order';
+import { Spending } from '../../types/spending/spending';
 
 export const OrginizeArrays = {
   joinItemsOrders: (array: any[]) => {
@@ -20,6 +21,26 @@ export const OrginizeArrays = {
         });
 
         newArray.push({ ...data, productName, amount });
+      }
+    });
+    return newArray;
+  },
+  joinItemsSpending: (array: Spending[]) => {
+    const newArray: any[] = [];
+    array.map((data) => {
+      let name = '';
+      let amount = 0;
+      const hasData = newArray.filter(
+        (value) => value.name === data.name,
+      ).length;
+      if (hasData === 0) {
+        const newData = array.filter((value) => value.name === data.name);
+        newData.map((data) => {
+          name = data.name;
+          amount += data.amount;
+        });
+
+        newArray.push({ ...data, name: name, amount });
       }
     });
     return newArray;
@@ -58,7 +79,7 @@ export const OrginizeArrays = {
 
     return newArray;
   },
-  byAmount: (values: Order[], key: OrderKey) => {
+  ordersByAmount: (values: Order[], key: OrderKey) => {
     if (!values.length) {
       return [];
     }

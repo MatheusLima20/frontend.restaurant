@@ -251,7 +251,7 @@ export const StockRecordForm = () => {
     const dataValues: Product = {
       name: valuesForm.name,
       value: value,
-      unitMeasurement: valuesForm.unitMeasurement,
+      unitMeasurement: values.unitMeasurement,
       show: false,
       amount: amount,
       ...valuesForm,
@@ -356,6 +356,7 @@ export const StockRecordForm = () => {
       const spending: any = {
         name: product.name,
         amount: amount,
+        unitMeasurement: product.unitMeasurement,
         value: product.value,
       };
 

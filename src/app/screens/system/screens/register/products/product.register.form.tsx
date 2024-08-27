@@ -61,9 +61,8 @@ export const ProductRegisterForm = () => {
 
       <Col span={20}>
         <Form
-          name="basic"
+          name="product.register"
           autoComplete="on"
-          defaultValue={0}
           initialValues={values}
           fields={[
             {

@@ -17,7 +17,7 @@ type Props = {
 export const ReportDetails = (props: Props) => {
   const graphic = props.graphic;
   const orders = props.orders;
-  const ordersJoin = OrginizeArrays.byAmount(orders, 'productName');
+  const ordersJoin = OrginizeArrays.ordersByAmount(orders, 'productName');
   const products = props.products;
   const notSells = products.map((product) => {
     const order = orders.find((order) => order.productName === product.name);

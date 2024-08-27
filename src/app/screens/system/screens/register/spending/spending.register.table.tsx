@@ -16,6 +16,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { Product } from '../../../../../types/product/product';
 import { BiEdit } from 'react-icons/bi';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
+import dayjs from 'dayjs';
 
 interface DataType {
   key: number;
@@ -253,6 +254,7 @@ export const SpendingRegisterTable = (props: Props) => {
 
     valuesData.map((value, index) => {
       return values.push({
+        ...value,
         key: index,
         id: value.id,
         name: value.name,
@@ -260,8 +262,7 @@ export const SpendingRegisterTable = (props: Props) => {
         value: value.value,
         unitMeasurement: value.unitMeasurement,
         show: value.show,
-        createdAt: value.createdAt,
-        ...value,
+        createdAt: dayjs(value.createdAt).format('DD/MM/YYYY HH:mm:ss'),
       });
     });
 

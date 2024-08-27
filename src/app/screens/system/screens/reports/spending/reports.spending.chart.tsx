@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Col, DatePicker, Form, Row, Select, Switch } from 'antd';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Form,
+  Modal,
+  Row,
+  Select,
+  Switch,
+} from 'antd';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,6 +25,8 @@ import 'chart.js/auto';
 import dayjs from 'dayjs';
 import { Spending } from '../../../../../types/spending/spending';
 import { SpendingController } from '../../../../../controller/spending/spending.controller';
+import { BsGraphUpArrow } from 'react-icons/bs';
+import { ReportDetails } from './reports.details';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -46,6 +57,18 @@ export const ReportsSpendingChart = () => {
   const [chart, setChart] = useState('barv');
   const [total, setTotal] = useState(0);
   const [isMoney, setMoney] = useState(true);
+  const [graphic, setGraphic] = useState<any>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    const chart = document.getElementById('chart');
+    setGraphic(chart);
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     searchSpending(dayjs().format('YYYY-MM'));
@@ -111,6 +134,7 @@ export const ReportsSpendingChart = () => {
           <Col span={20}>
             {chart === 'barv' && (
               <Bar
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -121,6 +145,7 @@ export const ReportsSpendingChart = () => {
 
             {chart === 'barh' && (
               <Bar
+                id="chart"
                 options={{ ...options, indexAxis: 'y' as const }}
                 data={{
                   labels: labels,
@@ -131,6 +156,7 @@ export const ReportsSpendingChart = () => {
 
             {chart === 'pie' && (
               <Pie
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -141,6 +167,7 @@ export const ReportsSpendingChart = () => {
 
             {chart === 'areachat' && (
               <Line
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -151,6 +178,7 @@ export const ReportsSpendingChart = () => {
 
             {chart === 'radar' && (
               <Radar
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -160,6 +188,33 @@ export const ReportsSpendingChart = () => {
             )}
           </Col>
         </Row>
+      </Col>
+      <Col span={20} className="text-center">
+        <Button
+          title="Detalhes"
+          size="large"
+          disabled={!values.length}
+          onClick={showModal}
+        >
+          <BsGraphUpArrow size={30} />
+        </Button>
+      </Col>
+      <Col span={22}>
+        <Modal
+          open={isModalOpen}
+          onCancel={() => {
+            handleOk();
+          }}
+          style={{ top: 20 }}
+          width={'95%'}
+          footer={() => (
+            <>
+              <Button onClick={handleOk}>Voltar</Button>
+            </>
+          )}
+        >
+          <ReportDetails spendig={values} graphic={graphic} />
+        </Modal>
       </Col>
     </Row>
   );

@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, DatePicker, Form, Input, Row, message } from 'antd';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Row,
+  Select,
+  message,
+} from 'antd';
 import { Product } from '../../../../../types/product/product';
 import { BsBox2Fill } from 'react-icons/bs';
 import { Spending } from '../../../../../types/spending/spending';
@@ -7,6 +16,8 @@ import { SpendingController } from '../../../../../controller/spending/spending.
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { SpendingRegisterTable } from './spending.register.table';
 import dayjs from 'dayjs';
+import { UnitMeasurementController } from '../../../../../controller/unit.measurement/unit.measurement.controller';
+import { UnitMeasurement } from '../../../../../types/unit.measurement/unit.measurement';
 
 const initialValues = {
   id: 0,
@@ -27,6 +38,8 @@ export const SpendingRegisterForm = () => {
 
   const [valuesTable, setValuesTable] = useState([]);
 
+  const [unitMeasurement, setUnitMeasurement] = useState<UnitMeasurement[]>([]);
+
   const handleChange = (event: any) => {
     const { name, value } = event.target;
 
@@ -34,6 +47,7 @@ export const SpendingRegisterForm = () => {
   };
 
   useEffect(() => {
+    getUnitMeasurement();
     getSpending();
   }, []);
 
@@ -79,9 +93,9 @@ export const SpendingRegisterForm = () => {
           onFinish={save}
         >
           <Row justify={'center'}>
-            <Col>
+            <Col span={24}>
               <Row gutter={[10, 10]}>
-                <Col md={10}>
+                <Col md={7}>
                   <Form.Item
                     label="Nome"
                     name="name"
@@ -97,7 +111,7 @@ export const SpendingRegisterForm = () => {
                   </Form.Item>
                 </Col>
 
-                <Col md={7}>
+                <Col md={5}>
                   <Form.Item
                     label="Valor"
                     name="value"
@@ -118,7 +132,7 @@ export const SpendingRegisterForm = () => {
                   </Form.Item>
                 </Col>
 
-                <Col md={7}>
+                <Col md={5}>
                   <Form.Item
                     label="Quantidade"
                     name="amount"
@@ -135,6 +149,26 @@ export const SpendingRegisterForm = () => {
                       onChange={handleChange}
                       value={values.amount}
                       prefix={<BsBox2Fill />}
+                    />
+                  </Form.Item>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Item label="Unidade" name="unitMeasurement">
+                    <Select
+                      onChange={(value: string) => {
+                        const event: any = {
+                          target: {
+                            name: 'unitMeasurement',
+                            value: value,
+                          },
+                        };
+                        handleChange(event);
+                      }}
+                      value={values.unitMeasurement}
+                      options={unitMeasurement.map((value) => {
+                        return { value: value.name, label: value.description };
+                      })}
                     />
                   </Form.Item>
                 </Col>
@@ -161,7 +195,7 @@ export const SpendingRegisterForm = () => {
 
       <Col span={20} className="text-center">
         <DatePicker
-          value={dayjs()}
+          defaultValue={dayjs()}
           format={'MM/YYYY'}
           picker="month"
           onChange={(value) => {
@@ -193,10 +227,11 @@ export const SpendingRegisterForm = () => {
     });
 
     const spending: Spending = {
+      ...valuesForm,
       name: valuesForm.name,
       amount: valuesForm.amount,
       value: valuesForm.value,
-      ...valuesForm,
+      unitMeasurement: valuesForm.unitMeasurement,
     };
 
     const id: number = values.id;
@@ -253,5 +288,15 @@ export const SpendingRegisterForm = () => {
     setTimeout(() => {
       setLoading(false);
     }, 500);
+  }
+
+  async function getUnitMeasurement() {
+    const request = await UnitMeasurementController.get();
+
+    const data = request.data;
+
+    if (data) {
+      setUnitMeasurement(data);
+    }
   }
 };
