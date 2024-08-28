@@ -215,7 +215,7 @@ export const UsersTable = (props: Props) => {
 
   return (
     <Row className="m-0 mb-5 justify-content-center">
-      <Col>
+      <Col span={24}>
         <Table
           columns={columns}
           loading={loading}
@@ -224,9 +224,19 @@ export const UsersTable = (props: Props) => {
           pagination={{
             defaultPageSize: 5,
             showTotal: () => (
-              <div className="text-black">
-                <strong>Itens: {props.valuesTable.length}</strong>
-              </div>
+              <Row justify={'space-between'} gutter={[40, 0]}>
+                <Col>
+                  <strong>
+                    Total de usuários: {props.valuesTable.length}{' '}
+                  </strong>
+                </Col>
+                <Col>
+                  <strong>
+                    Ativos:{' '}
+                    {props.valuesTable.filter((value) => value.isActive).length}
+                  </strong>
+                </Col>
+              </Row>
             ),
             pageSizeOptions: [5, 10, 20],
           }}

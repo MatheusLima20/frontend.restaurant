@@ -13,6 +13,7 @@ const initialValues: UserDataLogged = {
   token: '',
   userType: '',
   platformId: 0,
+  plan: '',
 };
 
 export const AppNavigation = () => {

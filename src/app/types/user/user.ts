@@ -20,6 +20,7 @@ export type UserDataLogged = {
   token: string;
   platformName: string;
   platformId: number;
+  plan: string;
 };
 
 export type UserClient = {
