@@ -329,7 +329,10 @@ export const StockRecordForm = () => {
     const tranlateMessage = await TranslateController.get(message);
 
     if (amount > 0) {
-      await saveSpending(dataValues);
+      await saveSpending({
+        ...dataValues,
+        unitMeasurement: values.unitMeasurement,
+      });
     }
 
     setTimeout(() => {

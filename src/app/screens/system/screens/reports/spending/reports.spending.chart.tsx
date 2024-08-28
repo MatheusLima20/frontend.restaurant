@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Button,
   Col,
@@ -27,6 +27,8 @@ import { Spending } from '../../../../../types/spending/spending';
 import { SpendingController } from '../../../../../controller/spending/spending.controller';
 import { BsGraphUpArrow } from 'react-icons/bs';
 import { ReportDetails } from './reports.details';
+import { useReactToPrint } from 'react-to-print';
+import { BiPrinter } from 'react-icons/bi';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -59,6 +61,11 @@ export const ReportsSpendingChart = () => {
   const [isMoney, setMoney] = useState(true);
   const [graphic, setGraphic] = useState<any>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const ref = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => ref.current,
+  });
 
   const showModal = () => {
     const chart = document.getElementById('chart');
@@ -208,12 +215,24 @@ export const ReportsSpendingChart = () => {
           style={{ top: 20 }}
           width={'95%'}
           footer={() => (
-            <>
-              <Button onClick={handleOk}>Voltar</Button>
-            </>
+            <Row justify={'space-between'}>
+              <Col>
+                <Button onClick={handlePrint}>
+                  <BiPrinter size={20} />
+                </Button>
+              </Col>
+              <Col>
+                <Button onClick={handleOk}>Voltar</Button>
+              </Col>
+            </Row>
           )}
         >
-          <ReportDetails spendig={values} graphic={graphic} />
+          <ReportDetails
+            spendig={values}
+            graphic={graphic}
+            total={total}
+            ref={ref}
+          />
         </Modal>
       </Col>
     </Row>
