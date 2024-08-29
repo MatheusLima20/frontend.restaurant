@@ -228,6 +228,7 @@ export const SellOrderAddTableScreen = () => {
         content: tranlateMessage.text,
         duration: 4,
       });
+      setLoadingTable(false);
       return;
     }
     await getTablesRestaurant();
