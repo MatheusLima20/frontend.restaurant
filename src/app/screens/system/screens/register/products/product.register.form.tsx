@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Result,
+  Row,
+  Select,
+  Switch,
+  message,
+} from 'antd';
 import {
   Product,
   ProductTypes,
@@ -11,6 +21,10 @@ import { ProductRegisterTable } from './product.register.table';
 import { ProductTypesController } from '../../../../../controller/product.types/product.types.controller';
 import { RawMaterialForm } from './raw.material.form';
 import { RawMaterialController } from '../../../../../controller/raw.material/raw.material.controller';
+import { UserDataLogged } from '../../../../../types/user/user';
+import { cookies } from '../../../../../controller/user/adm.cookies';
+import { Plan } from '../../../../../types/plan/plan';
+import { IoDiamondOutline } from 'react-icons/io5';
 
 const initialValues = {
   id: 0,
@@ -21,7 +35,12 @@ const initialValues = {
   toCook: true,
 };
 
+const user: UserDataLogged = cookies.get('data.user');
+
 export const ProductRegisterForm = () => {
+  const plan: Plan = user.plan as any;
+  const isPremium = plan === 'Premium';
+
   const [messageApi, contextHolder] = message.useMessage();
 
   const [values, setValues] = useState(initialValues);
@@ -51,7 +70,7 @@ export const ProductRegisterForm = () => {
   }, []);
 
   return (
-    <Row className="mt-5" gutter={[0, 30]}>
+    <Row className="mt-5" gutter={[0, 20]}>
       {contextHolder}
       <Col span={20} className="text-center">
         <h2>
@@ -216,22 +235,40 @@ export const ProductRegisterForm = () => {
         </Form>
       </Col>
 
-      {!loadingRawForm && (
-        <Col span={20}>
-          <RawMaterialForm
-            stok={stok}
-            onSave={(values) => {
-              setRawMaterial(values);
-            }}
-            onRemove={getRawMaterialById}
-            items={rawMaterial.map((item) => {
-              return {
-                id: item.id,
-                productId: item.productId,
-                rawMaterialId: item.rawMaterialId,
-                amount: item.amount,
-              };
-            })}
+      {isPremium && (
+        <>
+          {!loadingRawForm && (
+            <Col span={20}>
+              <RawMaterialForm
+                stok={stok}
+                onSave={(values) => {
+                  setRawMaterial(values);
+                }}
+                onRemove={getRawMaterialById}
+                items={rawMaterial.map((item) => {
+                  return {
+                    id: item.id,
+                    productId: item.productId,
+                    rawMaterialId: item.rawMaterialId,
+                    amount: item.amount,
+                  };
+                })}
+              />
+            </Col>
+          )}
+        </>
+      )}
+
+      {!isPremium && (
+        <Col span={22}>
+          <Result
+            icon={<IoDiamondOutline size={30} />}
+            subTitle={
+              <strong>
+                Obtenha a função de baixa automatica com o plano Premium
+              </strong>
+            }
+            extra={<Button type="primary">Atualizar Plano</Button>}
           />
         </Col>
       )}
