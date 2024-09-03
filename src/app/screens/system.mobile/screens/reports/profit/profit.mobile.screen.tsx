@@ -12,6 +12,8 @@ type Props = {
 
 const user: UserDataLogged = cookies.get('data.user');
 
+const textContact = 'Olá%20gostaria%20de%20mudar%20para%20o%20plano%20Premium';
+
 export const ProfitMobileScreen = (props: Props) => {
   const plan: Plan = user.plan as any;
   const isInitial = plan === 'Iniciante' || plan === 'Profissional';
@@ -29,7 +31,16 @@ export const ProfitMobileScreen = (props: Props) => {
           <Result
             icon={<IoDiamondOutline size={70} />}
             title="Essa é uma funcionalidade Premium!"
-            extra={<Button type="primary">Assinar Premium</Button>}
+            extra={
+              <Button
+                style={{ textDecoration: 'none' }}
+                target="_blank"
+                href={`https://api.whatsapp.com/send?phone=5585992669501&text=${textContact}`}
+                type="primary"
+              >
+                Assinar Premium
+              </Button>
+            }
           />
         </Col>
       )}

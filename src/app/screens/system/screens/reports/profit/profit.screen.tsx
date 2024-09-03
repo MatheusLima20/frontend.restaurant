@@ -31,7 +31,7 @@ export const ProfitScreen = () => {
               <Button
                 style={{ textDecoration: 'none' }}
                 target="_blank"
-                href={`https://api.whatsapp.com/send?phone=5585999099248&text=${textContact}`}
+                href={`https://api.whatsapp.com/send?phone=5585992669501&text=${textContact}`}
                 type="primary"
               >
                 Assinar Premium
