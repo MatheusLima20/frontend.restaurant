@@ -219,7 +219,7 @@ export const ChoosePlans = (props: Props) => {
                     {isMonth ? (
                       <strong>Apenas R$ 149,90/Mês</strong>
                     ) : (
-                      <strong>Apenas R$ 1798,80/Ano</strong>
+                      <strong>Apenas R$ 1558,80/Ano</strong>
                     )}
                   </Col>
                 </Row>
