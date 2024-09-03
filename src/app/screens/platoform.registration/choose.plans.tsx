@@ -119,9 +119,9 @@ export const ChoosePlans = (props: Props) => {
                 <Row justify={'center'} align={'middle'}>
                   <Col className="fs-6">
                     {isMonth ? (
-                      <strong>Apenas R$ 99,90/Mês</strong>
+                      <strong>Apenas R$ 79,90/Mês</strong>
                     ) : (
-                      <strong>Apenas R$ 958,80/Ano</strong>
+                      <strong>Apenas R$ 598,80/Ano</strong>
                     )}
                   </Col>
                 </Row>
