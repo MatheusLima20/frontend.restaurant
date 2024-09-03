@@ -37,6 +37,8 @@ const initialValues = {
 
 const user: UserDataLogged = cookies.get('data.user');
 
+const textContact = 'Olá%20gostaria%20de%20mudar%20para%20o%20plano%20Premium';
+
 export const ProductRegisterForm = () => {
   const plan: Plan = user.plan as any;
   const isPremium = plan === 'Premium';
@@ -268,7 +270,16 @@ export const ProductRegisterForm = () => {
                 Obtenha a função de baixa automatica com o plano Premium
               </strong>
             }
-            extra={<Button type="primary">Atualizar Plano</Button>}
+            extra={
+              <Button
+                style={{ textDecoration: 'none' }}
+                target="_blank"
+                href={`https://api.whatsapp.com/send?phone=5585999099248&text=${textContact}`}
+                type="primary"
+              >
+                Atualizar Plano
+              </Button>
+            }
           />
         </Col>
       )}

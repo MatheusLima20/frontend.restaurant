@@ -6,6 +6,8 @@ import { UserDataLogged } from '../../../../../types/user/user';
 import { Plan } from '../../../../../types/plan/plan';
 import { IoDiamondOutline } from 'react-icons/io5';
 
+const textContact = 'Olá%20gostaria%20de%20mudar%20o%20plano';
+
 const user: UserDataLogged = cookies.get('data.user');
 
 export const ReportsSellScreen = () => {
@@ -25,7 +27,16 @@ export const ReportsSellScreen = () => {
           <Result
             icon={<IoDiamondOutline size={70} />}
             title="Essa é uma funcionalidade Pro e Premium!"
-            extra={<Button type="primary">Mudar Plano</Button>}
+            extra={
+              <Button
+                style={{ textDecoration: 'none' }}
+                target="_blank"
+                href={`https://api.whatsapp.com/send?phone=5585999099248&text=${textContact}`}
+                type="primary"
+              >
+                Mudar Plano
+              </Button>
+            }
           />
         </Col>
       )}

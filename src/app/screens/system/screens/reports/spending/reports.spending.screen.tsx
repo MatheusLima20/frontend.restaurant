@@ -8,6 +8,8 @@ import { IoDiamondOutline } from 'react-icons/io5';
 
 const user: UserDataLogged = cookies.get('data.user');
 
+const textContact = 'Olá%20gostaria%20de%20mudar%20o%20plano';
+
 export const ReportsSpendingScreen = () => {
   const plan: Plan = user.plan as any;
   const isInitial = plan === 'Iniciante';
@@ -24,7 +26,16 @@ export const ReportsSpendingScreen = () => {
           <Result
             icon={<IoDiamondOutline size={70} />}
             title="Essa é uma funcionalidade Pro e Premium!"
-            extra={<Button type="primary">Mudar Plano</Button>}
+            extra={
+              <Button
+                style={{ textDecoration: 'none' }}
+                target="_blank"
+                href={`https://api.whatsapp.com/send?phone=5585999099248&text=${textContact}`}
+                type="primary"
+              >
+                Mudar Plano
+              </Button>
+            }
           />
         </Col>
       )}

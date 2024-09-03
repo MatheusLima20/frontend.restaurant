@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Form, Radio, Row, Tabs, TabsProps } from 'antd';
+import { Button, Col, Form, Radio, Row, Tabs, TabsProps } from 'antd';
 import { BiCheckCircle, BiHappy } from 'react-icons/bi';
 import { FiXCircle } from 'react-icons/fi';
 import { IoCalendarNumberOutline, IoDiamondOutline } from 'react-icons/io5';
@@ -10,6 +10,9 @@ import { LiaCalendarWeekSolid } from 'react-icons/lia';
 type Props = {
   handleChange: (value: any) => void;
 };
+
+const textContact =
+  'Olá%20gostaria%20de%20tirar%20duvidas%20sobre%20o%20plano%20Premium';
 
 export const ChoosePlans = (props: Props) => {
   const plans = (isMonth: boolean) => (
@@ -314,10 +317,16 @@ export const ChoosePlans = (props: Props) => {
               <div>
                 <Row justify={'center'} align={'middle'}>
                   <Col className="fs-6">
-                    <strong>
-                      <RiWhatsappFill color="green" size={30} /> Entrar em
-                      contato
-                    </strong>
+                    <Button
+                      style={{ textDecoration: 'none' }}
+                      target="_blank"
+                      href={`https://api.whatsapp.com/send?phone=5585999099248&text=${textContact}`}
+                    >
+                      <strong>
+                        <RiWhatsappFill color="green" size={30} /> Entrar em
+                        contato
+                      </strong>
+                    </Button>
                   </Col>
                 </Row>
               </div>
