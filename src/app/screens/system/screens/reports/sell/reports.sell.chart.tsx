@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Button,
   Col,
@@ -29,6 +29,8 @@ import { ReportDetails } from './reports.details';
 import { BsGraphUpArrow } from 'react-icons/bs';
 import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
 import { Product } from '../../../../../types/product/product';
+import { BiPrinter } from 'react-icons/bi';
+import { useReactToPrint } from 'react-to-print';
 
 ChartJS.register(
   CategoryScale,
@@ -65,6 +67,8 @@ export const ReportsSellChart = () => {
   const [graphic, setGraphic] = useState<any>();
   const [products, setProducts] = useState<Product[]>([]);
 
+  const ref = useRef(null);
+
   const showModal = () => {
     const chart = document.getElementById('chart');
     setGraphic(chart);
@@ -74,6 +78,10 @@ export const ReportsSellChart = () => {
   const handleOk = () => {
     setIsModalOpen(false);
   };
+
+  const handlePrint = useReactToPrint({
+    content: () => ref.current,
+  });
 
   useEffect(() => {
     const date = isMonth ? 'YYYY-MM' : 'YYYY-MM-DD';
@@ -226,12 +234,20 @@ export const ReportsSellChart = () => {
           style={{ top: 20 }}
           width={'95%'}
           footer={() => (
-            <>
-              <Button onClick={handleOk}>Voltar</Button>
-            </>
+            <Row justify={'space-between'}>
+              <Col>
+                <Button onClick={handlePrint}>
+                  <BiPrinter size={20} />
+                </Button>
+              </Col>
+              <Col>
+                <Button onClick={handleOk}>Voltar</Button>
+              </Col>
+            </Row>
           )}
         >
           <ReportDetails
+            ref={ref}
             orders={values}
             products={products}
             graphic={graphic}

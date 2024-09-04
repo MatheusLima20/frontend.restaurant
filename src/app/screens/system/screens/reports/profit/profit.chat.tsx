@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Col, DatePicker, Form, Row, Select } from 'antd';
+import { Button, Col, DatePicker, Form, Modal, Row, Select } from 'antd';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,9 +16,10 @@ import 'chart.js/auto';
 import dayjs from 'dayjs';
 import { OrderController } from '../../../../../controller/order/order.controller';
 import { SpendingController } from '../../../../../controller/spending/spending.controller';
-import { PrintProfit } from './print.profit';
-import { BsPrinterFill } from 'react-icons/bs';
+import { BsGraphUpArrow } from 'react-icons/bs';
+import { ReportDetails } from './reports.details';
 import { useReactToPrint } from 'react-to-print';
+import { BiPrinter } from 'react-icons/bi';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -46,14 +47,26 @@ const options = {
 const labels = ['Gastos', 'Vendas', 'Lucro'];
 
 export const ProfitChart = () => {
-  const billProfit = useRef();
   const [graphic, setGraphic] = useState<any>();
   const [chart, setChart] = useState('barv');
   const [totalSell, setTotalSell] = useState(0);
   const [totalSpending, setTotalSpending] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handlePrintBill = useReactToPrint({
-    content: () => billProfit.current,
+  const showModal = () => {
+    const chart = document.getElementById('chart');
+    setGraphic(chart);
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const ref = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => ref.current,
   });
 
   useEffect(() => {
@@ -97,22 +110,6 @@ export const ProfitChart = () => {
             searchSpending(value);
           }}
         />
-      </Col>
-      <Col span={24} className="text-center">
-        <Button
-          onClick={() => {
-            const chart = document.getElementById('chart');
-            setGraphic(chart);
-
-            setTimeout(() => {
-              handlePrintBill();
-            }, 500);
-          }}
-          size="large"
-          title="Imprimir"
-        >
-          <BsPrinterFill size={20} />
-        </Button>
       </Col>
       <Col span={20}>
         <Row justify={'center'}>
@@ -178,14 +175,44 @@ export const ProfitChart = () => {
           </Col>
         </Row>
       </Col>
-      <Col>
-        <PrintProfit
-          ref={billProfit}
-          graphic={graphic}
-          title={'Lucro Mensal'}
-          orders={[]}
-          total={totalSell - totalSpending}
-        />
+      <Col span={20} className="text-center">
+        <Button
+          title="Detalhes"
+          size="large"
+          disabled={!totalSell}
+          onClick={showModal}
+        >
+          <BsGraphUpArrow size={30} />
+        </Button>
+      </Col>
+      <Col span={22}>
+        <Modal
+          open={isModalOpen}
+          onCancel={() => {
+            handleOk();
+          }}
+          style={{ top: 20 }}
+          width={'95%'}
+          footer={() => (
+            <Row justify={'space-between'}>
+              <Col>
+                <Button onClick={handlePrint}>
+                  <BiPrinter size={20} />
+                </Button>
+              </Col>
+              <Col>
+                <Button onClick={handleOk}>Voltar</Button>
+              </Col>
+            </Row>
+          )}
+        >
+          <ReportDetails
+            ref={ref}
+            orders={[]}
+            products={[]}
+            graphic={graphic}
+          />
+        </Modal>
       </Col>
     </Row>
   );
