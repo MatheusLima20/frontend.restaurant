@@ -46,6 +46,10 @@ export const SpendingRegisterForm = () => {
     setValues({ ...values, [name]: value });
   };
 
+  const clearValues = () => {
+    setValues(initialValues);
+  };
+
   useEffect(() => {
     getUnitMeasurement();
     getSpending();
@@ -184,7 +188,7 @@ export const SpendingRegisterForm = () => {
                 </Button>
               </Col>
               <Col>
-                <Button type="default" htmlType="reset">
+                <Button type="default" onClick={clearValues}>
                   Limpar
                 </Button>
               </Col>
@@ -261,7 +265,7 @@ export const SpendingRegisterForm = () => {
       });
       setLoading(false);
       if (!error) {
-        setValues(initialValues);
+        clearValues();
       }
     }, 1000);
     await getSpending();

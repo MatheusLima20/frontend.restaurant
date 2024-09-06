@@ -35,6 +35,10 @@ export const StockRecordForm = () => {
     setValues({ ...values, [name]: value });
   };
 
+  const clearValues = () => {
+    setValues(initialValues);
+  };
+
   useEffect(() => {
     getStock();
     getUnitMeasurement();
@@ -209,12 +213,7 @@ export const StockRecordForm = () => {
                 </Button>
               </Col>
               <Col>
-                <Button
-                  type="default"
-                  onClick={() => {
-                    setValues(initialValues);
-                  }}
-                >
+                <Button type="default" onClick={clearValues}>
                   Limpar
                 </Button>
               </Col>

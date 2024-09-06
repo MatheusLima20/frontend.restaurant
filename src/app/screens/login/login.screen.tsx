@@ -28,7 +28,7 @@ export const LoginScreen = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Por favor, digite seu nome!',
+                    message: 'Por favor, digite seu email!',
                     type: 'email',
                   },
                 ]}
