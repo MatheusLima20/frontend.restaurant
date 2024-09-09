@@ -48,3 +48,11 @@ export type RawMaterial = {
   rawMaterialId: number;
   amount: number;
 };
+
+export type Profit = {
+  productName: string;
+  productType: string;
+  totalRawMaterial: number;
+  productValue: number;
+  profit: number;
+};

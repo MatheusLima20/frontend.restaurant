@@ -20,6 +20,8 @@ import { BsGraphUpArrow } from 'react-icons/bs';
 import { ReportDetails } from './reports.details';
 import { useReactToPrint } from 'react-to-print';
 import { BiPrinter } from 'react-icons/bi';
+import { RawMaterialController } from '../../../../../controller/raw.material/raw.material.controller';
+import { Profit } from '../../../../../types/product/product';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -51,6 +53,7 @@ export const ProfitChart = () => {
   const [chart, setChart] = useState('barv');
   const [totalSell, setTotalSell] = useState(0);
   const [totalSpending, setTotalSpending] = useState(0);
+  const [profit, setProfit] = useState<Profit[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -72,6 +75,7 @@ export const ProfitChart = () => {
   useEffect(() => {
     searchSell(dayjs().format('YYYY-MM'));
     searchSpending(dayjs().format('YYYY-MM'));
+    getProfit();
   }, []);
 
   return (
@@ -135,6 +139,7 @@ export const ProfitChart = () => {
 
             {chart === 'barh' && (
               <Bar
+                id="chart"
                 options={{ ...options, indexAxis: 'y' as const }}
                 data={{
                   labels: labels,
@@ -145,6 +150,7 @@ export const ProfitChart = () => {
 
             {chart === 'pie' && (
               <Pie
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -155,6 +161,7 @@ export const ProfitChart = () => {
 
             {chart === 'areachat' && (
               <Line
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -165,6 +172,7 @@ export const ProfitChart = () => {
 
             {chart === 'radar' && (
               <Radar
+                id="chart"
                 options={options}
                 data={{
                   labels: labels,
@@ -208,9 +216,10 @@ export const ProfitChart = () => {
         >
           <ReportDetails
             ref={ref}
-            orders={[]}
-            products={[]}
+            profit={profit}
             graphic={graphic}
+            totalSell={totalSell}
+            totalSpending={totalSpending}
           />
         </Modal>
       </Col>
@@ -243,6 +252,17 @@ export const ProfitChart = () => {
       const data = request.data;
       const total = data.total;
       setTotalSpending(total);
+    }
+  }
+
+  async function getProfit() {
+    const request = await RawMaterialController.getProfit();
+
+    const error = request.error;
+
+    if (!error) {
+      const data = request.data;
+      setProfit(data);
     }
   }
 

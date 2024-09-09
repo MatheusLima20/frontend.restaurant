@@ -111,6 +111,28 @@ export const RawMaterialController = {
     }
   },
 
+  getProfit: async () => {
+    try {
+      const cookie = cookies.get('data.user');
+
+      const token = cookie.token;
+
+      const request = await axios.get(`/profit-plates/`, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message, data: data.data };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
+
   delete: async (id: number) => {
     try {
       const request = await axios.delete(`/raw-material/${id}`, {
