@@ -32,7 +32,7 @@ export const ReportDetails = forwardRef(function ReportDetails(
         <img src={graphic ? graphic.toDataURL() : ''} />
       </Col>
       <Col span={22} className="mt-5">
-        <Row>
+        <Row justify={'space-between'}>
           <Col>
             <h5>
               <strong>
@@ -62,7 +62,6 @@ export const ReportDetails = forwardRef(function ReportDetails(
             </h2>
             {profit
               .sort((a, b) => b.profit - a.profit)
-              .slice(0, 10)
               .map((product, index) => {
                 const isDrink =
                   product.productType === 'DRINK' ||
@@ -79,13 +78,19 @@ export const ReportDetails = forwardRef(function ReportDetails(
                     </Col>
                     <Col>
                       <strong>
-                        Venda:{' '}
+                        G:
+                        {StringFormatter.realNumber(product.totalRawMaterial)}
+                      </strong>
+                    </Col>
+                    <Col>
+                      <strong>
+                        V:
                         {StringFormatter.realNumber(product.productValue)}
                       </strong>
                     </Col>
                     <Col>
                       <strong>
-                        Lucro: {StringFormatter.realNumber(product.profit)}
+                        L: {StringFormatter.realNumber(product.profit)}
                       </strong>
                     </Col>
                   </Row>
@@ -98,7 +103,6 @@ export const ReportDetails = forwardRef(function ReportDetails(
             </h2>
             {profit
               .sort((a, b) => a.profit - b.profit)
-              .slice(0, 10)
               .map((product, index) => {
                 const isDrink =
                   product.productType === 'DRINK' ||
@@ -115,13 +119,19 @@ export const ReportDetails = forwardRef(function ReportDetails(
                     </Col>
                     <Col>
                       <strong>
-                        Venda:{' '}
+                        G:
+                        {StringFormatter.realNumber(product.totalRawMaterial)}
+                      </strong>
+                    </Col>
+                    <Col>
+                      <strong>
+                        V:
                         {StringFormatter.realNumber(product.productValue)}
                       </strong>
                     </Col>
                     <Col>
                       <strong>
-                        Lucro: {StringFormatter.realNumber(product.profit)}
+                        L: {StringFormatter.realNumber(product.profit)}
                       </strong>
                     </Col>
                   </Row>
