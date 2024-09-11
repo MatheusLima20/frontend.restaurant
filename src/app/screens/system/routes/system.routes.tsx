@@ -13,6 +13,7 @@ import { StockRecord } from '../screens/register/stock';
 import { ReportsSpending } from '../screens/reports/spending';
 import { ReportSell } from '../screens/reports/sell';
 import { Profit } from '../screens/reports/profit';
+import { Payments } from '../screens/payments';
 
 export const SystemRoutes = () => {
   return userRoutes();
@@ -48,6 +49,8 @@ export const SystemRoutes = () => {
               />
               <Route index path="/reports/sells/" element={ReportSell()} />
               <Route index path="/reports/profit/" element={Profit()} />
+
+              <Route index path="/payments/system/" element={Payments()} />
             </Routes>
           </Layout.Content>
           <Layout.Footer>
