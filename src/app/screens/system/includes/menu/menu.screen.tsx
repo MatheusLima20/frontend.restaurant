@@ -3,7 +3,7 @@ import { Button, Layout, Menu } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { BsBox2Fill, BsGraphUp } from 'react-icons/bs';
-import { BiUserCircle } from 'react-icons/bi';
+import { BiMoneyWithdraw, BiUserCircle } from 'react-icons/bi';
 import { FaBoxOpen, FaMoneyBill, FaSellsy } from 'react-icons/fa';
 import './menu.css';
 import {
@@ -13,7 +13,7 @@ import {
   GiReceiveMoney,
   GiTakeMyMoney,
 } from 'react-icons/gi';
-import { MdDeliveryDining, MdSettings } from 'react-icons/md';
+import { MdAccountCircle, MdDeliveryDining, MdSettings } from 'react-icons/md';
 import { FaHandHoldingDollar } from 'react-icons/fa6';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -114,8 +114,23 @@ const items: MenuItem[] = [
     ),
   ]),
   getItem(
-    'Configurações',
+    'Conta',
     'sub5',
+    <MdAccountCircle size={20} />,
+    [
+      getItem(
+        <a href="/payments/system/" className="menu">
+          Pagamentos
+        </a>,
+        'finan01',
+        <BiMoneyWithdraw size={20} />,
+      ),
+    ],
+    false,
+  ),
+  getItem(
+    'Configurações',
+    'sub6',
     <MdSettings size={20} />,
     [
       getItem(
@@ -169,7 +184,7 @@ export const MenuScreen = () => {
           mode="inline"
           theme="light"
           defaultSelectedKeys={['sub2']}
-          defaultOpenKeys={['sub2', 'sub3', 'sub4']}
+          defaultOpenKeys={['sub2', 'sub3', 'sub4', 'sub5']}
           items={items}
         />
       </Layout.Sider>
