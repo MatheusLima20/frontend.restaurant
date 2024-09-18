@@ -289,16 +289,11 @@ export const PaymentsForm = () => {
         .getPaymentToken();
 
       const payment_token = result.payment_token;
-      const card_mask = result.card_mask;
 
-      console.log("payment_token", payment_token);
-      console.log("card_mask", card_mask);
-      return result.payment_token;
+      return payment_token;
     } catch (error: any) {
-      console.log("Código: ", error.code);
-      console.log("Nome: ", error.error);
-      console.log("Mensagem: ", error.error_description);
-      return error;
+      const messege = error.error_description;
+      return messege;
     }
   }
 
