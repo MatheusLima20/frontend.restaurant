@@ -1,6 +1,6 @@
 import { Col, List, Row } from 'antd';
 import dayjs from 'dayjs';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 type Order = {
   productName: string;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, Row, message } from 'antd';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
 import { BoxDayTable } from './box.day.table';

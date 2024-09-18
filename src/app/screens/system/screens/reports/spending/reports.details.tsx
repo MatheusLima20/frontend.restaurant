@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Col, Row } from 'antd';
 import { Spending } from '../../../../../types/spending/spending';
 import { OrginizeArrays } from '../../../../../util/arrays/organize';

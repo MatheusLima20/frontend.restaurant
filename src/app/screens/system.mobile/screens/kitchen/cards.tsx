@@ -1,5 +1,5 @@
 import { Button, Card, Col, message, Popconfirm, Row, Switch } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BiCheckCircle, BiXCircle } from 'react-icons/bi';
 import { Order } from '../../../../types/order/order';
 import { TableRestaurant } from '../../../../types/table/table';
@@ -17,7 +17,7 @@ export const Cards = (props: Props) => {
   const isCancelled = processing.isCancelled;
   const status = isCancelled ? 'cancelado' : 'finalizado';
   const textWhite = isCancelled ? 'text-white' : '';
-  const table = props.tables.find((table) => table.id === processing.idTable);
+  const table: any = props.tables.find((table) => table.id === processing.idTable);
   const [low, setLow] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 

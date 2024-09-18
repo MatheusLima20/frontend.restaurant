@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Col, Form, Input, Row, message } from 'antd';
 import { UserController } from '../../controller/user/user.controller';
 import { UserLogin } from '../../types/user/user';

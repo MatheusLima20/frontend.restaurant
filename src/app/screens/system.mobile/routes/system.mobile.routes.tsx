@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Button, Col, Layout, Popconfirm, Row } from 'antd';
 import { SellOrderMobile } from '../screens/sells/orders';

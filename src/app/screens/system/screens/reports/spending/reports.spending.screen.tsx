@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Col, Result, Row } from 'antd';
 import { ReportsSpendingChart } from './reports.spending.chart';
 import { cookies } from '../../../../../controller/user/adm.cookies';

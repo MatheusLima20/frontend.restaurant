@@ -1,4 +1,3 @@
-import React from 'react';
 import { ReportsMobileSpendingScreen } from './reports.mobile.spending.screen';
 
 type Props = {

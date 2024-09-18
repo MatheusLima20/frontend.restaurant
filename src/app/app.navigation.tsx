@@ -1,5 +1,5 @@
 import { Col, Row, Spin } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AppRoutes } from './routes/routes';
 import { cookies } from './controller/user/adm.cookies';

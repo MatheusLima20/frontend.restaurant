@@ -1,5 +1,5 @@
 import { Button, Col, Input, Popconfirm, Row, message } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BiEdit } from 'react-icons/bi';
 import { MdRemoveCircle } from 'react-icons/md';
 import { TableController } from '../../../../../controller/table/table.controller';

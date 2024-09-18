@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Col, Popconfirm, Row } from 'antd';
 import { GiHotMeal } from 'react-icons/gi';
 import { KitchenMobileCards } from './kitchen.mobile.cards';

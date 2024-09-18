@@ -9,7 +9,7 @@ import {
   Select,
   message,
 } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GiMeal } from 'react-icons/gi';
 import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
 import { Order } from '../../../../../types/order/order';
@@ -104,7 +104,7 @@ export const SellOrderAddMobile = (props: Props) => {
                         showSearch
                         size="large"
                         value={order.productName}
-                        onSelect={(value, values) => {
+                        onSelect={(_value, values) => {
                           setOrder({
                             ...order,
                             productName: values.label,

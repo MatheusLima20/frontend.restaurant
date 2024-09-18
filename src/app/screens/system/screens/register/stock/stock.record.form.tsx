@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
 import { Product } from '../../../../../types/product/product';
 import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';

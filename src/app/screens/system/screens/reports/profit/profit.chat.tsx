@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, Col, DatePicker, Form, Modal, Row, Select } from 'antd';
 import {
   Chart as ChartJS,

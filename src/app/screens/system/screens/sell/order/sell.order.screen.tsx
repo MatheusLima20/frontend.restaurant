@@ -1,5 +1,4 @@
 import { Col, Row } from 'antd';
-import React from 'react';
 import { SellOrderAddTableScreen } from './sell.order.add.table';
 
 export const SellOrderScreen = () => {

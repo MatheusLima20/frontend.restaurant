@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import { AppNavigation } from './app/app.navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';

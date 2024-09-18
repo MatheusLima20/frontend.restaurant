@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Col, Form, message, Row, Switch } from 'antd';
 import { TableController } from '../../../../controller/table/table.controller';
 import { TableRestaurant } from '../../../../types/table/table';

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Button, Input, InputRef, Space, Table } from 'antd';
 
@@ -50,10 +50,10 @@ export const SpendingRegisterTable = (props: Props) => {
   const searchInput = useRef<InputRef>(null);
 
   const handleSearch = (
-    selectedKeys: string[],
+    _selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    dataIndex: DataIndex,
+    _dataIndex: DataIndex,
   ) => {
     confirm();
   };
@@ -63,8 +63,8 @@ export const SpendingRegisterTable = (props: Props) => {
   };
 
   const handleChange: TableProps<DataType>['onChange'] = (
-    pagination,
-    filters,
+    _pagination,
+    _filters,
     sorter,
   ) => {
     setSortedInfo(sorter as SorterResult<DataType>);

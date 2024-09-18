@@ -1,4 +1,3 @@
-import React from 'react';
 import { Col, Row } from 'antd';
 import { SpendingRegisterForm } from './spending.product.form';
 

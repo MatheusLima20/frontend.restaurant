@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Col, DatePicker, Row, Switch } from 'antd';
 import {
   Chart as ChartJS,
@@ -131,7 +131,7 @@ export const ReportsMobileSpendingChart = () => {
   function initGraphic() {
     const valuesMonths: number[] = [];
 
-    values.filter((value) => {
+    values.filter((value: any) => {
       const exists = labels.includes(value.name);
 
       if (!exists) {

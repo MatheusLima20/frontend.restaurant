@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Col, Result, Row } from 'antd';
 import { ReportsMobileSellChart } from './reports.mobile.sell.chart';
 import { cookies } from '../../../../../controller/user/adm.cookies';

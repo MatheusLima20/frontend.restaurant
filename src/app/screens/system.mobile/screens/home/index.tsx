@@ -1,4 +1,3 @@
-import React from 'react';
 import { HomeMobileScreen } from './home.mobile.screen';
 
 type Props = {

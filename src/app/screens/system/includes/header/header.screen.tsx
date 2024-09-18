@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Col, Popconfirm, Row } from 'antd';
 import { Images } from '../../../../config/images';
 import { BiPowerOff } from 'react-icons/bi';

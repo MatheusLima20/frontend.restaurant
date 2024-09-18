@@ -1,4 +1,3 @@
-import React from 'react';
 import { Col, Row, Tabs } from 'antd';
 import { FaMoneyBill, FaSellsy } from 'react-icons/fa';
 import { ReportsMobileSpending } from '../../screens/reports/spending';

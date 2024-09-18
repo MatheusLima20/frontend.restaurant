@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Col, Result, Row } from 'antd';
 import { ProfitChart } from './profit.chat';
 import { UserDataLogged } from '../../../../../types/user/user';

@@ -1,5 +1,5 @@
 import { Col, List, Row } from 'antd';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Order } from '../../../../../types/order/order';
 import { TableRestaurant } from '../../../../../types/table/table';
 import { ProductType } from '../../../../../types/product/product';

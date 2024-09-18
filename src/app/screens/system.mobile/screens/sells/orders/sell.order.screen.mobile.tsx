@@ -1,5 +1,4 @@
 import { Button, Col, Popconfirm, Row } from 'antd';
-import React from 'react';
 import { SellOrderAddTableScreen } from './sell.order.add.table.mobile';
 import { MdTableBar } from 'react-icons/md';
 import { BiPowerOff } from 'react-icons/bi';

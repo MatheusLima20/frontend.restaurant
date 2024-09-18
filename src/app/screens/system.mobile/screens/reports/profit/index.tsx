@@ -1,4 +1,3 @@
-import React from 'react';
 import { ProfitMobileScreen } from './profit.mobile.screen';
 
 type Props = {

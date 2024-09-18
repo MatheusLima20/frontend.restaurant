@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
 import { UsersTable } from './users.table';
 import { UserController } from '../../../../../controller/user/user.controller';

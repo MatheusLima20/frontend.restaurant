@@ -10,7 +10,7 @@ import {
   Select,
   message,
 } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GiMeal, GiReceiveMoney } from 'react-icons/gi';
 import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
 import { Order } from '../../../../../types/order/order';
@@ -123,7 +123,7 @@ export const SellOrderAdd = (props: Props) => {
                       <Select
                         showSearch
                         value={order.productName}
-                        onSelect={(value, values) => {
+                        onSelect={(_value, values) => {
                           setOrder({
                             ...order,
                             productName: values.label,

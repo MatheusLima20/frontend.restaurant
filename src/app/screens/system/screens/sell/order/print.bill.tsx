@@ -1,5 +1,5 @@
 import { Col, List, Row } from 'antd';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
 import { Order } from '../../../../../types/order/order';
 import { OrginizeArrays } from '../../../../../util/arrays/organize';

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Badge, Button, Col, Modal, Popconfirm, Row } from 'antd';
 import { BiPrinter } from 'react-icons/bi';
 import { Order } from '../../../../../types/order/order';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Col, Result, Row } from 'antd';
 import { ProfitMobileChart } from './profit.mobile.chat';
 import { cookies } from '../../../../../controller/user/adm.cookies';

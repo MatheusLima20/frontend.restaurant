@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Col, Result, Row } from 'antd';
 import { ReportsMobileSpendingChart } from './reports.mobile.spending.chart';
 import { UserDataLogged } from '../../../../../types/user/user';
