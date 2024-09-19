@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { Button, Col, Form, Input, message, Row, Select } from "antd";
+import {
+  Button,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Row,
+  Select,
+} from "antd";
 import EfiPay from "payment-token-efi";
 import { CiCreditCard1 } from "react-icons/ci";
 import { FaCcMastercard } from "react-icons/fa";
@@ -7,6 +16,8 @@ import { RiVisaFill } from "react-icons/ri";
 import { PaymentsController } from "../../../../controller/payments/payments.controller";
 import { TranslateController } from "../../../../controller/translate/translate.controller";
 import { BiUserCircle } from "react-icons/bi";
+import br from "antd/es/date-picker/locale/pt_BR";
+import dayjs from "dayjs";
 
 const initialValues = {
   name: "",
@@ -54,14 +65,6 @@ export const PaymentsForm = () => {
             {
               name: "cvv",
               value: values.cvv,
-            },
-            {
-              name: "expirationMonth",
-              value: values.expirationMonth,
-            },
-            {
-              name: "expirationYear",
-              value: values.expirationYear,
             },
           ]}
           onFinish={save}
@@ -156,44 +159,58 @@ export const PaymentsForm = () => {
                   </Form.Item>
                 </Col>
 
-                <Col md={3}>
+                <Col md={5}>
                   <Form.Item
                     label="Mês"
                     name="expirationMonth"
                     rules={[
                       {
                         required: true,
-                        message: "Digite o mês!",
+                        message: "Selecione o mês!",
                       },
                     ]}
                   >
-                    <Input
-                      type="number"
-                      name="expirationMonth"
-                      placeholder="ex: 07"
-                      onChange={handleChange}
-                      value={values.expirationMonth}
+                    <DatePicker
+                      format={"MM"}
+                      onChange={(date) => {
+                        const event = {
+                          target: {
+                            name: "expirationMonth",
+                            value: dayjs(date).format("MM"),
+                          },
+                        };
+                        handleChange(event);
+                      }}
+                      locale={br}
+                      picker="month"
                     />
                   </Form.Item>
                 </Col>
 
-                <Col md={3}>
+                <Col md={5}>
                   <Form.Item
                     label="Ano"
                     name="expirationYear"
                     rules={[
                       {
                         required: true,
-                        message: "Digite o ano!",
+                        message: "Selecione o ano!",
                       },
                     ]}
                   >
-                    <Input
-                      type="number"
-                      name="expirationYear"
-                      placeholder="ex: 2024"
-                      onChange={handleChange}
-                      value={values.expirationYear}
+                    <DatePicker
+                      format={"YYYY"}
+                      onChange={(date) => {
+                        const event = {
+                          target: {
+                            name: "expirationYear",
+                            value: dayjs(date).format("YYYY"),
+                          },
+                        };
+                        handleChange(event);
+                      }}
+                      locale={br}
+                      picker="year"
                     />
                   </Form.Item>
                 </Col>
@@ -207,7 +224,7 @@ export const PaymentsForm = () => {
                           htmlType="submit"
                           loading={loading}
                         >
-                          Salvar
+                          Enviar
                         </Button>
                       </Col>
                       <Col>
@@ -277,7 +294,7 @@ export const PaymentsForm = () => {
       const result: any = await EfiPay.CreditCard.setAccount(
         "305d0b9acbca11b44fff1a0ee46c4c0b"
       )
-        .setEnvironment("sandbox") // 'production' or 'sandbox'
+        .setEnvironment("production") // 'production' or 'sandbox'
         .setCreditCardData({
           brand: values.brand,
           number: values.cardNumber,
@@ -334,7 +351,7 @@ export const PaymentsForm = () => {
   function startInstallments() {
     let installments = [];
 
-    for (let index = 1; index < 11; index++) {
+    for (let index = 1; index < 4; index++) {
       installments.push({ value: index });
     }
 
