@@ -1,7 +1,6 @@
-import React from 'react';
-import { Col, Container, ListGroup, Row } from 'react-bootstrap';
-import { BiLogOut } from 'react-icons/bi';
-import { AiOutlineCloudServer } from 'react-icons/ai';
+import { Col, Container, ListGroup, Row } from "react-bootstrap";
+import { BiLogOut } from "react-icons/bi";
+import { AiOutlineCloudServer } from "react-icons/ai";
 
 interface Menu {
   name: string;
@@ -13,11 +12,11 @@ interface Menu {
 export const LoggedScreen = () => {
   const menu: Menu[] = [
     {
-      name: 'Home System',
+      name: "Home System",
       icon: <AiOutlineCloudServer size={20} />,
-      href: '/',
+      href: "/",
     },
-    { name: 'Sair', icon: <BiLogOut size={20} />, action: () => logout() },
+    { name: "Sair", icon: <BiLogOut size={20} />, action: () => logout() },
   ];
 
   return (
@@ -35,8 +34,8 @@ export const LoggedScreen = () => {
                 className="border-0 mt-0"
               >
                 <Row className="justify-content-between">
-                  <Col xs={'8'}>{values.name}</Col>
-                  <Col xs={'2'}>{values.icon}</Col>
+                  <Col xs={"8"}>{values.name}</Col>
+                  <Col xs={"2"}>{values.icon}</Col>
                 </Row>
               </ListGroup.Item>
             );
@@ -48,7 +47,7 @@ export const LoggedScreen = () => {
 
   function logout() {
     setTimeout(() => {
-      document.location = '/logout';
+      document.location = "/logout";
     }, 500);
   }
 };

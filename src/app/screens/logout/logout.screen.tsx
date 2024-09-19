@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { cookies } from '../../controller/user/adm.cookies';
-import { Content } from 'antd/es/layout/layout';
-import { Col, Row, Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { useEffect } from "react";
+import { cookies } from "../../controller/user/adm.cookies";
+import { Content } from "antd/es/layout/layout";
+import { Col, Row, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 export const LogoutScreen = () => {
   useEffect(() => {
@@ -24,9 +24,9 @@ export const LogoutScreen = () => {
   );
 
   function logout() {
-    cookies.remove('data.user');
+    cookies.remove("data.user");
     setTimeout(() => {
-      document.location = '/';
+      document.location = "/";
     }, 3000);
   }
 };
