@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-export const baseURL = 'https://restaurants.back.flatheadinteractive.com';
+export const baseURL = import.meta.env.VITE_BASE_URL;
 
 export default axios.create({
   baseURL: baseURL,
