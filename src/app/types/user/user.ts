@@ -1,13 +1,18 @@
-import { AddressUser } from '../address/address';
+import { AddressUser } from "../address/address";
 
 export type UserType =
-  | 'SUPER'
-  | 'ADM'
-  | 'CUSTOMER'
-  | 'WAITER'
-  | 'DELIVERYMAN'
-  | 'COOK'
-  | '';
+  | "SUPER"
+  | "ADM"
+  | "CUSTOMER"
+  | "WAITER"
+  | "DELIVERYMAN"
+  | "COOK"
+  | "";
+
+export type UserTypeObject = {
+  id: number;
+  name: string;
+};
 
 export type UserLogin = {
   email: string;

@@ -1,5 +1,5 @@
-import { englishTexts } from '../../util/translate/translate.string';
-import { Error } from '../errors/check.errors';
+import { englishTexts } from "../../util/translate/translate.string";
+import { Error } from "../errors/check.errors";
 
 export const TranslateController = {
   get: async (value: string) => {
@@ -9,7 +9,7 @@ export const TranslateController = {
       Object.keys(englishTexts).forEach((key: string) => {
         const contain = newText.includes(key);
         if (contain) {
-          newText = newText.replaceAll(key, (englishTexts as any)[key]);
+          newText = newText.replace(key, (englishTexts as any)[key]);
         }
       });
 
@@ -26,7 +26,7 @@ export const TranslateController = {
     Object.keys(englishTexts).forEach((key: string) => {
       const contain = newText.includes(key);
       if (contain) {
-        newText = newText.replaceAll(key, (englishTexts as any)[key]);
+        newText = newText.replace(key, (englishTexts as any)[key]);
       }
     });
 

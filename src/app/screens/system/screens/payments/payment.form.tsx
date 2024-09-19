@@ -243,7 +243,7 @@ export const PaymentsForm = () => {
     const name = values.name;
 
     const cardToken: string = await generatePaymentToken();
-    console.log(cardToken);
+
     const installments: number = parseInt(values.installments);
 
     const request = await PaymentsController.store({

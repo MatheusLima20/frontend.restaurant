@@ -1,22 +1,26 @@
-import { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
-import { Product } from '../../../../../types/product/product';
-import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
-import { BsBox2Fill } from 'react-icons/bs';
-import { SpendingController } from '../../../../../controller/spending/spending.controller';
-import { TranslateController } from '../../../../../controller/translate/translate.controller';
-import { StockRecordTable } from './stock.record.table';
-import { UnitMeasurementController } from '../../../../../controller/unit.measurement/unit.measurement.controller';
-import { UnitMeasurement } from '../../../../../types/unit.measurement/unit.measurement';
+import { useEffect, useState } from "react";
+import { Button, Col, Form, Input, Row, Select, Switch, message } from "antd";
+import { Product } from "../../../../../types/product/product";
+import { ProvisionsController } from "../../../../../controller/provisions/provisions.controller";
+import { BsBox2Fill } from "react-icons/bs";
+import { SpendingController } from "../../../../../controller/spending/spending.controller";
+import { TranslateController } from "../../../../../controller/translate/translate.controller";
+import { StockRecordTable } from "./stock.record.table";
+import { SystemConf } from "../../../../../types/system.conf/system.conf";
+import { cookies } from "../../../../../controller/user/adm.cookies";
 
 const initialValues = {
   id: 0,
-  name: '',
+  name: "",
   value: 0,
   isActive: true,
-  unitMeasurement: 'KG',
+  unitMeasurement: "KG",
   amount: 0,
 };
+
+const systemConf: SystemConf = cookies.get("start.types.objects");
+
+const unitMeasurement = systemConf.unitMeasurement;
 
 export const StockRecordForm = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -26,8 +30,6 @@ export const StockRecordForm = () => {
   const [loading, setLoading] = useState(false);
 
   const [valuesTable, setValuesTable] = useState([]);
-
-  const [unitMeasurement, setUnitMeasurement] = useState<UnitMeasurement[]>([]);
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -41,7 +43,6 @@ export const StockRecordForm = () => {
 
   useEffect(() => {
     getStock();
-    getUnitMeasurement();
   }, []);
 
   return (
@@ -60,29 +61,29 @@ export const StockRecordForm = () => {
           initialValues={values}
           fields={[
             {
-              name: 'name',
+              name: "name",
               value: values.name,
             },
             {
-              name: 'value',
+              name: "value",
               value: values.value,
             },
             {
-              name: 'amount',
+              name: "amount",
               value: values.amount,
             },
             {
-              name: 'unitMeasurement',
+              name: "unitMeasurement",
               value: values.unitMeasurement,
             },
             {
-              name: 'isActive',
+              name: "isActive",
               value: values.isActive,
             },
           ]}
           onFinish={save}
         >
-          <Row justify={'center'}>
+          <Row justify={"center"}>
             <Col>
               <Row gutter={[10, 10]}>
                 <Col md={7}>
@@ -90,7 +91,7 @@ export const StockRecordForm = () => {
                     label="Nome"
                     name="name"
                     rules={[
-                      { required: true, message: 'Digite o nome do produto!' },
+                      { required: true, message: "Digite o nome do produto!" },
                     ]}
                   >
                     <Input
@@ -108,7 +109,7 @@ export const StockRecordForm = () => {
                     rules={[
                       {
                         required: true,
-                        message: 'Digite o valor!',
+                        message: "Digite o valor!",
                       },
                     ]}
                   >
@@ -129,7 +130,7 @@ export const StockRecordForm = () => {
                     rules={[
                       {
                         required: false,
-                        message: 'Digite a quantidade!',
+                        message: "Digite a quantidade!",
                       },
                     ]}
                   >
@@ -149,7 +150,7 @@ export const StockRecordForm = () => {
                       onChange={(value: string) => {
                         const event: any = {
                           target: {
-                            name: 'unitMeasurement',
+                            name: "unitMeasurement",
                             value: value,
                           },
                         };
@@ -166,7 +167,7 @@ export const StockRecordForm = () => {
             </Col>
 
             <Col md={22}>
-              <Row justify={'end'}>
+              <Row justify={"end"}>
                 <Col>
                   <Form.Item
                     label="Ativo"
@@ -179,7 +180,7 @@ export const StockRecordForm = () => {
                       onChange={(value: boolean) => {
                         const event: any = {
                           target: {
-                            name: 'isActive',
+                            name: "isActive",
                             value: value,
                           },
                         };
@@ -195,7 +196,7 @@ export const StockRecordForm = () => {
           </Row>
 
           <Form.Item>
-            <Row justify={'center'} gutter={[20, 0]} className="mt-2">
+            <Row justify={"center"} gutter={[20, 0]} className="mt-2">
               <Col>
                 <Button type="primary" htmlType="submit">
                   Salvar
@@ -238,9 +239,9 @@ export const StockRecordForm = () => {
     setLoading(true);
 
     messageApi.open({
-      key: 'register.products',
-      type: 'loading',
-      content: 'Enviando...',
+      key: "register.products",
+      type: "loading",
+      content: "Enviando...",
       duration: 4,
     });
 
@@ -273,7 +274,7 @@ export const StockRecordForm = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
@@ -283,7 +284,7 @@ export const StockRecordForm = () => {
 
     setTimeout(() => {
       messageApi.open({
-        key: 'register.products',
+        key: "register.products",
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -300,9 +301,9 @@ export const StockRecordForm = () => {
     setLoading(true);
 
     messageApi.open({
-      key: 'register.products',
-      type: 'loading',
-      content: 'Enviando...',
+      key: "register.products",
+      type: "loading",
+      content: "Enviando...",
       duration: 4,
     });
 
@@ -323,7 +324,7 @@ export const StockRecordForm = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
@@ -336,7 +337,7 @@ export const StockRecordForm = () => {
 
     setTimeout(() => {
       messageApi.open({
-        key: 'register.products',
+        key: "register.products",
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -368,13 +369,13 @@ export const StockRecordForm = () => {
 
       const messageSpending = requestSpending.message;
 
-      const typeSpending = spendingError ? 'error' : 'success';
+      const typeSpending = spendingError ? "error" : "success";
 
       const tranlateMessage = await TranslateController.get(messageSpending);
 
       if (spendingError) {
         messageApi.open({
-          key: 'register.products',
+          key: "register.products",
           type: typeSpending,
           content: tranlateMessage.text,
           duration: 4,
@@ -397,16 +398,6 @@ export const StockRecordForm = () => {
 
     if (data) {
       setValuesTable(data);
-    }
-  }
-
-  async function getUnitMeasurement() {
-    const request = await UnitMeasurementController.get();
-
-    const data = request.data;
-
-    if (data) {
-      setUnitMeasurement(data);
     }
   }
 };

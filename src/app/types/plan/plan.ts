@@ -1,1 +1,1 @@
-export type Plan = 'Iniciante' | 'Profissional' | 'Premium';
+export type Plan = "Iniciante" | "Profissional" | "Premium";

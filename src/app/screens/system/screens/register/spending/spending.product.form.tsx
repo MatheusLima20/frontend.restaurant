@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -8,26 +8,30 @@ import {
   Row,
   Select,
   message,
-} from 'antd';
-import { Product } from '../../../../../types/product/product';
-import { BsBox2Fill } from 'react-icons/bs';
-import { Spending } from '../../../../../types/spending/spending';
-import { SpendingController } from '../../../../../controller/spending/spending.controller';
-import { TranslateController } from '../../../../../controller/translate/translate.controller';
-import { SpendingRegisterTable } from './spending.register.table';
-import dayjs from 'dayjs';
-import { UnitMeasurementController } from '../../../../../controller/unit.measurement/unit.measurement.controller';
-import { UnitMeasurement } from '../../../../../types/unit.measurement/unit.measurement';
+} from "antd";
+import { Product } from "../../../../../types/product/product";
+import { BsBox2Fill } from "react-icons/bs";
+import { Spending } from "../../../../../types/spending/spending";
+import { SpendingController } from "../../../../../controller/spending/spending.controller";
+import { TranslateController } from "../../../../../controller/translate/translate.controller";
+import { SpendingRegisterTable } from "./spending.register.table";
+import dayjs from "dayjs";
+import { SystemConf } from "../../../../../types/system.conf/system.conf";
+import { cookies } from "../../../../../controller/user/adm.cookies";
 
 const initialValues = {
   id: 0,
-  name: '',
+  name: "",
   value: 0,
   isActive: true,
-  unitMeasurement: 'KG',
+  unitMeasurement: "KG",
   show: true,
   amount: 0,
 };
+
+const systemConf: SystemConf = cookies.get("start.types.objects");
+
+const unitMeasurement = systemConf.unitMeasurement;
 
 export const SpendingRegisterForm = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -37,8 +41,6 @@ export const SpendingRegisterForm = () => {
   const [loading, setLoading] = useState(false);
 
   const [valuesTable, setValuesTable] = useState([]);
-
-  const [unitMeasurement, setUnitMeasurement] = useState<UnitMeasurement[]>([]);
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -51,7 +53,6 @@ export const SpendingRegisterForm = () => {
   };
 
   useEffect(() => {
-    getUnitMeasurement();
     getSpending();
   }, []);
 
@@ -70,33 +71,33 @@ export const SpendingRegisterForm = () => {
           autoComplete="on"
           fields={[
             {
-              name: 'name',
+              name: "name",
               value: values.name,
             },
             {
-              name: 'value',
+              name: "value",
               value: values.value,
             },
             {
-              name: 'amount',
+              name: "amount",
               value: values.amount,
             },
             {
-              name: 'unitMeasurement',
+              name: "unitMeasurement",
               value: values.unitMeasurement,
             },
             {
-              name: 'show',
+              name: "show",
               value: values.show,
             },
             {
-              name: 'isActive',
+              name: "isActive",
               value: values.isActive,
             },
           ]}
           onFinish={save}
         >
-          <Row justify={'center'}>
+          <Row justify={"center"}>
             <Col span={24}>
               <Row gutter={[10, 10]}>
                 <Col md={7}>
@@ -104,7 +105,7 @@ export const SpendingRegisterForm = () => {
                     label="Nome"
                     name="name"
                     rules={[
-                      { required: true, message: 'Digite o nome do produto!' },
+                      { required: true, message: "Digite o nome do produto!" },
                     ]}
                   >
                     <Input
@@ -122,7 +123,7 @@ export const SpendingRegisterForm = () => {
                     rules={[
                       {
                         required: true,
-                        message: 'Digite o valor!',
+                        message: "Digite o valor!",
                       },
                     ]}
                   >
@@ -143,7 +144,7 @@ export const SpendingRegisterForm = () => {
                     rules={[
                       {
                         required: false,
-                        message: 'Digite a quantidade!',
+                        message: "Digite a quantidade!",
                       },
                     ]}
                   >
@@ -163,7 +164,7 @@ export const SpendingRegisterForm = () => {
                       onChange={(value: string) => {
                         const event: any = {
                           target: {
-                            name: 'unitMeasurement',
+                            name: "unitMeasurement",
                             value: value,
                           },
                         };
@@ -181,7 +182,7 @@ export const SpendingRegisterForm = () => {
           </Row>
 
           <Form.Item>
-            <Row justify={'center'} gutter={[20, 0]} className="mt-2">
+            <Row justify={"center"} gutter={[20, 0]} className="mt-2">
               <Col>
                 <Button type="primary" htmlType="submit">
                   Salvar
@@ -200,7 +201,7 @@ export const SpendingRegisterForm = () => {
       <Col span={20} className="text-center">
         <DatePicker
           defaultValue={dayjs()}
-          format={'MM/YYYY'}
+          format={"MM/YYYY"}
           picker="month"
           onChange={(value) => {
             getSpending(value);
@@ -224,9 +225,9 @@ export const SpendingRegisterForm = () => {
     setLoading(true);
 
     messageApi.open({
-      key: 'register.spending',
-      type: 'loading',
-      content: 'Enviando...',
+      key: "register.spending",
+      type: "loading",
+      content: "Enviando...",
       duration: 4,
     });
 
@@ -252,13 +253,13 @@ export const SpendingRegisterForm = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     setTimeout(() => {
       messageApi.open({
-        key: 'register.spending',
+        key: "register.spending",
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -273,8 +274,8 @@ export const SpendingRegisterForm = () => {
 
   async function getSpending(date?: any) {
     const search = date
-      ? dayjs(date).format('YYYY-MM')
-      : dayjs().format('YYYY-MM');
+      ? dayjs(date).format("YYYY-MM")
+      : dayjs().format("YYYY-MM");
 
     setLoading(true);
 
@@ -292,15 +293,5 @@ export const SpendingRegisterForm = () => {
     setTimeout(() => {
       setLoading(false);
     }, 500);
-  }
-
-  async function getUnitMeasurement() {
-    const request = await UnitMeasurementController.get();
-
-    const data = request.data;
-
-    if (data) {
-      setUnitMeasurement(data);
-    }
   }
 };

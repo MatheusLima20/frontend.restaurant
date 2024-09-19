@@ -1,14 +1,14 @@
-import axios from '../../config/axios';
-import { Error } from '../errors/check.errors';
-import { cookies } from '../user/adm.cookies';
+import axios from "../../config/axios";
+import { Error } from "../errors/check.errors";
+import { cookies } from "../user/adm.cookies";
 
 export const ProductTypesController = {
   get: async () => {
-    let request;
-    let data;
+    let request: any;
+    let data: any;
 
     try {
-      const cookie = cookies.get('data.user');
+      const cookie = cookies.get("data.user");
 
       const token = cookie.token;
 

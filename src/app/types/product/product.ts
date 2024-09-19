@@ -28,19 +28,19 @@ export type Product = {
   updatedAt: string;
 };
 
-export type ProductTypes = {
+export type ProductTypeObject = {
   id: string;
   name: ProductType;
 };
 
 export type ProductType =
-  | 'PRATO'
-  | 'GUARNIÇÃO'
-  | 'BEBIDA'
-  | 'SOBREMESA'
-  | 'PETISCO'
-  | 'DRINK'
-  | 'LUNCH';
+  | "PRATO"
+  | "GUARNIÇÃO"
+  | "BEBIDA"
+  | "SOBREMESA"
+  | "PETISCO"
+  | "DRINK"
+  | "LUNCH";
 
 export type RawMaterial = {
   id: number;

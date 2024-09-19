@@ -1,18 +1,30 @@
-import { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
-import { UsersTable } from './users.table';
-import { UserController } from '../../../../../controller/user/user.controller';
-import { TranslateController } from '../../../../../controller/translate/translate.controller';
+import { useEffect, useState } from "react";
+import { Button, Col, Form, Input, Row, Select, Switch, message } from "antd";
+import { UsersTable } from "./users.table";
+import { UserController } from "../../../../../controller/user/user.controller";
+import { TranslateController } from "../../../../../controller/translate/translate.controller";
+import { SystemConf } from "../../../../../types/system.conf/system.conf";
+import { cookies } from "../../../../../controller/user/adm.cookies";
 
 const initialValues = {
   id: 0,
-  nameUser: '',
-  emailUser: '',
-  userType: '',
-  password: '',
-  repeatPassword: '',
+  nameUser: "",
+  emailUser: "",
+  userType: "",
+  password: "",
+  repeatPassword: "",
   isActive: true,
 };
+
+const systemConf: SystemConf = cookies.get("start.types.objects");
+
+const valuesUserType = systemConf.userType;
+
+const userType = valuesUserType
+  ? systemConf.userType.filter(
+      (value) => value.name !== "DELIVERYMAN" && value.name !== "CUSTOMER"
+    )
+  : [];
 
 export const UsersForm = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -20,13 +32,6 @@ export const UsersForm = () => {
   const [values, setValues] = useState(initialValues);
   const [valuesTable, setValuesTable] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const userType = [
-    { userType: 'SUPER', label: 'SUPER' },
-    { userType: 'ADM', label: 'ADM' },
-    { userType: 'WAITER', label: 'GARÇOM' },
-    { userType: 'COOK', label: 'COZINHEIRO' },
-  ];
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -39,7 +44,7 @@ export const UsersForm = () => {
   }, []);
 
   return (
-    <Row justify={'center'} className="mt-5" gutter={[0, 40]}>
+    <Row justify={"center"} className="mt-5" gutter={[0, 40]}>
       {contextHolder}
       <Col span={22}>
         <h3 className="text-center">
@@ -47,17 +52,17 @@ export const UsersForm = () => {
         </h3>
       </Col>
       <Col span={22}>
-        <Row justify={'center'}>
+        <Row justify={"center"}>
           <Col md={22}>
             <Form
               name="users"
               initialValues={{ remember: false }}
               fields={[
-                { name: 'nameUser', value: values.nameUser },
-                { name: 'emailUser', value: values.emailUser },
-                { name: 'userType', value: values.userType },
-                { name: 'password', value: values.password },
-                { name: 'repeatPassword', value: values.repeatPassword },
+                { name: "nameUser", value: values.nameUser },
+                { name: "emailUser", value: values.emailUser },
+                { name: "userType", value: values.userType },
+                { name: "password", value: values.password },
+                { name: "repeatPassword", value: values.repeatPassword },
               ]}
               onFinish={save}
               autoComplete="off"
@@ -68,7 +73,7 @@ export const UsersForm = () => {
                     label="Nome"
                     name="nameUser"
                     rules={[
-                      { required: true, message: 'Por favor, digite o nome!' },
+                      { required: true, message: "Por favor, digite o nome!" },
                     ]}
                   >
                     <Input
@@ -85,7 +90,7 @@ export const UsersForm = () => {
                     rules={[
                       {
                         required: true,
-                        message: 'Por favor, digite o email...!',
+                        message: "Por favor, digite o email...!",
                       },
                     ]}
                   >
@@ -102,7 +107,7 @@ export const UsersForm = () => {
                     name="userType"
                     rules={[
                       {
-                        message: 'Por favor, selecione um prato!',
+                        message: "Por favor, selecione um prato!",
                         required: true,
                       },
                     ]}
@@ -116,19 +121,20 @@ export const UsersForm = () => {
                       placeholder="Selecione..."
                       optionFilterProp="children"
                       filterOption={(input, option) =>
-                        (option?.label.toLowerCase() ?? '').includes(
-                          input.toLowerCase(),
+                        (option?.label.toLowerCase() ?? "").includes(
+                          input.toLowerCase()
                         )
                       }
                       filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? '')
+                        (optionA?.label ?? "")
                           .toLowerCase()
-                          .localeCompare((optionB?.label ?? '').toLowerCase())
+                          .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
                       options={userType.map((value) => {
                         return {
-                          value: value.userType,
-                          label: value.label,
+                          value: value.name,
+                          label: TranslateController.getNoAsync(value.name)
+                            .text,
                         };
                       })}
                     />
@@ -141,7 +147,7 @@ export const UsersForm = () => {
                     rules={[
                       {
                         required: values.id === 0,
-                        message: 'Por favor, digite sua senha!',
+                        message: "Por favor, digite sua senha!",
                       },
                     ]}
                   >
@@ -159,7 +165,7 @@ export const UsersForm = () => {
                     rules={[
                       {
                         required: values.id === 0,
-                        message: 'Por favor, repita a senha!',
+                        message: "Por favor, repita a senha!",
                       },
                     ]}
                   >
@@ -182,7 +188,7 @@ export const UsersForm = () => {
                       onChange={(value: boolean) => {
                         const event: any = {
                           target: {
-                            name: 'isActive',
+                            name: "isActive",
                             value: value,
                           },
                         };
@@ -195,7 +201,7 @@ export const UsersForm = () => {
                 </Col>
                 <Col md={24}>
                   <Form.Item>
-                    <Row justify={'center'}>
+                    <Row justify={"center"}>
                       <Col>
                         <Button type="primary" htmlType="submit">
                           Enviar
@@ -245,9 +251,9 @@ export const UsersForm = () => {
     setLoading(true);
 
     messageApi.open({
-      key: 'register.spending',
-      type: 'loading',
-      content: 'Enviando...',
+      key: "register.spending",
+      type: "loading",
+      content: "Enviando...",
       duration: 4,
     });
 
@@ -274,13 +280,13 @@ export const UsersForm = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     setTimeout(() => {
       messageApi.open({
-        key: 'register.spending',
+        key: "register.spending",
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -296,11 +302,11 @@ export const UsersForm = () => {
   async function getUsers() {
     setLoading(true);
 
-    const request = await UserController.getUsers('WAITER');
+    const request = await UserController.getUsers("WAITER");
 
-    const request2 = await UserController.getUsers('ADM');
+    const request2 = await UserController.getUsers("ADM");
 
-    const request3 = await UserController.getUsers('COOK');
+    const request3 = await UserController.getUsers("COOK");
 
     const data = request.data;
 
