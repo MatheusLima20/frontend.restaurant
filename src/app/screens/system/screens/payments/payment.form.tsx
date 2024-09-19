@@ -29,6 +29,8 @@ const initialValues = {
   installments: "1",
 };
 
+const environment: any = import.meta.env.VITE_ENVIRONMENT;
+
 export const PaymentsForm = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [values, setValues] = useState(initialValues);
@@ -45,6 +47,7 @@ export const PaymentsForm = () => {
       {contextHolder}
       <Col span={24}>
         <Form
+          id="form.payment"
           name="payments"
           autoComplete="on"
           initialValues={values}
@@ -230,8 +233,9 @@ export const PaymentsForm = () => {
                       <Col>
                         <Button
                           type="default"
-                          onClick={clearValues}
                           loading={loading}
+                          htmlType="reset"
+                          onClick={() => setValues(initialValues)}
                         >
                           Limpar
                         </Button>
@@ -285,7 +289,6 @@ export const PaymentsForm = () => {
         duration: 4,
       });
       setLoading(false);
-      setValues(initialValues);
     }, 1000);
   }
 
@@ -294,7 +297,7 @@ export const PaymentsForm = () => {
       const result: any = await EfiPay.CreditCard.setAccount(
         "305d0b9acbca11b44fff1a0ee46c4c0b"
       )
-        .setEnvironment("production") // 'production' or 'sandbox'
+        .setEnvironment(environment) // 'production' or 'sandbox'
         .setCreditCardData({
           brand: values.brand,
           number: values.cardNumber,
@@ -310,6 +313,7 @@ export const PaymentsForm = () => {
       return payment_token;
     } catch (error: any) {
       const messege = error.error_description;
+
       return messege;
     }
   }
@@ -320,7 +324,6 @@ export const PaymentsForm = () => {
         values.cardNumber
       ).verifyCardBrand();
       setValues({ ...values, brand: brand });
-      console.log("Bandeira: ", brand);
     } catch (error: any) {
       console.log("Código: ", error.code);
       console.log("Nome: ", error.error);
@@ -342,10 +345,6 @@ export const PaymentsForm = () => {
     }
 
     return icon;
-  }
-
-  function clearValues() {
-    setValues(initialValues);
   }
 
   function startInstallments() {

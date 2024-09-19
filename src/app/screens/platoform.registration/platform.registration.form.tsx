@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 import {
   FaRegistered,
   FaRegRegistered,
   FaStreetView,
   FaUserCircle,
-} from 'react-icons/fa';
-import { BsCardHeading } from 'react-icons/bs';
-import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
-import { FiMapPin } from 'react-icons/fi';
-import { GiModernCity } from 'react-icons/gi';
-import { BiCurrentLocation } from 'react-icons/bi';
-import { RiLockPasswordFill, RiLockPasswordLine } from 'react-icons/ri';
-import { AiOutlineFieldNumber } from 'react-icons/ai';
-import { Button, Col, Form, Input, message, Row, Steps } from 'antd';
-import { MdEmail } from 'react-icons/md';
-import { GrStreetView } from 'react-icons/gr';
-import { Masks } from '../../util/masks/masks';
-import { UserMain } from '../../types/user/user';
-import { UserController } from '../../controller/user/user.controller';
-import { AddressSearchCEP } from '../../types/address/address';
-import { CepController } from '../../controller/cep/cep.controller';
-import { StringFormatter } from '../../util/string.formatter/string.formatter';
-import './platform.resgistrations.css';
-import { ChoosePlans } from './choose.plans';
+} from "react-icons/fa";
+import { BsCardHeading } from "react-icons/bs";
+import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
+import { FiMapPin } from "react-icons/fi";
+import { GiModernCity } from "react-icons/gi";
+import { BiCurrentLocation } from "react-icons/bi";
+import { RiLockPasswordFill, RiLockPasswordLine } from "react-icons/ri";
+import { AiOutlineFieldNumber } from "react-icons/ai";
+import { Button, Col, Form, Input, message, Row, Steps } from "antd";
+import { MdEmail } from "react-icons/md";
+import { GrStreetView } from "react-icons/gr";
+import { Masks } from "../../util/masks/masks";
+import { UserMain } from "../../types/user/user";
+import { UserController } from "../../controller/user/user.controller";
+import { AddressSearchCEP } from "../../types/address/address";
+import { CepController } from "../../controller/cep/cep.controller";
+import { StringFormatter } from "../../util/string.formatter/string.formatter";
+import "./platform.resgistrations.css";
+import { ChoosePlans } from "./choose.plans";
 
 type InitialValues = {
   cpfcnpj: string;
@@ -47,24 +47,24 @@ type InitialValues = {
 };
 
 const initialValues: InitialValues = {
-  cpfcnpj: '',
-  state: '',
-  city: '',
-  companyName: '',
-  platformName: '',
-  corporateName: '',
-  password: '',
-  passwordRepeated: '',
-  street: '',
-  addressCodePostal: '',
-  phoneNumber: '',
+  cpfcnpj: "",
+  state: "",
+  city: "",
+  companyName: "",
+  platformName: "",
+  corporateName: "",
+  password: "",
+  passwordRepeated: "",
+  street: "",
+  addressCodePostal: "",
+  phoneNumber: "",
   addressNumber: 0,
-  district: '',
-  email: '',
-  userName: '',
-  userType: '',
+  district: "",
+  email: "",
+  userName: "",
+  userType: "",
   id: 0,
-  plan: '',
+  plan: "",
   isMonthPlan: true,
 };
 
@@ -91,9 +91,9 @@ export const PlatformRegistrationForm = () => {
 
   const steps = [
     {
-      title: 'Dados Iniciais',
+      title: "Dados Iniciais",
       content: (
-        <Row justify={'center'} gutter={[30, 20]} className="mt-5">
+        <Row justify={"center"} gutter={[30, 20]} className="mt-5">
           <Col md={12}>
             <Form.Item
               label="Nome de Usuário"
@@ -101,7 +101,7 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Por favor, digite seu nome!',
+                  message: "Por favor, digite seu nome!",
                 },
               ]}
             >
@@ -120,7 +120,7 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Por favor, insira a razão social!',
+                  message: "Por favor, insira a razão social!",
                 },
               ]}
             >
@@ -139,7 +139,7 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Por favor, digite o nome fantasia!',
+                  message: "Por favor, digite o nome fantasia!",
                 },
               ]}
             >
@@ -159,7 +159,7 @@ export const PlatformRegistrationForm = () => {
                 {
                   max: 18,
                   required: true,
-                  message: 'Por favor, digite o CNPJ!',
+                  message: "Por favor, digite o CNPJ!",
                 },
               ]}
             >
@@ -179,7 +179,7 @@ export const PlatformRegistrationForm = () => {
       ),
     },
     {
-      title: 'Contato',
+      title: "Contato",
       content: (
         <Row gutter={[30, 20]} className="mt-5">
           <Col md={12}>
@@ -191,7 +191,7 @@ export const PlatformRegistrationForm = () => {
                   min: 14,
                   max: 14,
                   required: true,
-                  message: 'Por favor, digite o numero de telefone!',
+                  message: "Por favor, digite o numero de telefone!",
                 },
               ]}
             >
@@ -214,8 +214,8 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Por favor, digite o email!',
-                  type: 'email',
+                  message: "Por favor, digite o email!",
+                  type: "email",
                 },
               ]}
             >
@@ -231,9 +231,9 @@ export const PlatformRegistrationForm = () => {
       ),
     },
     {
-      title: 'Endereço',
+      title: "Endereço",
       content: (
-        <Row justify={'center'} gutter={[30, 20]} className="mt-5">
+        <Row justify={"center"} gutter={[30, 20]} className="mt-5">
           <Col md={8}>
             <Form.Item
               label="CEP"
@@ -242,7 +242,7 @@ export const PlatformRegistrationForm = () => {
                 {
                   min: 9,
                   required: true,
-                  message: 'Por favor, digite o seu CEP!',
+                  message: "Por favor, digite o seu CEP!",
                 },
               ]}
             >
@@ -268,7 +268,7 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Por favor, digite o estado!',
+                  message: "Por favor, digite o estado!",
                 },
               ]}
             >
@@ -282,7 +282,7 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Por favor, digite a cidade!',
+                  message: "Por favor, digite a cidade!",
                 },
               ]}
             >
@@ -296,7 +296,7 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Por favor, digite o seu bairro!',
+                  message: "Por favor, digite o seu bairro!",
                 },
               ]}
             >
@@ -316,7 +316,7 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'A rua é obrigatória!',
+                  message: "A rua é obrigatória!",
                 },
               ]}
             >
@@ -337,7 +337,7 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Por favor, digite o numero do seu endereço!',
+                  message: "Por favor, digite o numero do seu endereço!",
                 },
               ]}
             >
@@ -353,9 +353,9 @@ export const PlatformRegistrationForm = () => {
       ),
     },
     {
-      title: 'Senha de acesso',
+      title: "Senha de acesso",
       content: (
-        <Row justify={'center'} gutter={[30, 20]} className="mt-5">
+        <Row justify={"center"} gutter={[30, 20]} className="mt-5">
           <Col md={12}>
             <Form.Item
               label="Senha"
@@ -363,7 +363,7 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Por favor, digite a senha!',
+                  message: "Por favor, digite a senha!",
                 },
               ]}
             >
@@ -382,7 +382,7 @@ export const PlatformRegistrationForm = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Por favor, digite a confirmação da senha!',
+                  message: "Por favor, digite a confirmação da senha!",
                 },
               ]}
             >
@@ -398,13 +398,13 @@ export const PlatformRegistrationForm = () => {
       ),
     },
     {
-      title: 'Plano',
+      title: "Plano",
       content: <ChoosePlans handleChange={handleChange} />,
     },
   ];
 
   const handleReset = () => {
-    const element = document.getElementById('form') as any;
+    const element = document.getElementById("form") as any;
     element.reset();
     setValues(initialValues);
   };
@@ -412,7 +412,7 @@ export const PlatformRegistrationForm = () => {
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
   return (
-    <Row justify={'center'}>
+    <Row justify={"center"}>
       {contextHolder}
       <Col span={24}>
         <Form
@@ -430,29 +430,29 @@ export const PlatformRegistrationForm = () => {
           }}
           fields={[
             {
-              name: 'cpfcnpj',
+              name: "cpfcnpj",
               value: values.cpfcnpj,
             },
-            { name: 'phone', value: values.phoneNumber },
-            { name: 'state', value: values.state },
-            { name: 'city', value: values.city },
-            { name: 'street', value: values.street },
-            { name: 'district', value: values.district },
-            { name: 'addressCodePostal', value: values.addressCodePostal },
-            { name: 'email', value: values.email },
-            { name: 'userName', value: values.userName },
-            { name: 'plan', value: values.plan },
+            { name: "phone", value: values.phoneNumber },
+            { name: "state", value: values.state },
+            { name: "city", value: values.city },
+            { name: "street", value: values.street },
+            { name: "district", value: values.district },
+            { name: "addressCodePostal", value: values.addressCodePostal },
+            { name: "email", value: values.email },
+            { name: "userName", value: values.userName },
+            { name: "plan", value: values.plan },
             {
-              name: 'addressNumber',
-              value: values.addressNumber ? values.addressNumber : '',
+              name: "addressNumber",
+              value: values.addressNumber ? values.addressNumber : "",
             },
-            { name: 'corporateName', value: values.corporateName },
-            { name: 'companyName', value: values.companyName },
-            { name: 'password', value: values.password },
-            { name: 'passwordRepeated', value: values.passwordRepeated },
+            { name: "corporateName", value: values.corporateName },
+            { name: "companyName", value: values.companyName },
+            { name: "password", value: values.password },
+            { name: "passwordRepeated", value: values.passwordRepeated },
           ]}
         >
-          <Row justify={'center'}>
+          <Row justify={"center"}>
             <Steps current={current} items={items} />
             <Col span={23}>{steps[current].content}</Col>
             <Col span={23} style={{ marginTop: 24 }}>
@@ -467,13 +467,13 @@ export const PlatformRegistrationForm = () => {
                 </Button>
               )}
               {current > 0 && (
-                <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
                   Anterior
                 </Button>
               )}
               {current == 0 && (
                 <Button
-                  style={{ margin: '0 8px', textDecoration: 'none' }}
+                  style={{ margin: "0 8px", textDecoration: "none" }}
                   href="/"
                 >
                   Voltar
@@ -488,9 +488,9 @@ export const PlatformRegistrationForm = () => {
 
   async function save() {
     messageApi.open({
-      key: 'platform.registration',
-      type: 'loading',
-      content: 'Enviando...',
+      key: "platform.registration",
+      type: "loading",
+      content: "Enviando...",
       duration: 7,
     });
 
@@ -524,11 +524,11 @@ export const PlatformRegistrationForm = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     setTimeout(() => {
       messageApi.open({
-        key: 'platform.registration',
+        key: "platform.registration",
         type: type,
         content: message,
         duration: 7,
@@ -537,7 +537,7 @@ export const PlatformRegistrationForm = () => {
         handleReset();
 
         setTimeout(() => {
-          document.location = '/';
+          document.location = "/";
         }, 2000);
       }
     }, 1000);

@@ -1,10 +1,10 @@
-import './App.css';
-import { AppNavigation } from './app/app.navigation';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'animate.css/animate.min.css';
-import { ConfigProvider } from 'antd';
-import ptBr from 'antd/es/locale/pt_BR';
-import { Content } from 'antd/es/layout/layout';
+import "./App.css";
+import { AppNavigation } from "./app/app.navigation";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "animate.css/animate.min.css";
+import { ConfigProvider } from "antd";
+import ptBr from "antd/es/locale/pt_BR";
+import { Content } from "antd/es/layout/layout";
 
 function App() {
   const locale = ptBr;
@@ -14,9 +14,9 @@ function App() {
       locale={locale}
       theme={{
         token: {
-          colorPrimary: 'red',
-          colorBgBase: '#d3d3d3',
-          colorBgLayout: '#d3d3d3',
+          colorPrimary: "red",
+          colorBgBase: "#d3d3d3",
+          colorBgLayout: "#d3d3d3",
         },
       }}
     >
