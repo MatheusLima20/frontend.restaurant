@@ -1,17 +1,17 @@
-import axios from "../../config/axios";
+import axios from '../../config/axios';
 import {
   UserPhisicalPerson,
   UserClient,
   UserLogin,
   UserMain,
   UserType,
-} from "../../types/user/user";
-import { companyCPFCNPJ } from "../../util/platform.number/platform.number";
-import { StartConfController } from "../start.conf/start.conf";
-import { Error } from "../errors/check.errors";
-import { cookies } from "./adm.cookies";
+} from '../../types/user/user';
+import { companyCPFCNPJ } from '../../util/platform.number/platform.number';
+import { StartConfController } from '../start.conf/start.conf';
+import { Error } from '../errors/check.errors';
+import { cookies } from './adm.cookies';
 
-const cookie = cookies.get("data.user");
+const cookie = cookies.get('data.user');
 
 export const UserController = {
   login: async (dataLogin: UserLogin) => {
@@ -19,7 +19,7 @@ export const UserController = {
     let data: any;
 
     try {
-      request = await axios.post("/login", dataLogin);
+      request = await axios.post('/login', dataLogin);
 
       data = request.data;
 
@@ -27,7 +27,7 @@ export const UserController = {
 
       const user = data.user;
 
-      cookies.store(user, "data.user");
+      cookies.store(user, 'data.user');
 
       await StartConfController.startTypesObjects();
 
@@ -45,7 +45,7 @@ export const UserController = {
     try {
       const token = cookie.token;
 
-      const request = await axios.post("/user", values, {
+      const request = await axios.post('/user', values, {
         headers: { authorization: `Bearer ${token}` },
       });
 
@@ -65,7 +65,7 @@ export const UserController = {
     const values = dataUser;
 
     try {
-      const request = await axios.post("/client", values);
+      const request = await axios.post('/client', values);
 
       const data = request.data;
 
@@ -83,7 +83,7 @@ export const UserController = {
     const values = dataUser;
 
     try {
-      const request = await axios.post("/platform-register", values);
+      const request = await axios.post('/platform-register', values);
 
       const data = request.data;
 
@@ -103,7 +103,7 @@ export const UserController = {
     const token = cookie.token;
 
     try {
-      const request = await axios.post("/employee", values, {
+      const request = await axios.post('/employee', values, {
         headers: { authorization: `Bearer ${token}` },
       });
 
@@ -147,7 +147,7 @@ export const UserController = {
     try {
       const token = cookie.token;
 
-      const request = await axios.patch("/client", values, {
+      const request = await axios.patch('/client', values, {
         headers: { authorization: `Bearer ${token}` },
       });
 
@@ -167,11 +167,11 @@ export const UserController = {
     const values = dataUser;
 
     try {
-      const cookie = cookies.get("data.user");
+      const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
-      const request = await axios.patch("/physical-person", values, {
+      const request = await axios.patch('/physical-person', values, {
         headers: { authorization: `Bearer ${token}` },
       });
 
@@ -208,7 +208,7 @@ export const UserController = {
 
   getUsers: async (userType: UserType) => {
     try {
-      const cookie = cookies.get("data.user");
+      const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
@@ -230,11 +230,11 @@ export const UserController = {
 
   getCustomers: async () => {
     try {
-      const cookie = cookies.get("data.user");
+      const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
-      const request = await axios.get("/customers", {
+      const request = await axios.get('/customers', {
         headers: { authorization: `Bearer ${token}` },
       });
 
@@ -252,7 +252,7 @@ export const UserController = {
 
   getUserByType: async (userType: UserType) => {
     try {
-      const cookie = cookies.get("data.user");
+      const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
@@ -274,11 +274,11 @@ export const UserController = {
 
   getClients: async () => {
     try {
-      const cookie = cookies.get("data.user");
+      const cookie = cookies.get('data.user');
 
       const token = cookie.token;
 
-      const request = await axios.get("/clients", {
+      const request = await axios.get('/clients', {
         headers: { authorization: `Bearer ${token}` },
       });
 

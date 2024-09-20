@@ -1,9 +1,9 @@
-import { PlatformRegistrationForm } from "./platform.registration.form";
-import { Col, Row } from "antd";
+import { PlatformRegistrationForm } from './platform.registration.form';
+import { Col, Row } from 'antd';
 
 export const PlatformRegistrationScreen = () => {
   return (
-    <Row justify={"center"}>
+    <Row justify={'center'}>
       <Col span={23}>
         <Row justify="center" className="mt-5 mb-5">
           <Col>

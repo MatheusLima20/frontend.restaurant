@@ -1,11 +1,11 @@
-import { ProductTypeObject } from "../../types/product/product";
-import { SystemConf } from "../../types/system.conf/system.conf";
-import { UnitMeasurementObject } from "../../types/unit.measurement/unit.measurement";
-import { UserTypeObject } from "../../types/user/user";
-import { ProductTypesController } from "../product.types/product.types.controller";
-import { UnitMeasurementController } from "../unit.measurement/unit.measurement.controller";
-import { UserTypeController } from "../user.type/user.type.controller";
-import { cookies } from "../user/adm.cookies";
+import { ProductTypeObject } from '../../types/product/product';
+import { SystemConf } from '../../types/system.conf/system.conf';
+import { UnitMeasurementObject } from '../../types/unit.measurement/unit.measurement';
+import { UserTypeObject } from '../../types/user/user';
+import { ProductTypesController } from '../product.types/product.types.controller';
+import { UnitMeasurementController } from '../unit.measurement/unit.measurement.controller';
+import { UserTypeController } from '../user.type/user.type.controller';
+import { cookies } from '../user/adm.cookies';
 
 export const StartConfController = {
   startTypesObjects: async () => {
@@ -28,7 +28,7 @@ export const StartConfController = {
           productType: dataProductType,
           userType: dataUserType,
         } as SystemConf,
-        "start.types.objects"
+        'start.types.objects',
       );
     }
   },

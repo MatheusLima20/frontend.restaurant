@@ -1,4 +1,4 @@
-import { LogoutScreen } from "./logout.screen";
+import { LogoutScreen } from './logout.screen';
 
 export const Logout = () => {
   return <LogoutScreen />;

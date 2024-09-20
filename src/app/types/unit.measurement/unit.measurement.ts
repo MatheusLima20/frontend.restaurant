@@ -5,10 +5,10 @@ export type UnitMeasurementObject = {
 };
 
 export type UnitDescription =
-  | "Kilo"
-  | "Litro"
-  | "Unidade"
-  | "Gramas"
-  | "Caixa"
-  | "Mililitros"
-  | "Pacote";
+  | 'Kilo'
+  | 'Litro'
+  | 'Unidade'
+  | 'Gramas'
+  | 'Caixa'
+  | 'Mililitros'
+  | 'Pacote';

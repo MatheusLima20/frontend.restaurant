@@ -1,10 +1,10 @@
-import axios from "../../config/axios";
-import { Error } from "../errors/check.errors";
+import axios from '../../config/axios';
+import { Error } from '../errors/check.errors';
 
 export const UserTypeController = {
   getTypes: async () => {
     try {
-      const request = await axios.get("/user-type");
+      const request = await axios.get('/user-type');
 
       const data = request.data;
 

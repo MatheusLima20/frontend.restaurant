@@ -1,8 +1,6 @@
-
 .container-fluid {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: 5rem;
-    display: inline;
-    flex-direction: row !important;
-
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-weight: 5rem;
+  display: inline;
+  flex-direction: row !important;
 }

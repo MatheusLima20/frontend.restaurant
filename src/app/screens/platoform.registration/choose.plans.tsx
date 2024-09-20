@@ -1,17 +1,17 @@
-import { Button, Col, Form, Radio, Row, Tabs, TabsProps } from "antd";
-import { BiCheckCircle, BiHappy } from "react-icons/bi";
-import { FiXCircle } from "react-icons/fi";
-import { IoCalendarNumberOutline, IoDiamondOutline } from "react-icons/io5";
-import { MdBusinessCenter } from "react-icons/md";
-import { RiWhatsappFill } from "react-icons/ri";
-import { LiaCalendarWeekSolid } from "react-icons/lia";
+import { Button, Col, Form, Radio, Row, Tabs, TabsProps } from 'antd';
+import { BiCheckCircle, BiHappy } from 'react-icons/bi';
+import { FiXCircle } from 'react-icons/fi';
+import { IoCalendarNumberOutline, IoDiamondOutline } from 'react-icons/io5';
+import { MdBusinessCenter } from 'react-icons/md';
+import { RiWhatsappFill } from 'react-icons/ri';
+import { LiaCalendarWeekSolid } from 'react-icons/lia';
 
 type Props = {
   handleChange: (value: any) => void;
 };
 
 const textContact =
-  "Olá%20gostaria%20de%20tirar%20duvidas%20sobre%20o%20plano%20Premium";
+  'Olá%20gostaria%20de%20tirar%20duvidas%20sobre%20o%20plano%20Premium';
 
 export const ChoosePlans = (props: Props) => {
   const plans = (isMonth: boolean) => (
@@ -32,7 +32,7 @@ export const ChoosePlans = (props: Props) => {
           <Radio.Button value="Iniciante" className="h-100">
             <div title="Iniciante" className="m-4" style={{ width: 250 }}>
               <div>
-                <Row align={"middle"} gutter={[70, 0]}>
+                <Row align={'middle'} gutter={[70, 0]}>
                   <Col span={24} className="fs-6 text-center border-2 mt-1">
                     <strong>
                       <br />
@@ -41,7 +41,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div className="mt-4 mb-3">
-                <Row align={"middle"} gutter={[70, 0]}>
+                <Row align={'middle'} gutter={[70, 0]}>
                   <Col>
                     <BiHappy size={30} />
                   </Col>
@@ -51,7 +51,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -59,7 +59,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -67,7 +67,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -75,7 +75,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -83,7 +83,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <FiXCircle color="red" size={20} />
                   </Col>
@@ -91,7 +91,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <FiXCircle color="red" size={20} />
                   </Col>
@@ -99,7 +99,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <FiXCircle color="red" size={20} />
                   </Col>
@@ -107,7 +107,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row justify={"start"} align={"middle"}>
+                <Row justify={'start'} align={'middle'}>
                   <Col>
                     <FiXCircle color="red" size={20} />
                   </Col>
@@ -115,7 +115,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row justify={"center"} align={"middle"}>
+                <Row justify={'center'} align={'middle'}>
                   <Col className="fs-6">
                     {isMonth ? (
                       <strong>Apenas R$ 79,90/Mês</strong>
@@ -130,7 +130,7 @@ export const ChoosePlans = (props: Props) => {
           <Radio.Button value="Profissional" className="h-100">
             <div title="Profissional" className="m-4" style={{ width: 250 }}>
               <div>
-                <Row align={"middle"} gutter={[70, 0]}>
+                <Row align={'middle'} gutter={[70, 0]}>
                   <Col span={24} className="text-center">
                     <div className="border rounded-pill border-danger border-2 ">
                       Mais Popular
@@ -139,7 +139,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div className="mt-4 mb-3">
-                <Row align={"middle"} gutter={[70, 0]}>
+                <Row align={'middle'} gutter={[70, 0]}>
                   <Col>
                     <MdBusinessCenter size={30} />
                   </Col>
@@ -149,7 +149,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -157,7 +157,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -165,7 +165,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -173,7 +173,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -181,7 +181,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -189,7 +189,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -197,7 +197,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <FiXCircle color="red" size={20} />
                   </Col>
@@ -205,7 +205,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row justify={"start"} align={"middle"}>
+                <Row justify={'start'} align={'middle'}>
                   <Col>
                     <FiXCircle color="red" size={20} />
                   </Col>
@@ -213,7 +213,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row justify={"center"} align={"middle"}>
+                <Row justify={'center'} align={'middle'}>
                   <Col className="fs-6">
                     {isMonth ? (
                       <strong>Apenas R$ 149,90/Mês</strong>
@@ -228,7 +228,7 @@ export const ChoosePlans = (props: Props) => {
           <Radio.Button value="Premium" className="h-100">
             <div title="Premium" className="m-4" style={{ width: 250 }}>
               <div>
-                <Row align={"middle"} gutter={[70, 0]}>
+                <Row align={'middle'} gutter={[70, 0]}>
                   <Col span={24} className="fs-6 text-center border-2 mt-1">
                     <strong>
                       <br />
@@ -237,7 +237,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div className="mt-4 mb-3">
-                <Row align={"middle"} gutter={[70, 0]}>
+                <Row align={'middle'} gutter={[70, 0]}>
                   <Col span={24}>
                     <strong> </strong>
                   </Col>
@@ -250,7 +250,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -258,7 +258,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -266,7 +266,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -274,7 +274,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row justify={"start"} align={"middle"}>
+                <Row justify={'start'} align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -282,7 +282,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -290,7 +290,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row align={"middle"}>
+                <Row align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -298,7 +298,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row justify={"start"} align={"middle"}>
+                <Row justify={'start'} align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -306,7 +306,7 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row justify={"start"} align={"middle"}>
+                <Row justify={'start'} align={'middle'}>
                   <Col>
                     <BiCheckCircle color="green" size={20} />
                   </Col>
@@ -314,10 +314,10 @@ export const ChoosePlans = (props: Props) => {
                 </Row>
               </div>
               <div>
-                <Row justify={"center"} align={"middle"}>
+                <Row justify={'center'} align={'middle'}>
                   <Col className="fs-6">
                     <Button
-                      style={{ textDecoration: "none" }}
+                      style={{ textDecoration: 'none' }}
                       target="_blank"
                       href={`https://api.whatsapp.com/send?phone=5585992669501&text=${textContact}`}
                     >
@@ -336,23 +336,23 @@ export const ChoosePlans = (props: Props) => {
     </Col>
   );
 
-  const items: TabsProps["items"] = [
+  const items: TabsProps['items'] = [
     {
-      key: "1",
+      key: '1',
       icon: <IoCalendarNumberOutline size={30} />,
-      label: "Plano Mensal",
+      label: 'Plano Mensal',
       children: (
-        <Row justify={"center"} className="text-center">
+        <Row justify={'center'} className="text-center">
           {plans(true)}
         </Row>
       ),
     },
     {
-      key: "0",
+      key: '0',
       icon: <LiaCalendarWeekSolid size={30} />,
-      label: "Plano Anual",
+      label: 'Plano Anual',
       children: (
-        <Row justify={"center"} className="text-center">
+        <Row justify={'center'} className="text-center">
           {plans(false)}
         </Row>
       ),
@@ -369,8 +369,8 @@ export const ChoosePlans = (props: Props) => {
       onChange={(key) => {
         const event = {
           target: {
-            name: "isMonthPlan",
-            value: key === "1",
+            name: 'isMonthPlan',
+            value: key === '1',
           },
         };
         props.handleChange(event);

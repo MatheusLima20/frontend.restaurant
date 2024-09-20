@@ -1,5 +1,5 @@
-import { englishTexts } from "../../util/translate/translate.string";
-import { Error } from "../errors/check.errors";
+import { englishTexts } from '../../util/translate/translate.string';
+import { Error } from '../errors/check.errors';
 
 export const TranslateController = {
   get: async (value: string) => {

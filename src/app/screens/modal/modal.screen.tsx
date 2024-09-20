@@ -1,4 +1,4 @@
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal } from 'react-bootstrap';
 
 interface Props {
   show: boolean;
@@ -16,7 +16,7 @@ export const CenterModal = (props: Props) => {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title className="w-100" style={{ textAlign: "center" }}>
+        <Modal.Title className="w-100" style={{ textAlign: 'center' }}>
           <div className="row">
             <p className="text-center">{props.title}</p>
           </div>

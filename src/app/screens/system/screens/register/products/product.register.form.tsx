@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Button,
   Col,
@@ -9,39 +9,39 @@ import {
   Select,
   Switch,
   message,
-} from "antd";
-import { Product, RawMaterial } from "../../../../../types/product/product";
-import { ProvisionsController } from "../../../../../controller/provisions/provisions.controller";
-import { TranslateController } from "../../../../../controller/translate/translate.controller";
-import { ProductRegisterTable } from "./product.register.table";
-import { RawMaterialForm } from "./raw.material.form";
-import { RawMaterialController } from "../../../../../controller/raw.material/raw.material.controller";
-import { UserDataLogged } from "../../../../../types/user/user";
-import { cookies } from "../../../../../controller/user/adm.cookies";
-import { Plan } from "../../../../../types/plan/plan";
-import { IoDiamondOutline } from "react-icons/io5";
-import { SystemConf } from "../../../../../types/system.conf/system.conf";
+} from 'antd';
+import { Product, RawMaterial } from '../../../../../types/product/product';
+import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
+import { TranslateController } from '../../../../../controller/translate/translate.controller';
+import { ProductRegisterTable } from './product.register.table';
+import { RawMaterialForm } from './raw.material.form';
+import { RawMaterialController } from '../../../../../controller/raw.material/raw.material.controller';
+import { UserDataLogged } from '../../../../../types/user/user';
+import { cookies } from '../../../../../controller/user/adm.cookies';
+import { Plan } from '../../../../../types/plan/plan';
+import { IoDiamondOutline } from 'react-icons/io5';
+import { SystemConf } from '../../../../../types/system.conf/system.conf';
 
 const initialValues = {
   id: 0,
-  name: "",
+  name: '',
   value: 0,
-  productType: "PRATO",
+  productType: 'PRATO',
   show: true,
   toCook: true,
 };
 
-const user: UserDataLogged = cookies.get("data.user");
+const user: UserDataLogged = cookies.get('data.user');
 
-const systemConf: SystemConf = cookies.get("start.types.objects");
+const systemConf: SystemConf = cookies.get('start.types.objects');
 
 const productType = systemConf.productType;
 
-const textContact = "Olá%20gostaria%20de%20mudar%20para%20o%20plano%20Premium";
+const textContact = 'Olá%20gostaria%20de%20mudar%20para%20o%20plano%20Premium';
 
 export const ProductRegisterForm = () => {
   const plan: Plan = user.plan as any;
-  const isPremium = plan === "Premium";
+  const isPremium = plan === 'Premium';
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -84,37 +84,37 @@ export const ProductRegisterForm = () => {
           initialValues={values}
           fields={[
             {
-              name: "name",
+              name: 'name',
               value: values.name,
             },
             {
-              name: "value",
+              name: 'value',
               value: values.value,
             },
             {
-              name: "productType",
+              name: 'productType',
               value: values.productType,
             },
             {
-              name: "show",
+              name: 'show',
               value: values.show,
             },
             {
-              name: "toCook",
+              name: 'toCook',
               value: values.toCook,
             },
           ]}
           onFinish={save}
         >
-          <Row justify={"center"}>
+          <Row justify={'center'}>
             <Col span={24}>
-              <Row justify={"center"} gutter={[30, 10]}>
+              <Row justify={'center'} gutter={[30, 10]}>
                 <Col md={8}>
                   <Form.Item
                     label="Nome"
                     name="name"
                     rules={[
-                      { required: true, message: "Digite o nome do produto!" },
+                      { required: true, message: 'Digite o nome do produto!' },
                     ]}
                   >
                     <Input
@@ -132,7 +132,7 @@ export const ProductRegisterForm = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Digite o valor!",
+                        message: 'Digite o valor!',
                       },
                     ]}
                   >
@@ -152,7 +152,7 @@ export const ProductRegisterForm = () => {
                       onChange={(value: string) => {
                         const event: any = {
                           target: {
-                            name: "productType",
+                            name: 'productType',
                             value: value,
                           },
                         };
@@ -177,7 +177,7 @@ export const ProductRegisterForm = () => {
                       onChange={(value: boolean) => {
                         const event: any = {
                           target: {
-                            name: "show",
+                            name: 'show',
                             value: value,
                           },
                         };
@@ -200,7 +200,7 @@ export const ProductRegisterForm = () => {
                       onChange={(value: boolean) => {
                         const event: any = {
                           target: {
-                            name: "toCook",
+                            name: 'toCook',
                             value: value,
                           },
                         };
@@ -216,7 +216,7 @@ export const ProductRegisterForm = () => {
 
             <Col span={24}>
               <Form.Item>
-                <Row justify={"center"} gutter={[20, 0]} className="mt-2">
+                <Row justify={'center'} gutter={[20, 0]} className="mt-2">
                   <Col>
                     <Button type="primary" htmlType="submit">
                       Salvar
@@ -269,7 +269,7 @@ export const ProductRegisterForm = () => {
             }
             extra={
               <Button
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: 'none' }}
                 target="_blank"
                 href={`https://api.whatsapp.com/send?phone=5585992669501&text=${textContact}`}
                 type="primary"
@@ -298,9 +298,9 @@ export const ProductRegisterForm = () => {
     setLoading(true);
 
     messageApi.open({
-      key: "register.products",
-      type: "loading",
-      content: "Enviando...",
+      key: 'register.products',
+      type: 'loading',
+      content: 'Enviando...',
       duration: 4,
     });
 
@@ -346,13 +346,13 @@ export const ProductRegisterForm = () => {
 
     const message = request.message;
 
-    const type = error ? "error" : "success";
+    const type = error ? 'error' : 'success';
 
     const tranlateMessage = await TranslateController.get(message);
 
     setTimeout(() => {
       messageApi.open({
-        key: "register.products",
+        key: 'register.products',
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -394,13 +394,13 @@ export const ProductRegisterForm = () => {
       if (error) {
         const message = request.message;
 
-        const type = error ? "error" : "success";
+        const type = error ? 'error' : 'success';
 
         const tranlateMessage = await TranslateController.get(message);
 
         setTimeout(() => {
           messageApi.open({
-            key: "register.products",
+            key: 'register.products',
             type: type,
             content: tranlateMessage.text,
             duration: 4,

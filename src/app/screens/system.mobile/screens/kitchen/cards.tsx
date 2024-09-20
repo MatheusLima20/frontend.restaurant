@@ -17,7 +17,9 @@ export const Cards = (props: Props) => {
   const isCancelled = processing.isCancelled;
   const status = isCancelled ? 'cancelado' : 'finalizado';
   const textWhite = isCancelled ? 'text-white' : '';
-  const table: any = props.tables.find((table) => table.id === processing.idTable);
+  const table: any = props.tables.find(
+    (table) => table.id === processing.idTable,
+  );
   const [low, setLow] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 

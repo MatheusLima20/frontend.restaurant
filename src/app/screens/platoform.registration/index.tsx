@@ -1,4 +1,4 @@
-import { PlatformRegistrationScreen } from "./platform.registration.screen";
+import { PlatformRegistrationScreen } from './platform.registration.screen';
 
 export const PlatformRegistration = () => {
   return <PlatformRegistrationScreen />;
