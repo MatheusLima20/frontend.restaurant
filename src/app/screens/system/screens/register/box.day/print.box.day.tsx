@@ -82,27 +82,28 @@ export const PrintBoxDay = forwardRef(function boxday(props: Props, ref: any) {
             })}
           </List>
         </Col>
-        {paymentMethod.map((method, index) => {
-          const ordersMethod = orders.filter(
-            (value) => value.paymentMethod === method,
-          );
-          let total = 0;
+        {!isCancelled &&
+          paymentMethod.map((method, index) => {
+            const ordersMethod = orders.filter(
+              (value) => value.paymentMethod === method,
+            );
+            let total = 0;
 
-          ordersMethod.map((amount) => {
-            total += amount.amount * amount.value;
-          });
+            ordersMethod.map((amount) => {
+              total += amount.amount * amount.value;
+            });
 
-          return (
-            <Col span={24} key={index} className="mb-4">
-              <h3>
-                <strong>
-                  Total {method.toUpperCase()}{' '}
-                  {StringFormatter.realNumber(total)}
-                </strong>
-              </h3>
-            </Col>
-          );
-        })}
+            return (
+              <Col span={24} key={index} className="mb-4">
+                <h3>
+                  <strong>
+                    Total {method.toUpperCase()}{' '}
+                    {StringFormatter.realNumber(total)}
+                  </strong>
+                </h3>
+              </Col>
+            );
+          })}
         <Col span={24}>
           <h3>
             <strong>
