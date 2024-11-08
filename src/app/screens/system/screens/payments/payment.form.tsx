@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Button,
   Col,
@@ -8,25 +8,25 @@ import {
   message,
   Row,
   Select,
-} from 'antd';
-import EfiPay from 'payment-token-efi';
-import { CiCreditCard1 } from 'react-icons/ci';
-import { FaCcMastercard } from 'react-icons/fa';
-import { RiVisaFill } from 'react-icons/ri';
-import { PaymentsController } from '../../../../controller/payments/payments.controller';
-import { TranslateController } from '../../../../controller/translate/translate.controller';
-import { BiUserCircle } from 'react-icons/bi';
-import br from 'antd/es/date-picker/locale/pt_BR';
-import dayjs from 'dayjs';
+} from "antd";
+import EfiPay from "payment-token-efi";
+import { CiCreditCard1 } from "react-icons/ci";
+import { FaCcMastercard } from "react-icons/fa";
+import { RiVisaFill } from "react-icons/ri";
+import { PaymentsController } from "../../../../controller/payments/payments.controller";
+import { TranslateController } from "../../../../controller/translate/translate.controller";
+import { BiUserCircle } from "react-icons/bi";
+import br from "antd/es/date-picker/locale/pt_BR";
+import dayjs from "dayjs";
 
 const initialValues = {
-  name: '',
-  cardNumber: '',
-  brand: '',
-  cvv: '',
-  expirationMonth: '',
-  expirationYear: '',
-  installments: '1',
+  name: "",
+  cardNumber: "",
+  brand: "",
+  cvv: "",
+  expirationMonth: "",
+  expirationYear: "",
+  installments: "1",
 };
 
 const environment: any = import.meta.env.VITE_ENVIRONMENT;
@@ -54,27 +54,27 @@ export const PaymentsForm = () => {
           layout="vertical"
           fields={[
             {
-              name: 'name',
+              name: "name",
               value: values.name,
             },
             {
-              name: 'cardNumber',
+              name: "cardNumber",
               value: values.cardNumber,
             },
             {
-              name: 'brand',
+              name: "brand",
               value: values.brand,
             },
             {
-              name: 'cvv',
+              name: "cvv",
               value: values.cvv,
             },
           ]}
           onFinish={save}
         >
-          <Row justify={'center'}>
+          <Row justify={"center"}>
             <Col span={24}>
-              <Row justify={'space-evenly'} gutter={[30, 10]}>
+              <Row justify={"space-evenly"} gutter={[30, 10]}>
                 <Col md={11}>
                   <Form.Item
                     label="Titular"
@@ -82,7 +82,7 @@ export const PaymentsForm = () => {
                     rules={[
                       {
                         required: true,
-                        message: 'Digite o nome do titular!',
+                        message: "Digite o nome do titular!",
                       },
                     ]}
                   >
@@ -102,7 +102,7 @@ export const PaymentsForm = () => {
                     rules={[
                       {
                         required: true,
-                        message: 'Digite o numero do cartão!',
+                        message: "Digite o numero do cartão!",
                       },
                     ]}
                   >
@@ -124,7 +124,7 @@ export const PaymentsForm = () => {
                     rules={[
                       {
                         required: true,
-                        message: 'Digite o valor!',
+                        message: "Digite o valor!",
                       },
                     ]}
                   >
@@ -144,7 +144,7 @@ export const PaymentsForm = () => {
                       onChange={(value: string) => {
                         const event: any = {
                           target: {
-                            name: 'installments',
+                            name: "installments",
                             value: value,
                           },
                         };
@@ -169,17 +169,17 @@ export const PaymentsForm = () => {
                     rules={[
                       {
                         required: true,
-                        message: 'Selecione o mês!',
+                        message: "Selecione o mês!",
                       },
                     ]}
                   >
                     <DatePicker
-                      format={'MM'}
+                      format={"MM"}
                       onChange={(date) => {
                         const event = {
                           target: {
-                            name: 'expirationMonth',
-                            value: dayjs(date).format('MM'),
+                            name: "expirationMonth",
+                            value: dayjs(date).format("MM"),
                           },
                         };
                         handleChange(event);
@@ -197,17 +197,17 @@ export const PaymentsForm = () => {
                     rules={[
                       {
                         required: true,
-                        message: 'Selecione o ano!',
+                        message: "Selecione o ano!",
                       },
                     ]}
                   >
                     <DatePicker
-                      format={'YYYY'}
+                      format={"YYYY"}
                       onChange={(date) => {
                         const event = {
                           target: {
-                            name: 'expirationYear',
-                            value: dayjs(date).format('YYYY'),
+                            name: "expirationYear",
+                            value: dayjs(date).format("YYYY"),
                           },
                         };
                         handleChange(event);
@@ -220,7 +220,7 @@ export const PaymentsForm = () => {
 
                 <Col span={24}>
                   <Form.Item>
-                    <Row justify={'center'} gutter={[20, 0]} className="mt-2">
+                    <Row justify={"center"} gutter={[20, 0]} className="mt-2">
                       <Col>
                         <Button
                           type="primary"
@@ -255,9 +255,9 @@ export const PaymentsForm = () => {
     setLoading(true);
 
     messageApi.open({
-      key: 'payment.signature',
-      type: 'loading',
-      content: 'Aguarde enviando...',
+      key: "payment.signature",
+      type: "loading",
+      content: "Aguarde enviando...",
       duration: 4,
     });
 
@@ -277,13 +277,13 @@ export const PaymentsForm = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     setTimeout(() => {
       messageApi.open({
-        key: 'payment.signature',
+        key: "payment.signature",
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -295,7 +295,7 @@ export const PaymentsForm = () => {
   async function generatePaymentToken() {
     try {
       const result: any = await EfiPay.CreditCard.setAccount(
-        '305d0b9acbca11b44fff1a0ee46c4c0b',
+        "305d0b9acbca11b44fff1a0ee46c4c0b"
       )
         .setEnvironment(environment) // 'production' or 'sandbox'
         .setCreditCardData({
@@ -321,13 +321,17 @@ export const PaymentsForm = () => {
   async function identifyBrand() {
     try {
       const brand = await EfiPay.CreditCard.setCardNumber(
-        values.cardNumber,
+        values.cardNumber
       ).verifyCardBrand();
       setValues({ ...values, brand: brand });
     } catch (error: any) {
-      console.log('Código: ', error.code);
-      console.log('Nome: ', error.error);
-      console.log('Mensagem: ', error.error_description);
+      const content = error.error_description;
+      messageApi.open({
+        key: "payment.signature",
+        type: "error",
+        content: content,
+        duration: 4,
+      });
     }
   }
 
@@ -336,10 +340,10 @@ export const PaymentsForm = () => {
     let icon = <CiCreditCard1 size={size} />;
 
     switch (values.brand) {
-      case 'mastercard':
+      case "mastercard":
         icon = <FaCcMastercard size={size} />;
         break;
-      case 'visa':
+      case "visa":
         icon = <RiVisaFill size={size} />;
         break;
     }
@@ -348,7 +352,7 @@ export const PaymentsForm = () => {
   }
 
   function startInstallments() {
-    let installments = [];
+    const installments = [];
 
     for (let index = 1; index < 4; index++) {
       installments.push({ value: index });

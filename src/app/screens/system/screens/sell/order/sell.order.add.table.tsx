@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react';
-import { Badge, Button, Card, Col, Modal, Row, Tooltip, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { MdOutlineTableBar, MdTableBar } from 'react-icons/md';
-import { TableRestaurant } from '../../../../../types/table/table';
-import { TableController } from '../../../../../controller/table/table.controller';
-import { TranslateController } from '../../../../../controller/translate/translate.controller';
-import { SellOrderAdd } from './sell.order.add';
-import { OrderController } from '../../../../../controller/order/order.controller';
-import { Order } from '../../../../../types/order/order';
-import { GiHotMeal } from 'react-icons/gi';
-import { NewNameTableForm } from './new.name.table.form';
-import './order.css';
-import { GrUpdate } from 'react-icons/gr';
-import { Pendings } from './pendings.';
-import * as io from 'socket.io-client';
-import { baseURL } from '../../../../../config/axios';
-import { UserDataLogged } from '../../../../../types/user/user';
-import { cookies } from '../../../../../controller/user/adm.cookies';
+import { useEffect, useState } from "react";
+import { Badge, Button, Card, Col, Modal, Row, Tooltip, message } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { MdOutlineTableBar, MdTableBar } from "react-icons/md";
+import { TableRestaurant } from "../../../../../types/table/table";
+import { TableController } from "../../../../../controller/table/table.controller";
+import { TranslateController } from "../../../../../controller/translate/translate.controller";
+import { SellOrderAdd } from "./sell.order.add";
+import { OrderController } from "../../../../../controller/order/order.controller";
+import { Order } from "../../../../../types/order/order";
+import { GiHotMeal } from "react-icons/gi";
+import { NewNameTableForm } from "./new.name.table.form";
+import "./order.css";
+import { GrUpdate } from "react-icons/gr";
+import { Pendings } from "./pendings.";
+import * as io from "socket.io-client";
+import { baseURL } from "../../../../../config/axios";
+import { UserDataLogged } from "../../../../../types/user/user";
+import { cookies } from "../../../../../controller/user/adm.cookies";
 
 const changeTableValues = {
   table01: 0,
@@ -25,7 +25,7 @@ const changeTableValues = {
 
 const socket = io.connect(baseURL);
 
-const user: UserDataLogged = cookies.get('data.user');
+const user: UserDataLogged = cookies.get("data.user");
 const platform = user.platformId;
 
 export const SellOrderAddTableScreen = () => {
@@ -37,7 +37,7 @@ export const SellOrderAddTableScreen = () => {
   const [pendings, setPendings] = useState<Order[]>([]);
 
   const [tableId, setTableId] = useState(0);
-  const [tableName, setTableName] = useState('');
+  const [tableName, setTableName] = useState("");
 
   const [total, setTotal] = useState(0);
 
@@ -55,11 +55,11 @@ export const SellOrderAddTableScreen = () => {
   };
 
   const sendOrders = () => {
-    socket.emit('send_orders', { message: 'ok', platform });
+    socket.emit("send_orders", { message: "ok", platform });
   };
 
   useEffect(() => {
-    socket.emit('platform', platform);
+    socket.emit("platform", platform);
   }, []);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export const SellOrderAddTableScreen = () => {
   }, [loading]);
 
   useEffect(() => {
-    socket.on('receive_orders', () => {
+    socket.on("receive_orders", () => {
       getTablesRestaurant();
     });
   }, [socket]);
@@ -76,12 +76,12 @@ export const SellOrderAddTableScreen = () => {
     <Row className="mt-5">
       {contextHolder}
       <Col span={24} className="text-center">
-        <Row justify={'center'}>
+        <Row justify={"center"}>
           <Col span={5}>
             <Tooltip
               className="text-center"
               placement="top"
-              title={'Ao clicar uma mesa é adicionada.'}
+              title={"Ao clicar uma mesa é adicionada."}
               color="red"
             >
               <Button
@@ -98,7 +98,7 @@ export const SellOrderAddTableScreen = () => {
             </Tooltip>
           </Col>
           <Col span={24} className="mb-4">
-            <Row justify={'space-evenly'}>
+            <Row justify={"space-evenly"}>
               <Col>
                 <Button
                   size="large"
@@ -125,7 +125,7 @@ export const SellOrderAddTableScreen = () => {
             <Row
               gutter={[120, 20]}
               className="tables border border-2 rounded-3"
-              style={{ backgroundColor: '#d6d6d6' }}
+              style={{ backgroundColor: "#d6d6d6" }}
             >
               {tables.map(({ id, name }, index) => {
                 return (
@@ -188,7 +188,7 @@ export const SellOrderAddTableScreen = () => {
             getTablesRestaurant(true);
           }}
           style={{ top: 20 }}
-          width={'75%'}
+          width={"75%"}
           footer={() => (
             <>
               <Button onClick={handleOk}>Voltar</Button>
@@ -217,13 +217,13 @@ export const SellOrderAddTableScreen = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     if (error) {
       messageApi.open({
-        key: 'register.tables',
+        key: "register.tables",
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -293,13 +293,13 @@ export const SellOrderAddTableScreen = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     if (error) {
       messageApi.open({
-        key: 'register.tables',
+        key: "register.tables",
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -308,7 +308,7 @@ export const SellOrderAddTableScreen = () => {
 
     await getTablesRestaurant();
 
-    if (type === 'success') {
+    if (type === "success") {
       sendOrders();
     }
   }
@@ -318,7 +318,7 @@ export const SellOrderAddTableScreen = () => {
     const amountOrdersPendings = [];
     for (let index = 0; index < tables.length; index++) {
       const amount = ordersPendings.filter(
-        (value) => value.idTable === tables[index].id,
+        (value) => value.idTable === tables[index].id
       ).length;
       amountOrdersPendings.push(amount);
     }
