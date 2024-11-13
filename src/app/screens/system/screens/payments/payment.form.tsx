@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -13,11 +13,13 @@ import EfiPay from "payment-token-efi";
 import { CiCreditCard1 } from "react-icons/ci";
 import { FaCcMastercard } from "react-icons/fa";
 import { RiVisaFill } from "react-icons/ri";
-import { PaymentsController } from "../../../../controller/payments/payments.controller";
+import { ChargesController } from "../../../../controller/charges/charges.controller";
 import { TranslateController } from "../../../../controller/translate/translate.controller";
 import { BiUserCircle } from "react-icons/bi";
 import br from "antd/es/date-picker/locale/pt_BR";
 import dayjs from "dayjs";
+import { PaymentsTable } from "./payments.table";
+import { Charges } from "../../../../types/payments/payments";
 
 const initialValues = {
   name: "",
@@ -34,6 +36,7 @@ const environment: any = import.meta.env.VITE_ENVIRONMENT;
 export const PaymentsForm = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [values, setValues] = useState(initialValues);
+  const [charges, setCharges] = useState<Charges[]>([]);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event: any) => {
@@ -41,6 +44,10 @@ export const PaymentsForm = () => {
 
     setValues({ ...values, [name]: value });
   };
+
+  useEffect(() => {
+    getCharges();
+  }, []);
 
   return (
     <Row className="mt-5">
@@ -248,6 +255,9 @@ export const PaymentsForm = () => {
           </Row>
         </Form>
       </Col>
+      <Col span={24}>
+        <PaymentsTable loading={loading} valuesTable={charges} />
+      </Col>
     </Row>
   );
 
@@ -267,7 +277,7 @@ export const PaymentsForm = () => {
 
     const installments: number = parseInt(values.installments);
 
-    const request = await PaymentsController.store({
+    const request = await ChargesController.store({
       name: name,
       clientInstallments: installments,
       paymentToken: cardToken,
@@ -290,6 +300,22 @@ export const PaymentsForm = () => {
       });
       setLoading(false);
     }, 1000);
+  }
+
+  async function getCharges() {
+    setLoading(true);
+
+    const request = await ChargesController.get();
+
+    const data = request.data;
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+
+    if (data) {
+      setCharges(data);
+    }
   }
 
   async function generatePaymentToken() {

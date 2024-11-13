@@ -1,20 +1,20 @@
-import axios from '../../config/axios';
-import { PlatformPlayments } from '../../types/payments/payments';
-import { Product } from '../../types/product/product';
-import { Error } from '../errors/check.errors';
-import { cookies } from '../user/adm.cookies';
+import axios from "../../config/axios";
+import { PlatformPlayments } from "../../types/payments/payments";
+import { Product } from "../../types/product/product";
+import { Error } from "../errors/check.errors";
+import { cookies } from "../user/adm.cookies";
 
-const cookie = cookies.get('data.user');
+const cookie = cookies.get("data.user");
 
 const token = cookie.token;
 
-export const PaymentsController = {
-  store: async (payment: PlatformPlayments) => {
+export const ChargesController = {
+  store: async (charge: PlatformPlayments) => {
     let request;
     let data;
 
     try {
-      request = await axios.post('/payment-platform-credit-card', payment, {
+      request = await axios.post("/payment-platform-credit-card", charge, {
         headers: { authorization: `Bearer ${token}` },
       });
 
@@ -52,11 +52,11 @@ export const PaymentsController = {
 
   get: async () => {
     try {
-      const cookie = cookies.get('data.user');
+      const cookie = cookies.get("data.user");
 
       const token = cookie.token;
 
-      const request = await axios.get(`/product/`, {
+      const request = await axios.get(`/charges`, {
         headers: { authorization: `Bearer ${token}` },
       });
 
