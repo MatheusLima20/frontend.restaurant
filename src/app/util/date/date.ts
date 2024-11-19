@@ -7,6 +7,11 @@ class DateClass implements IDate {
     return date;
   }
 
+  thisMonth(): string {
+    const date = dayjs().format("YYYY-MM");
+    return date;
+  }
+
   spaceBetweenDays(start: string, end: string): number {
     const amountDays = dayjs(end).diff(start, "days");
 

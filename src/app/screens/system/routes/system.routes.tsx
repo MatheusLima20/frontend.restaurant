@@ -1,18 +1,19 @@
-import { Route, Routes } from 'react-router-dom';
-import { Menu } from '../includes/menu';
-import { Layout } from 'antd';
-import { Footer } from '../includes/footer';
-import { ProductRegister } from '../screens/register/products';
-import { SpendingRegister } from '../screens/register/spending';
-import { SellOrder } from '../screens/sell/order';
-import { BoxDay } from '../screens/register/box.day';
-import { Header } from '../includes/header';
-import { Users } from '../screens/register/users';
-import { StockRecord } from '../screens/register/stock';
-import { ReportsSpending } from '../screens/reports/spending';
-import { ReportSell } from '../screens/reports/sell';
-import { Profit } from '../screens/reports/profit';
-import { Payments } from '../screens/payments';
+import { Route, Routes } from "react-router-dom";
+import { Menu } from "../includes/menu";
+import { Layout } from "antd";
+import { Footer } from "../includes/footer";
+import { ProductRegister } from "../screens/register/products";
+import { SpendingRegister } from "../screens/register/spending";
+import { SellOrder } from "../screens/sell/order";
+import { BoxDay } from "../screens/register/box.day";
+import { Header } from "../includes/header";
+import { Users } from "../screens/register/users";
+import { StockRecord } from "../screens/register/stock";
+import { ReportsSpending } from "../screens/reports/spending";
+import { ReportSell } from "../screens/reports/sell";
+import { Profit } from "../screens/reports/profit";
+import { Payments } from "../screens/payments";
+import { Log } from "../screens/config/log";
 
 export const SystemRoutes = () => {
   return userRoutes();
@@ -23,7 +24,7 @@ export const SystemRoutes = () => {
         <Menu />
 
         <Layout>
-          <Layout.Header style={{ backgroundColor: '#d3d3d3' }}>
+          <Layout.Header style={{ backgroundColor: "#d3d3d3" }}>
             <Header />
           </Layout.Header>
           <Layout.Content className="ms-3">
@@ -50,6 +51,8 @@ export const SystemRoutes = () => {
               <Route index path="/reports/profit/" element={Profit()} />
 
               <Route index path="/payments/system/" element={Payments()} />
+
+              <Route index path="/log/" element={Log()} />
             </Routes>
           </Layout.Content>
           <Layout.Footer>

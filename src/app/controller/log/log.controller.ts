@@ -1,10 +1,17 @@
 import axios from "../../config/axios";
 import { Error } from "../errors/check.errors";
+import { cookies } from "../user/adm.cookies";
 
-export const CepController = {
-  get: async (cep: string) => {
+const cookie = cookies.get("data.user");
+
+const token = cookie.token;
+
+export const LogController = {
+  get: async (date: string) => {
     try {
-      const request = await axios.get(`/search-cep/${cep}`);
+      const request = await axios.get(`/log/${date}`, {
+        headers: { authorization: `Bearer ${token}` },
+      });
 
       const data = request.data;
 
