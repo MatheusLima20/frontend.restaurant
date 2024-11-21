@@ -9,23 +9,24 @@ import {
   Row,
   Select,
   message,
-} from 'antd';
-import { useEffect, useRef, useState } from 'react';
-import { GiMeal, GiReceiveMoney } from 'react-icons/gi';
-import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
-import { Order } from '../../../../../types/order/order';
-import { OrderController } from '../../../../../controller/order/order.controller';
-import { TranslateController } from '../../../../../controller/translate/translate.controller';
-import { FaGlassWater } from 'react-icons/fa6';
-import { BiEditAlt, BiPrinter } from 'react-icons/bi';
-import { Product } from '../../../../../types/product/product';
-import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
-import { BsPrinterFill, BsTrash } from 'react-icons/bs';
-import { useReactToPrint } from 'react-to-print';
-import { PrintBill } from './print.bill';
-import { PrintOrder } from './print.order';
-import dayjs from 'dayjs';
-import { RawMaterialController } from '../../../../../controller/raw.material/raw.material.controller';
+} from "antd";
+import { useEffect, useRef, useState } from "react";
+import { GiMeal, GiReceiveMoney } from "react-icons/gi";
+import { ProvisionsController } from "../../../../../controller/provisions/provisions.controller";
+import { Order } from "../../../../../types/order/order";
+import { OrderController } from "../../../../../controller/order/order.controller";
+import { TranslateController } from "../../../../../controller/translate/translate.controller";
+import { FaGlassWater } from "react-icons/fa6";
+import { BiEditAlt, BiPrinter } from "react-icons/bi";
+import { Product } from "../../../../../types/product/product";
+import { StringFormatter } from "../../../../../util/string.formatter/string.formatter";
+import { BsPrinterFill, BsTrash } from "react-icons/bs";
+import { useReactToPrint } from "react-to-print";
+import { PrintBill } from "./print.bill";
+import { PrintOrder } from "./print.order";
+import dayjs from "dayjs";
+import { RawMaterialController } from "../../../../../controller/raw.material/raw.material.controller";
+import { ResponseError } from "../../../../../types/axios/response.error";
 
 interface Props {
   idTable: number;
@@ -40,15 +41,15 @@ interface Props {
 const initialValues = {
   orderId: 0,
   productId: 0,
-  productName: '',
-  observation: '',
+  productName: "",
+  observation: "",
   amount: 0,
-  paymentMethod: 'credito',
+  paymentMethod: "credito",
 };
 
-const txtButtonSave = 'Salvar';
+const txtButtonSave = "Salvar";
 
-const txtButtonSubtract = 'Subtrair';
+const txtButtonSubtract = "Subtrair";
 
 export const SellOrderAdd = (props: Props) => {
   const billRef = useRef();
@@ -88,7 +89,7 @@ export const SellOrderAdd = (props: Props) => {
   }, [loading]);
 
   return (
-    <Row justify={'center'} style={{ height: 600 }}>
+    <Row justify={"center"} style={{ height: 600 }}>
       {contextHolder}
       <Col span={24} className="text-center">
         <h4>{props.tableName}</h4>
@@ -98,15 +99,15 @@ export const SellOrderAdd = (props: Props) => {
           <Form
             name="basic"
             autoComplete="on"
-            layout={'horizontal'}
+            layout={"horizontal"}
             fields={[
-              { name: 'productName', value: order.productName },
-              { name: 'amount', value: order.amount },
-              { name: 'observation', value: order.observation },
+              { name: "productName", value: order.productName },
+              { name: "amount", value: order.amount },
+              { name: "observation", value: order.observation },
             ]}
             onFinish={save}
           >
-            <Row justify={'center'} align={'middle'}>
+            <Row justify={"center"} align={"middle"}>
               <Col span={24}>
                 <Row gutter={[30, 10]}>
                   <Col md={12}>
@@ -115,7 +116,7 @@ export const SellOrderAdd = (props: Props) => {
                       name="productName"
                       rules={[
                         {
-                          message: 'Por favor, selecione um prato!',
+                          message: "Por favor, selecione um prato!",
                           required: true,
                         },
                       ]}
@@ -136,28 +137,27 @@ export const SellOrderAdd = (props: Props) => {
                         filterOption={(input, option) =>
                           (
                             StringFormatter.replaceSpecialChars(
-                              option?.label,
-                            ).toLowerCase() ?? ''
+                              option?.label
+                            ).toLowerCase() ?? ""
                           ).includes(
                             StringFormatter.replaceSpecialChars(
-                              input,
-                            ).toLowerCase(),
+                              input
+                            ).toLowerCase()
                           )
                         }
                         filterSort={(optionA, optionB) =>
-                          (optionA?.label ?? '')
+                          (optionA?.label ?? "")
                             .toLowerCase()
-                            .localeCompare((optionB?.label ?? '').toLowerCase())
+                            .localeCompare((optionB?.label ?? "").toLowerCase())
                         }
                         options={products.map((value) => {
                           return {
                             value: value.id as number,
-                            label: `${value.name} R$ ${value.value.toLocaleString(
-                              'pt-br',
-                              {
-                                minimumFractionDigits: 2,
-                              },
-                            )}`,
+                            label: `${
+                              value.name
+                            } R$ ${value.value.toLocaleString("pt-br", {
+                              minimumFractionDigits: 2,
+                            })}`,
                           };
                         })}
                       />
@@ -171,7 +171,7 @@ export const SellOrderAdd = (props: Props) => {
                       rules={[
                         {
                           required: true,
-                          message: 'Digite a quantidade!',
+                          message: "Digite a quantidade!",
                         },
                       ]}
                     >
@@ -193,7 +193,7 @@ export const SellOrderAdd = (props: Props) => {
                       name="observation"
                       rules={[
                         {
-                          message: 'Digite a observação!',
+                          message: "Digite a observação!",
                         },
                       ]}
                     >
@@ -212,7 +212,7 @@ export const SellOrderAdd = (props: Props) => {
             </Row>
 
             <Form.Item>
-              <Row justify={'center'} gutter={[40, 0]} className="mt-2">
+              <Row justify={"center"} gutter={[40, 0]} className="mt-2">
                 <Col>
                   <Button
                     type="primary"
@@ -227,7 +227,9 @@ export const SellOrderAdd = (props: Props) => {
                     type="dashed"
                     disabled={order.orderId === 0}
                     onClick={() => {
-                      setOrder({ ...order, amount: order.amount * -1 });
+                      const amount = order.amount;
+
+                      setOrder({ ...order, amount: amount });
                     }}
                     htmlType="submit"
                   >
@@ -250,7 +252,7 @@ export const SellOrderAdd = (props: Props) => {
                   tableName={props.tableName}
                   orders={[
                     {
-                      productName: order.productName.split('R$')[0],
+                      productName: order.productName.split("R$")[0],
                       amount: order.amount,
                     },
                   ]}
@@ -267,7 +269,7 @@ export const SellOrderAdd = (props: Props) => {
           bordered
           dataSource={orders}
           header={
-            <Row justify={'space-between'} align={'middle'} className="mb-3">
+            <Row justify={"space-between"} align={"middle"} className="mb-3">
               <Col>
                 <Button
                   onClick={handlePrintBill}
@@ -322,10 +324,10 @@ export const SellOrderAdd = (props: Props) => {
                     setOrder({ ...order, paymentMethod: value });
                   }}
                   options={[
-                    { value: 'debito', label: 'Débito' },
-                    { value: 'dinheiro', label: 'Dinheiro' },
-                    { value: 'credito', label: 'Crédito' },
-                    { value: 'pix', label: 'Pix' },
+                    { value: "debito", label: "Débito" },
+                    { value: "dinheiro", label: "Dinheiro" },
+                    { value: "credito", label: "Crédito" },
+                    { value: "pix", label: "Pix" },
                   ]}
                 />
               </Col>
@@ -351,14 +353,14 @@ export const SellOrderAdd = (props: Props) => {
           }
           renderItem={(item) => {
             const status = item.status;
-            let backColor = 'rgba(248, 92, 92, 0.2)';
+            let backColor = "rgba(248, 92, 92, 0.2)";
 
-            if (status === 'processando') {
-              backColor = 'rgba(92, 191, 248, 0.2)';
+            if (status === "processando") {
+              backColor = "rgba(92, 191, 248, 0.2)";
             }
 
-            if (status === 'finalizado') {
-              backColor = 'rgba(0, 255, 0, 0.2)';
+            if (status === "finalizado") {
+              backColor = "rgba(0, 255, 0, 0.2)";
             }
 
             return (
@@ -384,7 +386,7 @@ export const SellOrderAdd = (props: Props) => {
                         checkedOrders.push(item);
                       } else {
                         const newArray = checkedOrders.filter(
-                          (value) => value.id !== item.id,
+                          (value) => value.id !== item.id
                         );
                         setCheckedOrders(newArray);
                       }
@@ -419,7 +421,7 @@ export const SellOrderAdd = (props: Props) => {
                           item.productName +
                           StringFormatter.realNumber(item.value),
                         productId: products.find(
-                          (value) => value.name === item.productName,
+                          (value) => value.name === item.productName
                         ).id,
                         amount: item.amount,
                       });
@@ -455,7 +457,7 @@ export const SellOrderAdd = (props: Props) => {
               >
                 <List.Item.Meta
                   avatar={
-                    item.productType === 'BEBIDA' ? (
+                    item.productType === "BEBIDA" ? (
                       <FaGlassWater size={25} />
                     ) : (
                       <GiMeal size={30} />
@@ -473,7 +475,7 @@ export const SellOrderAdd = (props: Props) => {
                       <div>Garçom: {item.createdBy}</div>
                       {item.observation && <div>Obs: {item.observation}</div>}
                       <div>
-                        Criado às {dayjs(item.createdAt).format('HH:mm:ss')}
+                        Criado às {dayjs(item.createdAt).format("HH:mm:ss")}
                       </div>
                     </div>
                   }
@@ -485,7 +487,7 @@ export const SellOrderAdd = (props: Props) => {
       </Col>
 
       <Col span={24}>
-        <Row justify={'space-evenly'} align={'middle'}>
+        <Row justify={"space-evenly"} align={"middle"}>
           <Col>
             <Button
               disabled={checkedOrders.length === 0}
@@ -541,7 +543,7 @@ export const SellOrderAdd = (props: Props) => {
   async function save(values: any) {
     const idOrder = order.orderId;
 
-    let request;
+    let request: ResponseError;
 
     const observation = order.observation ? order.observation : undefined;
 
@@ -553,10 +555,9 @@ export const SellOrderAdd = (props: Props) => {
         observation: observation,
       } as any);
     } else {
-      request = await OrderController.patch(idOrder, {
+      request = await OrderController.patchSubtract(idOrder, {
         productId: order.productId,
         amount: values.amount,
-        observation: observation,
       } as any);
 
       const isPrint = values.amount < 0;
@@ -569,12 +570,12 @@ export const SellOrderAdd = (props: Props) => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     messageApi.open({
-      key: 'register.orders',
+      key: "register.orders",
       type: type,
       content: tranlateMessage.text,
       duration: 4,
@@ -600,18 +601,18 @@ export const SellOrderAdd = (props: Props) => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     await props.getOrders();
 
-    if (type === 'success') {
+    if (type === "success") {
       props.onUpdate();
     }
 
     messageApi.open({
-      key: 'register.orders',
+      key: "register.orders",
       type: type,
       content: tranlateMessage.text,
       duration: 4,
@@ -628,9 +629,9 @@ export const SellOrderAdd = (props: Props) => {
       request = await OrderController.patch(orders[index].id, {
         isOpen: false,
         paymentMethod: order.paymentMethod,
-        status: 'finalizado',
+        status: "finalizado",
       } as any);
-      if (value.status !== 'finalizado') {
+      if (value.status !== "finalizado") {
         patchLowStock(value.id, value.productId);
       }
     }
@@ -639,12 +640,12 @@ export const SellOrderAdd = (props: Props) => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     messageApi.open({
-      key: 'register.orders',
+      key: "register.orders",
       type: type,
       content: tranlateMessage.text,
       duration: 4,
@@ -661,21 +662,21 @@ export const SellOrderAdd = (props: Props) => {
   async function patchLowStock(orderId: number, productId: number) {
     const request = await RawMaterialController.patchLowStock(
       orderId,
-      productId,
+      productId
     );
 
     const error = request.error;
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     if (error) {
       setTimeout(() => {
         messageApi.open({
-          key: 'stock.products',
+          key: "stock.products",
           type: type,
           content: tranlateMessage.text,
           duration: 4,

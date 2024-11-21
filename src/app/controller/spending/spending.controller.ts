@@ -1,9 +1,9 @@
-import axios from '../../config/axios';
-import { Spending } from '../../types/spending/spending';
-import { Error } from '../errors/check.errors';
-import { cookies } from '../user/adm.cookies';
+import axios from "../../config/axios";
+import { Spending } from "../../types/spending/spending";
+import { Error } from "../errors/check.errors";
+import { cookies } from "../user/adm.cookies";
 
-const cookie = cookies.get('data.user');
+const cookie = cookies.get("data.user");
 
 const token = cookie.token;
 
@@ -13,7 +13,7 @@ export const SpendingController = {
     let data;
 
     try {
-      request = await axios.post('/spending/', spending, {
+      request = await axios.post("/spending/", spending, {
         headers: { authorization: `Bearer ${token}` },
       });
 
@@ -51,7 +51,7 @@ export const SpendingController = {
 
   get: async (date: string) => {
     try {
-      const cookie = cookies.get('data.user');
+      const cookie = cookies.get("data.user");
 
       const token = cookie.token;
 

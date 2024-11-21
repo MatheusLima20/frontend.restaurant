@@ -1,9 +1,9 @@
-import axios from '../../config/axios';
-import { Order } from '../../types/order/order';
-import { Error } from '../errors/check.errors';
-import { cookies } from '../user/adm.cookies';
+import axios from "../../config/axios";
+import { Order } from "../../types/order/order";
+import { Error } from "../errors/check.errors";
+import { cookies } from "../user/adm.cookies";
 
-const cookie = cookies.get('data.user');
+const cookie = cookies.get("data.user");
 
 const token = cookie.token;
 
@@ -18,7 +18,7 @@ export const OrderController = {
         { ...product },
         {
           headers: { authorization: `Bearer ${token}` },
-        },
+        }
       );
 
       data = request.data;
@@ -53,6 +53,26 @@ export const OrderController = {
     }
   },
 
+  patchSubtract: async (id: number, order: Order) => {
+    const values = order;
+
+    try {
+      const request = await axios.patch(`/order-subtract/${id}`, values, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      const data = request.data;
+
+      const message = data.message;
+
+      return { error: false, message };
+    } catch (error: any) {
+      const message = await Error.check(error);
+
+      return { error: true, message };
+    }
+  },
+
   patchs: async (order: Order[], status: string) => {
     const values = order;
 
@@ -62,7 +82,7 @@ export const OrderController = {
         { orders: values, status },
         {
           headers: { authorization: `Bearer ${token}` },
-        },
+        }
       );
 
       const data = request.data;
@@ -84,7 +104,7 @@ export const OrderController = {
         {},
         {
           headers: { authorization: `Bearer ${token}` },
-        },
+        }
       );
 
       const data = request.data;
@@ -101,7 +121,7 @@ export const OrderController = {
 
   getByTable: async (id: number) => {
     try {
-      const cookie = cookies.get('data.user');
+      const cookie = cookies.get("data.user");
 
       const token = cookie.token;
 
@@ -123,7 +143,7 @@ export const OrderController = {
 
   getByDate: async (date: string) => {
     try {
-      const cookie = cookies.get('data.user');
+      const cookie = cookies.get("data.user");
 
       const token = cookie.token;
 
@@ -145,7 +165,7 @@ export const OrderController = {
 
   getByBoxDay: async (id: number, isCancelled: boolean) => {
     try {
-      const cookie = cookies.get('data.user');
+      const cookie = cookies.get("data.user");
 
       const token = cookie.token;
 
@@ -167,7 +187,7 @@ export const OrderController = {
 
   getByStatus: async (status: string) => {
     try {
-      const cookie = cookies.get('data.user');
+      const cookie = cookies.get("data.user");
 
       const token = cookie.token;
 

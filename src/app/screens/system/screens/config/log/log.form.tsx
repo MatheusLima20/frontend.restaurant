@@ -20,11 +20,11 @@ export const LogForm = () => {
       <Col span={24} className="text-center">
         <DatePicker
           defaultValue={dayjs()}
-          format={"MM/YYYY"}
-          picker={"month"}
+          format={"DD/MM/YYYY"}
+          picker={"date"}
           onChange={(value) => {
-            const date = value.format("YYYY-MM");
-            console.log(date);
+            const date = value.format("YYYY-MM-DD");
+            get(date);
           }}
         />
       </Col>

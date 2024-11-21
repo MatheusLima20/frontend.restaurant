@@ -4,5 +4,5 @@ export type Spending = {
   value: number;
   unitMeasurement: string;
   amount: number;
-  createdAt: string;
+  createdAt?: string;
 };

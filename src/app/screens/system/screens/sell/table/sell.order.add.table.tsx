@@ -5,18 +5,18 @@ import { MdOutlineTableBar, MdTableBar } from "react-icons/md";
 import { TableRestaurant } from "../../../../../types/table/table";
 import { TableController } from "../../../../../controller/table/table.controller";
 import { TranslateController } from "../../../../../controller/translate/translate.controller";
-import { SellOrderAdd } from "./sell.order.add";
+import { SellOrderAdd } from "../order/sell.order.add";
 import { OrderController } from "../../../../../controller/order/order.controller";
 import { Order } from "../../../../../types/order/order";
 import { GiHotMeal } from "react-icons/gi";
 import { NewNameTableForm } from "./new.name.table.form";
-import "./order.css";
 import { GrUpdate } from "react-icons/gr";
-import { Pendings } from "./pendings.";
+import { Pendings } from "../order/pendings.";
 import * as io from "socket.io-client";
 import { baseURL } from "../../../../../config/axios";
 import { UserDataLogged } from "../../../../../types/user/user";
 import { cookies } from "../../../../../controller/user/adm.cookies";
+import "./../sell.css";
 
 const changeTableValues = {
   table01: 0,

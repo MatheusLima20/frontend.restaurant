@@ -1,10 +1,12 @@
-import { Button, Card, Col, message, Popconfirm, Row, Switch } from 'antd';
-import { useState } from 'react';
-import { BiCheckCircle, BiXCircle } from 'react-icons/bi';
-import { Order } from '../../../../types/order/order';
-import { TableRestaurant } from '../../../../types/table/table';
-import { RawMaterialController } from '../../../../controller/raw.material/raw.material.controller';
-import { TranslateController } from '../../../../controller/translate/translate.controller';
+import { Button, Card, Col, message, Popconfirm, Row, Switch } from "antd";
+import { useState } from "react";
+import { BiCheckCircle, BiXCircle } from "react-icons/bi";
+import { Order } from "../../../../types/order/order";
+import { TableRestaurant } from "../../../../types/table/table";
+import { RawMaterialController } from "../../../../controller/raw.material/raw.material.controller";
+import { TranslateController } from "../../../../controller/translate/translate.controller";
+import { Spending } from "../../../../types/spending/spending";
+import { SpendingController } from "../../../../controller/spending/spending.controller";
 
 interface Props {
   order: Order;
@@ -13,13 +15,11 @@ interface Props {
 }
 
 export const Cards = (props: Props) => {
-  const processing = props.order;
-  const isCancelled = processing.isCancelled;
-  const status = isCancelled ? 'cancelado' : 'finalizado';
-  const textWhite = isCancelled ? 'text-white' : '';
-  const table: any = props.tables.find(
-    (table) => table.id === processing.idTable,
-  );
+  const order = props.order;
+  const isCancelled = order.isCancelled;
+  const status = isCancelled ? "cancelado" : "finalizado";
+  const textWhite = isCancelled ? "text-white" : "";
+  const table: any = props.tables.find((table) => table.id === order.idTable);
   const [low, setLow] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -30,12 +30,12 @@ export const Cards = (props: Props) => {
       }
       bordered={true}
       style={{
-        backgroundColor: !isCancelled ? '#b5b5b5' : 'red',
+        backgroundColor: !isCancelled ? "#b5b5b5" : "red",
       }}
       hoverable
       actions={[
         <Popconfirm
-          key={processing.id}
+          key={order.id}
           title="Finalizar pedido."
           description="Deseja realmente finalizar o pedido?"
           onConfirm={onConfirm}
@@ -56,20 +56,20 @@ export const Cards = (props: Props) => {
         {contextHolder}
         <Col span={24} className={`text-center ${textWhite}`}>
           <h3>
-            <strong>{isCancelled ? 'Cancelado' : ''}</strong>
+            <strong>{isCancelled ? "Cancelado" : ""}</strong>
           </h3>
         </Col>
         <Col span={24} className={`text-center ${textWhite}`}>
           <h3>
-            <strong>{processing.productName}</strong>
+            <strong>{order.productName}</strong>
           </h3>
-          {processing.observation && (
+          {order.observation && (
             <h4>
-              <strong>OBS: {processing.observation}</strong>
+              <strong>OBS: {order.observation}</strong>
             </h4>
           )}
           <h4>
-            <strong>x {processing.amount}</strong>
+            <strong>x {order.amount}</strong>
           </h4>
           {isCancelled && (
             <div>
@@ -89,35 +89,51 @@ export const Cards = (props: Props) => {
   );
 
   function onConfirm() {
-    const orderId = processing.id;
-    const productId = processing.productId;
+    const orderId = order.id;
+    const productId = order.productId;
     props.patchStatus(orderId, productId, status);
     if (low) {
       patchLowStock(orderId, productId);
     }
-    if (status !== 'cancelado') {
+    if (status !== "cancelado") {
       patchLowStock(orderId, productId);
     }
+
+    if (low && status === "cancelado") {
+      save();
+    }
+  }
+
+  async function save() {
+    const name: string = `Cancelamento: ${order.productName}`;
+
+    const spending: Spending = {
+      name: name,
+      amount: order.amount,
+      value: order.value,
+      unitMeasurement: "UNIDADE",
+    };
+    await SpendingController.store(spending);
   }
 
   async function patchLowStock(orderId: number, productId: number) {
     const request = await RawMaterialController.patchLowStock(
       orderId,
-      productId,
+      productId
     );
 
     const error = request.error;
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     if (error) {
       setTimeout(() => {
         messageApi.open({
-          key: 'stock.products',
+          key: "stock.products",
           type: type,
           content: tranlateMessage.text,
           duration: 4,
