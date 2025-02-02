@@ -1,63 +1,40 @@
-import { Route, Routes } from 'react-router-dom';
-import { Button, Col, Layout, Popconfirm, Row } from 'antd';
-import { SellOrderMobile } from '../screens/sells/orders';
-import { cookies } from '../../../controller/user/adm.cookies';
-import { UserType } from '../../../types/user/user';
-import { MenuMobile } from '../includes/menu';
-import { Images } from '../../../config/images';
-import { KitchenMobile } from '../screens/kitchen';
-import { BiPowerOff } from 'react-icons/bi';
+import { Layout } from "antd";
+import { Route, Routes } from "react-router-dom";
+import { cookies } from "../../../controller/user/adm.cookies";
+import { UserType } from "../../../types/user/user";
+import { HeaderMobile } from "../includes/header";
+import { KitchenMobile } from "../screens/kitchen";
+import { BoxDayMobile } from "../screens/register/box.day";
+import { SellOrderMobile } from "../screens/sells/orders";
 
-const user = cookies.get('data.user');
+const user = cookies.get("data.user");
 
 export const SystemMobileRoutes = () => {
-  const logout = () => {
-    document.location = '/logout/';
-  };
-
   return userRoutes();
 
   function userRoutes() {
     const userType: UserType = user.userType;
 
-    if (userType === 'SUPER') {
+    if (userType === "SUPER" || userType === "ADM") {
       return (
-        <Layout style={{ backgroundColor: '#d3d3d3' }}>
-          <Layout.Header style={{ backgroundColor: '#d3d3d3', height: 50 }}>
-            <Row justify={'space-between'}>
-              <Col>
-                <img
-                  src={Images.logo}
-                  width={40}
-                  style={{ marginTop: -15, marginLeft: -30 }}
-                />
-              </Col>
-              <Col>
-                <Popconfirm
-                  title="Sair da Conta"
-                  placement="bottomLeft"
-                  description="Deseja realmente Sair?"
-                  onConfirm={logout}
-                  okText="Sim"
-                  cancelText="Não"
-                >
-                  <Button type="primary" danger>
-                    <BiPowerOff size={20} />
-                  </Button>
-                </Popconfirm>
-              </Col>
-            </Row>
+        <Layout style={{ backgroundColor: "#d3d3d3" }}>
+          <Layout.Header className="w-100"  style={{ backgroundColor: "#d3d3d3" }}>
+            <HeaderMobile />
           </Layout.Header>
-          <Layout.Content style={{ height: '100%' }}>
-            <MenuMobile />
+          <Layout.Content style={{ height: "100%", width: "100%" }}>
+            <Routes>
+              <Route index path="/*" element={BoxDayMobile()} />
+              <Route index path="/box-day" element={BoxDayMobile()} />
+              <Route index path="/order" element={SellOrderMobile()} />
+            </Routes>
           </Layout.Content>
         </Layout>
       );
     }
 
-    if (userType === 'COOK') {
+    if (userType === "COOK") {
       return (
-        <Layout style={{ backgroundColor: '#d3d3d3' }}>
+        <Layout style={{ backgroundColor: "#d3d3d3" }}>
           <Layout.Content>
             <Routes>
               <Route index path="*" element={KitchenMobile()} />
@@ -68,7 +45,7 @@ export const SystemMobileRoutes = () => {
     }
 
     return (
-      <Layout style={{ backgroundColor: '#d3d3d3' }}>
+      <Layout style={{ backgroundColor: "#d3d3d3" }}>
         <Layout.Content>
           <Routes>
             <Route index path="*" element={SellOrderMobile()} />
