@@ -1,5 +1,5 @@
-import { UsersScreen } from './users.screen';
+import { UsersMobileScreen } from './users.mobile.screen';
 
-export const Users = () => {
-  return <UsersScreen />;
+export const UsersMobile = () => {
+  return <UsersMobileScreen />;
 };

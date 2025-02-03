@@ -58,7 +58,7 @@ export const BoxDayMobileList = (props: Props) => {
                 title={
                   <Row className="text-center">
                     <Col span={24} className="fs-6">
-                      <strong>Codigo do Caixa: {data.id}</strong>
+                      <strong>Caixa: {data.id}</strong>
                     </Col>
                   </Row>
                 }

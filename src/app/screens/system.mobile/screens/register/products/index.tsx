@@ -1,4 +1,4 @@
-import { ProductRegisterScreen } from './product.register.screen';
-export const ProductRegister = () => {
-  return <ProductRegisterScreen />;
+import { ProductRegisterMobileScreen } from './product.register.mobile.screen';
+export const ProductRegisterMobile = () => {
+  return <ProductRegisterMobileScreen />;
 };

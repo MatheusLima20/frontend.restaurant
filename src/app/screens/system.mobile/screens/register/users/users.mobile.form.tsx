@@ -1,32 +1,32 @@
-import { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
-import { UsersTable } from './users.table';
-import { UserController } from '../../../../../controller/user/user.controller';
-import { TranslateController } from '../../../../../controller/translate/translate.controller';
-import { SystemConf } from '../../../../../types/system.conf/system.conf';
-import { cookies } from '../../../../../controller/user/adm.cookies';
+import { useEffect, useState } from "react";
+import { Button, Col, Form, Input, Row, Select, Switch, message } from "antd";
+import { UsersMobileList } from "./users.mobile.list";
+import { UserController } from "../../../../../controller/user/user.controller";
+import { TranslateController } from "../../../../../controller/translate/translate.controller";
+import { SystemConf } from "../../../../../types/system.conf/system.conf";
+import { cookies } from "../../../../../controller/user/adm.cookies";
 
 const initialValues = {
   id: 0,
-  nameUser: '',
-  emailUser: '',
-  userType: '',
-  password: '',
-  repeatPassword: '',
+  nameUser: "",
+  emailUser: "",
+  userType: "",
+  password: "",
+  repeatPassword: "",
   isActive: true,
 };
 
-const systemConf: SystemConf = cookies.get('start.types.objects');
+const systemConf: SystemConf = cookies.get("start.types.objects");
 
 const valuesUserType = systemConf.userType;
 
 const userType = valuesUserType
   ? systemConf.userType.filter(
-      (value) => value.name !== 'DELIVERYMAN' && value.name !== 'CUSTOMER',
+      (value) => value.name !== "DELIVERYMAN" && value.name !== "CUSTOMER"
     )
   : [];
 
-export const UsersForm = () => {
+export const UsersMobileForm = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [values, setValues] = useState(initialValues);
@@ -44,36 +44,38 @@ export const UsersForm = () => {
   }, []);
 
   return (
-    <Row justify={'center'} className="mt-5" gutter={[0, 40]}>
+    <Row justify={"center"} className="mt-5" gutter={[0, 40]}>
       {contextHolder}
-      <Col span={22}>
+      <Col span={24}>
         <h3 className="text-center">
           <strong>Usuários</strong>
         </h3>
       </Col>
       <Col span={22}>
-        <Row justify={'center'}>
-          <Col md={22}>
+        <Row justify={"center"}>
+          <Col md={24}>
             <Form
               name="users"
+              layout="horizontal"
+              labelAlign="right"
               initialValues={{ remember: false }}
               fields={[
-                { name: 'nameUser', value: values.nameUser },
-                { name: 'emailUser', value: values.emailUser },
-                { name: 'userType', value: values.userType },
-                { name: 'password', value: values.password },
-                { name: 'repeatPassword', value: values.repeatPassword },
+                { name: "nameUser", value: values.nameUser },
+                { name: "emailUser", value: values.emailUser },
+                { name: "userType", value: values.userType },
+                { name: "password", value: values.password },
+                { name: "repeatPassword", value: values.repeatPassword },
               ]}
               onFinish={save}
-              autoComplete="off"
+              autoComplete="on"
             >
-              <Row gutter={[20, 10]}>
-                <Col md={8}>
+              <Row justify={"center"} gutter={[20, 10]}>
+                <Col span={24}>
                   <Form.Item
                     label="Nome"
                     name="nameUser"
                     rules={[
-                      { required: true, message: 'Por favor, digite o nome!' },
+                      { required: true, message: "Por favor, digite o nome!" },
                     ]}
                   >
                     <Input
@@ -83,14 +85,14 @@ export const UsersForm = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col md={8}>
+                <Col span={24}>
                   <Form.Item
                     label="Email"
                     name="emailUser"
                     rules={[
                       {
                         required: true,
-                        message: 'Por favor, digite o email...!',
+                        message: "Por favor, digite o email...!",
                       },
                     ]}
                   >
@@ -101,13 +103,13 @@ export const UsersForm = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col md={8}>
+                <Col span={24}>
                   <Form.Item
                     label="Função"
                     name="userType"
                     rules={[
                       {
-                        message: 'Por favor, selecione um prato!',
+                        message: "Por favor, selecione um prato!",
                         required: true,
                       },
                     ]}
@@ -121,14 +123,14 @@ export const UsersForm = () => {
                       placeholder="Selecione..."
                       optionFilterProp="children"
                       filterOption={(input, option) =>
-                        (option?.label.toLowerCase() ?? '').includes(
-                          input.toLowerCase(),
+                        (option?.label.toLowerCase() ?? "").includes(
+                          input.toLowerCase()
                         )
                       }
                       filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? '')
+                        (optionA?.label ?? "")
                           .toLowerCase()
-                          .localeCompare((optionB?.label ?? '').toLowerCase())
+                          .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
                       options={userType.map((value) => {
                         return {
@@ -140,14 +142,14 @@ export const UsersForm = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col md={10}>
+                <Col span={24}>
                   <Form.Item
                     label="Senha"
                     name="password"
                     rules={[
                       {
                         required: values.id === 0,
-                        message: 'Por favor, digite sua senha!',
+                        message: "Por favor, digite sua senha!",
                       },
                     ]}
                   >
@@ -158,14 +160,14 @@ export const UsersForm = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col md={10}>
+                <Col span={24}>
                   <Form.Item
                     label="Repita a Senha"
                     name="repeatPassword"
                     rules={[
                       {
                         required: values.id === 0,
-                        message: 'Por favor, repita a senha!',
+                        message: "Por favor, repita a senha!",
                       },
                     ]}
                   >
@@ -176,7 +178,7 @@ export const UsersForm = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col md={4}>
+                <Col span={4}>
                   <Form.Item
                     label="Ativo"
                     name="isActive"
@@ -188,7 +190,7 @@ export const UsersForm = () => {
                       onChange={(value: boolean) => {
                         const event: any = {
                           target: {
-                            name: 'isActive',
+                            name: "isActive",
                             value: value,
                           },
                         };
@@ -199,9 +201,9 @@ export const UsersForm = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col md={24}>
+                <Col span={24}>
                   <Form.Item>
-                    <Row justify={'center'}>
+                    <Row justify={"center"}>
                       <Col>
                         <Button type="primary" htmlType="submit">
                           Enviar
@@ -229,7 +231,7 @@ export const UsersForm = () => {
         </Row>
       </Col>
       <Col span={22}>
-        <UsersTable
+        <UsersMobileList
           valuesTable={valuesTable}
           loading={loading}
           getRowValues={(values) => {
@@ -251,9 +253,9 @@ export const UsersForm = () => {
     setLoading(true);
 
     messageApi.open({
-      key: 'register.spending',
-      type: 'loading',
-      content: 'Enviando...',
+      key: "register.spending",
+      type: "loading",
+      content: "Enviando...",
       duration: 4,
     });
 
@@ -280,13 +282,13 @@ export const UsersForm = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
     setTimeout(() => {
       messageApi.open({
-        key: 'register.spending',
+        key: "register.spending",
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -302,11 +304,11 @@ export const UsersForm = () => {
   async function getUsers() {
     setLoading(true);
 
-    const request = await UserController.getUsers('WAITER');
+    const request = await UserController.getUsers("WAITER");
 
-    const request2 = await UserController.getUsers('ADM');
+    const request2 = await UserController.getUsers("ADM");
 
-    const request3 = await UserController.getUsers('COOK');
+    const request3 = await UserController.getUsers("COOK");
 
     const data = request.data;
 

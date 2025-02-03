@@ -42,13 +42,13 @@ export const BoxDayMobileForm = () => {
 
       <Col span={24}>
         <Form
-          name="basic"
+          name="basic"          
           autoComplete="on"
           fields={[{ name: 'startValue', value: values.startValue }]}
           onFinish={save}
         >
           <Row justify={'center'}>
-            <Col span={8}>
+            <Col span={22}>
               <Form.Item
                 label="Valor incial"
                 name="startValue"

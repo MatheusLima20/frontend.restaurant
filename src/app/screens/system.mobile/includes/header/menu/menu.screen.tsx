@@ -1,17 +1,16 @@
 import { Button, Col, Drawer, Flex, Popconfirm, Row, Space } from "antd";
 import { useState } from "react";
-import { BiPowerOff } from "react-icons/bi";
+import { BiPowerOff, BiUser } from "react-icons/bi";
 import { FaBoxOpen } from "react-icons/fa";
-import { GiHotMeal, GiTakeMyMoney } from "react-icons/gi";
+import { GiHotMeal, GiMeal } from "react-icons/gi";
 import { TiThMenu } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
-import "./menu.css";
 
 const items = [
   { Icon: FaBoxOpen, label: "Caixa", location: "/*" },
   { Icon: GiHotMeal, label: "Pedidos", location: "/order" },
-  { Icon: GiTakeMyMoney, label: "Lucro", location: "*" },
-  { Icon: GiHotMeal, label: "Pedidos", location: "*" },
+  { Icon: GiMeal, label: "Cadastro de Produtos", location: "/plates-register" },
+  { Icon: BiUser, label: "Cadastro de Usuários", location: "/users" },
 ];
 
 export const MenuMobileScreen = () => {

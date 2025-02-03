@@ -6,6 +6,8 @@ import { HeaderMobile } from "../includes/header";
 import { KitchenMobile } from "../screens/kitchen";
 import { BoxDayMobile } from "../screens/register/box.day";
 import { SellOrderMobile } from "../screens/sells/orders";
+import { ProductRegisterMobile } from "../screens/register/products";
+import { UsersMobile } from "../screens/register/users";
 
 const user = cookies.get("data.user");
 
@@ -18,7 +20,10 @@ export const SystemMobileRoutes = () => {
     if (userType === "SUPER" || userType === "ADM") {
       return (
         <Layout style={{ backgroundColor: "#d3d3d3" }}>
-          <Layout.Header className="w-100"  style={{ backgroundColor: "#d3d3d3" }}>
+          <Layout.Header
+            className="w-100"
+            style={{ backgroundColor: "#d3d3d3" }}
+          >
             <HeaderMobile />
           </Layout.Header>
           <Layout.Content style={{ height: "100%", width: "100%" }}>
@@ -26,6 +31,12 @@ export const SystemMobileRoutes = () => {
               <Route index path="/*" element={BoxDayMobile()} />
               <Route index path="/box-day" element={BoxDayMobile()} />
               <Route index path="/order" element={SellOrderMobile()} />
+              <Route
+                index
+                path="/plates-register"
+                element={ProductRegisterMobile()}
+              />
+              <Route index path="/users" element={UsersMobile()} />
             </Routes>
           </Layout.Content>
         </Layout>

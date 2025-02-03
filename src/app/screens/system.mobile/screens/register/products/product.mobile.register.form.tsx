@@ -13,7 +13,7 @@ import {
 import { Product, RawMaterial } from '../../../../../types/product/product';
 import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
 import { TranslateController } from '../../../../../controller/translate/translate.controller';
-import { ProductRegisterTable } from './product.register.table';
+import { ProductMobileRegisterList } from './product.register.mobile.list';
 import { RawMaterialForm } from './raw.material.form';
 import { RawMaterialController } from '../../../../../controller/raw.material/raw.material.controller';
 import { UserDataLogged } from '../../../../../types/user/user';
@@ -39,7 +39,7 @@ const productType = systemConf.productType;
 
 const textContact = 'Olá%20gostaria%20de%20mudar%20para%20o%20plano%20Premium';
 
-export const ProductRegisterForm = () => {
+export const ProductMobileRegisterForm = () => {
   const plan: Plan = user.plan as any;
   const isPremium = plan === 'Premium';
 
@@ -71,16 +71,17 @@ export const ProductRegisterForm = () => {
   return (
     <Row className="mt-5" gutter={[0, 20]}>
       {contextHolder}
-      <Col span={20} className="text-center">
+      <Col span={24} className="text-center">
         <h2>
           <strong>Cadastro de Produtos</strong>
         </h2>
       </Col>
 
-      <Col span={20}>
+      <Col span={24}>
         <Form
           name="product.register"
           autoComplete="on"
+          layout='vertical'
           initialValues={values}
           fields={[
             {
@@ -108,8 +109,8 @@ export const ProductRegisterForm = () => {
         >
           <Row justify={'center'}>
             <Col span={24}>
-              <Row justify={'center'} gutter={[30, 10]}>
-                <Col md={8}>
+              <Row justify={'center'} gutter={[30, 10]} className='text-center'>
+                <Col span={22}>
                   <Form.Item
                     label="Nome"
                     name="name"
@@ -125,7 +126,7 @@ export const ProductRegisterForm = () => {
                   </Form.Item>
                 </Col>
 
-                <Col md={6}>
+                <Col span={22}>
                   <Form.Item
                     label="Valor"
                     name="value"
@@ -146,7 +147,7 @@ export const ProductRegisterForm = () => {
                   </Form.Item>
                 </Col>
 
-                <Col md={6}>
+                <Col span={22}>
                   <Form.Item label="Tipo" name="productType">
                     <Select
                       onChange={(value: string) => {
@@ -165,7 +166,7 @@ export const ProductRegisterForm = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col md={5}>
+                <Col span={7}>
                   <Form.Item
                     label="Exibir"
                     name="show"
@@ -188,14 +189,14 @@ export const ProductRegisterForm = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col md={5}>
+                <Col span={9}>
                   <Form.Item
                     label="Para a Cozinha"
                     name="toCook"
                     tooltip="Caso este produto seja feito na cozinha."
                   >
                     <Switch
-                      checkedChildren="Sim"
+                      checkedChildren="Sim"                      
                       unCheckedChildren="Não"
                       onChange={(value: boolean) => {
                         const event: any = {
@@ -282,7 +283,7 @@ export const ProductRegisterForm = () => {
       )}
 
       <Col span={24}>
-        <ProductRegisterTable
+        <ProductMobileRegisterList
           loading={loading}
           getRowValues={(editValues: Product) => {
             getRawMaterialById(editValues.id);
