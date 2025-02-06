@@ -42,7 +42,7 @@ export const Pendings = (props: Props) => {
     <Row>
       <Col>
         <Badge count={pendings.length}>
-          <Button onClick={showModal} disabled={!pendings.length}>
+          <Button title="Pedidos Pendentes" onClick={showModal} disabled={!pendings.length}>
             <BsEyeFill />
           </Button>
         </Badge>

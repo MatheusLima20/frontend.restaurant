@@ -20,19 +20,21 @@ import { FaGlassWater } from "react-icons/fa6";
 import { BiEditAlt, BiPrinter } from "react-icons/bi";
 import { Product } from "../../../../../types/product/product";
 import { StringFormatter } from "../../../../../util/string.formatter/string.formatter";
-import { BsPrinterFill, BsTrash } from "react-icons/bs";
+import { BsPrinterFill, BsSend, BsTrash } from "react-icons/bs";
 import { useReactToPrint } from "react-to-print";
 import { PrintBill } from "./print.bill";
 import { PrintOrder } from "./print.order";
 import dayjs from "dayjs";
 import { RawMaterialController } from "../../../../../controller/raw.material/raw.material.controller";
 import { ResponseError } from "../../../../../types/axios/response.error";
+import { OrginizeArrays } from "../../../../../util/arrays/organize";
 
 interface Props {
   idTable: number;
   orders: Order[];
   total: number;
   tableName: string;
+  pendings: Order[];
   loading: boolean;
   getOrders: () => any;
   onUpdate: () => any;
@@ -55,6 +57,7 @@ export const SellOrderAdd = (props: Props) => {
   const billRef = useRef();
   const checkedBillRef = useRef();
   const orderRef = useRef();
+  const pendings = props.pendings;
 
   const handlePrintCheckedBill = useReactToPrint({
     content: () => checkedBillRef.current,
@@ -95,172 +98,169 @@ export const SellOrderAdd = (props: Props) => {
         <h4>{props.tableName}</h4>
       </Col>
       <Col span={22}>
-        <Col span={24}>
-          <Form
-            name="basic"
-            autoComplete="on"
-            layout={"horizontal"}
-            fields={[
-              { name: "productName", value: order.productName },
-              { name: "amount", value: order.amount },
-              { name: "observation", value: order.observation },
-            ]}
-            onFinish={save}
-          >
-            <Row justify={"center"} align={"middle"}>
-              <Col span={24}>
-                <Row gutter={[30, 10]}>
-                  <Col md={12}>
-                    <Form.Item
-                      label="Pedido"
-                      name="productName"
-                      rules={[
+        <Form
+          name="basic"
+          autoComplete="on"
+          layout={"horizontal"}
+          fields={[
+            { name: "productName", value: order.productName },
+            { name: "amount", value: order.amount },
+            { name: "observation", value: order.observation },
+          ]}
+          onFinish={save}
+        >
+          <Row justify={"center"} align={"middle"}>
+            <Col md={12}>
+              <Form.Item
+                label="Pedido"
+                name="productName"
+                rules={[
+                  {
+                    message: "Por favor, selecione um prato!",
+                    required: true,
+                  },
+                ]}
+              >
+                <Select
+                  showSearch
+                  value={order.productName}
+                  onSelect={(_value, values) => {
+                    setOrder({
+                      ...order,
+                      productName: values.label,
+                      productId: values.value,
+                      amount: order.orderId === 0 ? 1 : 0,
+                    });
+                  }}
+                  placeholder="Selecione..."
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    (
+                      StringFormatter.replaceSpecialChars(
+                        option?.label
+                      ).toLowerCase() ?? ""
+                    ).includes(
+                      StringFormatter.replaceSpecialChars(input).toLowerCase()
+                    )
+                  }
+                  filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? "")
+                      .toLowerCase()
+                      .localeCompare((optionB?.label ?? "").toLowerCase())
+                  }
+                  options={products.map((value) => {
+                    return {
+                      value: value.id as number,
+                      label: `${value.name} R$ ${value.value.toLocaleString(
+                        "pt-br",
                         {
-                          message: "Por favor, selecione um prato!",
-                          required: true,
-                        },
-                      ]}
-                    >
-                      <Select
-                        showSearch
-                        value={order.productName}
-                        onSelect={(_value, values) => {
-                          setOrder({
-                            ...order,
-                            productName: values.label,
-                            productId: values.value,
-                            amount: order.orderId === 0 ? 1 : 0,
-                          });
-                        }}
-                        placeholder="Selecione..."
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                          (
-                            StringFormatter.replaceSpecialChars(
-                              option?.label
-                            ).toLowerCase() ?? ""
-                          ).includes(
-                            StringFormatter.replaceSpecialChars(
-                              input
-                            ).toLowerCase()
-                          )
+                          minimumFractionDigits: 2,
                         }
-                        filterSort={(optionA, optionB) =>
-                          (optionA?.label ?? "")
-                            .toLowerCase()
-                            .localeCompare((optionB?.label ?? "").toLowerCase())
-                        }
-                        options={products.map((value) => {
-                          return {
-                            value: value.id as number,
-                            label: `${
-                              value.name
-                            } R$ ${value.value.toLocaleString("pt-br", {
-                              minimumFractionDigits: 2,
-                            })}`,
-                          };
-                        })}
-                      />
-                    </Form.Item>
-                  </Col>
-
-                  <Col md={8}>
-                    <Form.Item
-                      label="Quantidade"
-                      name="amount"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Digite a quantidade!",
-                        },
-                      ]}
-                    >
-                      <Input
-                        type="number"
-                        name="amount"
-                        value={order.amount}
-                        onChange={(event) => {
-                          const value = Number.parseFloat(event.target.value);
-                          setOrder({ ...order, amount: value });
-                        }}
-                      />
-                    </Form.Item>
-                  </Col>
-
-                  <Col span={24}>
-                    <Form.Item
-                      label="Obs:"
-                      name="observation"
-                      rules={[
-                        {
-                          message: "Digite a observação!",
-                        },
-                      ]}
-                    >
-                      <Input
-                        name="observation"
-                        value={order.observation}
-                        onChange={(event) => {
-                          const value = event.target.value;
-                          setOrder({ ...order, observation: value });
-                        }}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-
-            <Form.Item>
-              <Row justify={"center"} gutter={[40, 0]} className="mt-2">
-                <Col>
-                  <Button
-                    type="primary"
-                    disabled={order.orderId !== 0 || loading}
-                    htmlType="submit"
-                  >
-                    {txtButtonSave}
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    type="dashed"
-                    disabled={order.orderId === 0}
-                    onClick={() => {
-                      const amount = order.amount;
-
-                      setOrder({ ...order, amount: amount });
-                    }}
-                    htmlType="submit"
-                  >
-                    {txtButtonSubtract}
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    type="default"
-                    htmlType="reset"
-                    onClick={() => {
-                      setOrder(initialValues);
-                    }}
-                  >
-                    Limpar
-                  </Button>
-                </Col>
-                <PrintOrder
-                  ref={orderRef}
-                  tableName={props.tableName}
-                  orders={[
-                    {
-                      productName: order.productName.split("R$")[0],
-                      amount: order.amount,
-                    },
-                  ]}
+                      )}`,
+                    };
+                  })}
                 />
-              </Row>
-            </Form.Item>
-          </Form>
-        </Col>
+              </Form.Item>
+            </Col>
+
+            <Col md={8}>
+              <Form.Item
+                label="Quantidade"
+                name="amount"
+                rules={[
+                  {
+                    required: true,
+                    message: "Digite a quantidade!",
+                  },
+                ]}
+              >
+                <Input
+                  type="number"
+                  name="amount"
+                  value={order.amount}
+                  onChange={(event) => {
+                    const value = Number.parseFloat(event.target.value);
+                    setOrder({ ...order, amount: value });
+                  }}
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={24}>
+              <Form.Item
+                label="Obs:"
+                name="observation"
+                rules={[
+                  {
+                    message: "Digite a observação!",
+                  },
+                ]}
+              >
+                <Input
+                  name="observation"
+                  value={order.observation}
+                  onChange={(event) => {
+                    const value = event.target.value;
+                    setOrder({ ...order, observation: value });
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item>
+            <Row
+              justify={"center"}
+              gutter={[40, 30]}
+              className="mt-2 text-center"
+            >
+              <Col>
+                <Button
+                  type="primary"
+                  disabled={order.orderId !== 0 || loading}
+                  htmlType="submit"
+                >
+                  {txtButtonSave}
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  type="dashed"
+                  disabled={order.orderId === 0}
+                  onClick={() => {
+                    const amount = order.amount;
+
+                    setOrder({ ...order, amount: amount });
+                  }}
+                  htmlType="submit"
+                >
+                  {txtButtonSubtract}
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  type="default"
+                  htmlType="reset"
+                  onClick={() => {
+                    setOrder(initialValues);
+                  }}
+                >
+                  Limpar
+                </Button>
+              </Col>
+              <PrintOrder
+                ref={orderRef}
+                tableName={props.tableName}
+                orders={[
+                  {
+                    productName: order.productName.split("R$")[0],
+                    amount: order.amount,
+                  },
+                ]}
+              />
+            </Row>
+          </Form.Item>
+        </Form>
       </Col>
       <Col className="orders" md={24} style={{ height: 250 }}>
         <List
@@ -310,6 +310,23 @@ export const SellOrderAdd = (props: Props) => {
                     setChange(change);
                   }}
                 />
+              </Col>
+              <Col>
+                <Popconfirm
+                  title="Enviar Para a Cozinha."
+                  description="Deseja realmente enviar pedidos?"
+                  onConfirm={sendCook}
+                  okText="Sim"
+                  cancelText="Não"
+                >
+                  <Button
+                    disabled={!pendings.length}
+                    title="Enviar para cozinha"
+                    size="large"
+                  >
+                    <BsSend size={20} />
+                  </Button>
+                </Popconfirm>
               </Col>
               <Col>
                 Troco
@@ -694,5 +711,22 @@ export const SellOrderAdd = (props: Props) => {
     if (data) {
       setProducts(data.filter((product) => product.show));
     }
+  }
+
+  async function patchStatus(orders: any) {
+    await OrderController.patchs(orders, "processando");
+
+    setTimeout(() => {
+      props.getOrders();
+      props.onUpdate();
+    }, 500);
+  }
+
+  async function sendCook() {
+    const pendingOrders = pendings.filter(
+      (pending) => pending.status === "pendente"
+    );
+    const orders = OrginizeArrays.groupBy(pendingOrders, "idTable");
+    await patchStatus(orders);
   }
 };

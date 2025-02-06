@@ -101,6 +101,7 @@ export const SellOrderAddTableScreen = () => {
             <Row justify={"space-evenly"}>
               <Col>
                 <Button
+                  title="Atualizar"
                   size="large"
                   onClick={() => {
                     getTablesRestaurant(true);
@@ -201,6 +202,7 @@ export const SellOrderAddTableScreen = () => {
             total={total}
             loading={loading}
             orders={orders}
+            pendings={pendings}
             tableName={tableName}
             onUpdate={sendOrders}
           />

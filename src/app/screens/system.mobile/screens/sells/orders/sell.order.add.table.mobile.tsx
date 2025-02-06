@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import { Badge, Button, Card, Col, Modal, Row } from 'antd';
-import { TableRestaurant } from '../../../../../types/table/table';
-import { TableController } from '../../../../../controller/table/table.controller';
-import { SellOrderAddMobile } from './sell.order.add.mobile';
-import { OrderController } from '../../../../../controller/order/order.controller';
-import { Order } from '../../../../../types/order/order';
-import { GiHotMeal } from 'react-icons/gi';
-import './order.css';
-import { MdTableBar } from 'react-icons/md';
-import * as io from 'socket.io-client';
-import { baseURL } from '../../../../../config/axios';
-import { UserDataLogged } from '../../../../../types/user/user';
-import { cookies } from '../../../../../controller/user/adm.cookies';
+import { useEffect, useState } from "react";
+import { Badge, Button, Card, Col, Modal, Row } from "antd";
+import { TableRestaurant } from "../../../../../types/table/table";
+import { TableController } from "../../../../../controller/table/table.controller";
+import { SellOrderAddMobile } from "./sell.order.add.mobile";
+import { OrderController } from "../../../../../controller/order/order.controller";
+import { Order } from "../../../../../types/order/order";
+import { GiHotMeal } from "react-icons/gi";
+import "./order.css";
+import { MdTableBar } from "react-icons/md";
+import * as io from "socket.io-client";
+import { baseURL } from "../../../../../config/axios";
+import { UserDataLogged } from "../../../../../types/user/user";
+import { cookies } from "../../../../../controller/user/adm.cookies";
 
 type Props = {
   style?: any;
@@ -19,7 +19,7 @@ type Props = {
 
 const socket = io.connect(baseURL);
 
-const user: UserDataLogged = cookies.get('data.user');
+const user: UserDataLogged = cookies.get("data.user");
 const platform = user.platformId;
 
 export const SellOrderAddTableScreen = (props: Props) => {
@@ -27,9 +27,10 @@ export const SellOrderAddTableScreen = (props: Props) => {
   const [tables, setTables] = useState<TableRestaurant[]>([]);
   const [isOcuppied, setOcuppied] = useState<any[]>([]);
   const [amountPendings, setAmountPendings] = useState<any[]>([]);
+  const [pendings, setPendings] = useState<Order[]>([]);
 
   const [tableId, setTableId] = useState(0);
-  const [tableName, setTableName] = useState('');
+  const [tableName, setTableName] = useState("");
 
   const [total, setTotal] = useState(0);
 
@@ -47,11 +48,11 @@ export const SellOrderAddTableScreen = (props: Props) => {
   };
 
   const sendOrders = () => {
-    socket.emit('send_orders', { message: 'ok', platform });
+    socket.emit("send_orders", { message: "ok", platform });
   };
 
   useEffect(() => {
-    socket.emit('platform', platform);
+    socket.emit("platform", platform);
   }, []);
 
   useEffect(() => {
@@ -59,21 +60,21 @@ export const SellOrderAddTableScreen = (props: Props) => {
   }, [loading]);
 
   useEffect(() => {
-    socket.on('receive_orders', () => {
+    socket.on("receive_orders", () => {
       getTablesRestaurant();
     });
   }, [socket]);
 
   return (
-    <Row style={props.style} justify={'center'}>
+    <Row style={props.style} justify={"center"}>
       <Col span={24} className="text-center">
-        <Row justify={'center'}>
+        <Row justify={"center"}>
           <Col span={24}>
             <Row
               gutter={[0, 30]}
               className="tables border border-2 rounded-3"
-              style={{ backgroundColor: '#d6d6d6' }}
-              justify={'center'}
+              style={{ backgroundColor: "#d6d6d6" }}
+              justify={"center"}
             >
               {tables.map(({ id, name }, index) => {
                 return (
@@ -125,7 +126,7 @@ export const SellOrderAddTableScreen = (props: Props) => {
             getTablesRestaurant(true);
           }}
           style={{ top: 20 }}
-          width={'100%'}
+          width={"100%"}
           footer={() => (
             <>
               <Button onClick={handleOk}>Voltar</Button>
@@ -138,6 +139,7 @@ export const SellOrderAddTableScreen = (props: Props) => {
             total={total}
             loading={loading}
             orders={orders}
+            pendings={pendings}
             tableName={tableName}
             onUpdate={sendOrders}
           />
@@ -162,7 +164,7 @@ export const SellOrderAddTableScreen = (props: Props) => {
     if (data) {
       setTables(tables);
       setOcuppied(isOcuppied);
-      setPendings(tables, amountPendings);
+      startPendings(tables, amountPendings);
     }
     if (hasLoading) {
       setTimeout(() => {
@@ -190,15 +192,16 @@ export const SellOrderAddTableScreen = (props: Props) => {
     }, 500);
   }
 
-  function setPendings(tables: any, amountPendings: any) {
-    const ordersPendings: Order[] = amountPendings;
+  function startPendings(tables: any, pendings: any) {
+    const ordersPendings: Order[] = pendings;
     const amountOrdersPendings = [];
     for (let index = 0; index < tables.length; index++) {
       const amount = ordersPendings.filter(
-        (value) => value.idTable === tables[index].id,
+        (value) => value.idTable === tables[index].id
       ).length;
       amountOrdersPendings.push(amount);
     }
+    setPendings(pendings);
     setAmountPendings(amountOrdersPendings);
   }
 };

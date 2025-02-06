@@ -31,7 +31,6 @@ export const LogTable = (props: Props) => {
   const loading = props.loading;
 
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({
-    order: "ascend",
     columnKey: "id",
   });
 
@@ -125,7 +124,7 @@ export const LogTable = (props: Props) => {
     {
       key: "id",
 
-      title: "Codigo",
+      title: "ID",
 
       dataIndex: "id",
 
