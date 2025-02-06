@@ -19,7 +19,7 @@ import { BiUserCircle } from "react-icons/bi";
 import br from "antd/es/date-picker/locale/pt_BR";
 import dayjs from "dayjs";
 import { PaymentsTable } from "./payments.table";
-import { Charges } from "../../../../types/payments/payments";
+import { Charges } from "../../../../types/charges/charges";
 
 const initialValues = {
   name: "",
@@ -277,7 +277,7 @@ export const PaymentsForm = () => {
 
     const installments: number = parseInt(values.installments);
 
-    const request = await ChargesController.store({
+    const request = await ChargesController.paymentPlatformCreditCard({
       name: name,
       clientInstallments: installments,
       paymentToken: cardToken,
@@ -305,7 +305,7 @@ export const PaymentsForm = () => {
   async function getCharges() {
     setLoading(true);
 
-    const request = await ChargesController.get();
+    const request = await ChargesController.get("MONTHLYFEE");
 
     const data = request.data;
 

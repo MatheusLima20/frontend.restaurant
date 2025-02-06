@@ -36,7 +36,7 @@ export const BoxDayMobileForm = () => {
       {contextHolder}
       <Col span={24} className="text-center">
         <h2>
-          <strong>Cadastro de Caixa</strong>
+          <strong>Caixa</strong>
         </h2>
       </Col>
 

@@ -8,7 +8,7 @@ import {
 } from "antd/es/table/interface";
 import { SearchOutlined } from "@ant-design/icons";
 import { AiOutlineSearch } from "react-icons/ai";
-import { Charges } from "../../../../types/payments/payments";
+import { Charges } from "../../../../types/charges/charges";
 import { dateFormat } from "../../../../util/date/date";
 
 interface DataType {

@@ -10,4 +10,5 @@ export const englishTexts = {
   DELIVERYMAN: 'Entregador',
   WAITER: 'Garçom',
   startValue: 'Valor inicial',
+  WITHDRAWALBOXDAY: "Retirada do caixa",
 };

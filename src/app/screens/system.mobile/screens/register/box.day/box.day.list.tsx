@@ -81,7 +81,7 @@ export const BoxDayMobileList = (props: Props) => {
                   </Col>
                   <Col>
                     Total Com o Caixa:{" "}
-                    {data.totalWithStartValue.toLocaleString("pt-BR", {
+                    {data.grandTotal.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
                     })}

@@ -10,6 +10,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { AiOutlineSearch } from "react-icons/ai";
 import { dateFormat } from "../../../../../util/date/date";
 import { Log } from "../../../../../types/log/log";
+import { TranslateController } from "../../../../../controller/translate/translate.controller";
 
 interface DataType {
   key: number;
@@ -212,10 +213,11 @@ export const LogTable = (props: Props) => {
     const values: DataType[] = [];
 
     valuesData.map((value, index) => {
+      const text = TranslateController.getNoAsync(value.text);
       return values.push({
         key: index,
         id: value.id,
-        text: value.text,
+        text: text.text,
         title: value.title,
         createdAt: value.createdAt,
       });

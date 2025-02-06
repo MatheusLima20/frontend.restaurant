@@ -36,7 +36,7 @@ export const BoxDayForm = () => {
       {contextHolder}
       <Col span={20} className="text-center">
         <h2>
-          <strong>Cadastro de Caixa</strong>
+          <strong>Caixa</strong>
         </h2>
       </Col>
 
@@ -62,7 +62,7 @@ export const BoxDayForm = () => {
                 <Input
                   name="startValue"
                   type="number"
-                  placeholder="Informe o valor incialdo..."
+                  placeholder="Informe o valor incial..."
                   prefix="R$"
                   onChange={handleChange}
                 />
@@ -74,7 +74,7 @@ export const BoxDayForm = () => {
                   <Col>
                     <Button type="primary" htmlType="submit">
                       {values.id === 0
-                        ? 'Adicionar Caixa'
+                        ? 'Novo Caixa'
                         : values.isOpen
                           ? 'Fechar Caixa'
                           : 'Abrir Caixa'}
@@ -104,6 +104,7 @@ export const BoxDayForm = () => {
           getRowValues={(editValues: BoxDay) => {
             setValues(editValues);
           }}
+          update={getBoxDay}
           valuesTable={valuesBoxDay}
         />
       </Col>
@@ -143,7 +144,7 @@ export const BoxDayForm = () => {
 
     setTimeout(() => {
       messageApi.open({
-        key: 'register.products',
+        key: 'register.boxday',
         type: type,
         content: tranlateMessage.text,
         duration: 4,
