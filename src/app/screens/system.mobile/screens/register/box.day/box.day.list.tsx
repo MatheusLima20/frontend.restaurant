@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { Button, Card, Col, List, Row } from "antd";
+import { Button, Card, Col, List, message, Modal, Row } from "antd";
 
 import dayjs from "dayjs";
 import { BiEdit } from "react-icons/bi";
@@ -9,11 +9,14 @@ import { useReactToPrint } from "react-to-print";
 import { OrderController } from "../../../../../controller/order/order.controller";
 import { BoxDay } from "../../../../../types/box.day/box.day";
 import { PrintBoxDay } from "./print.box.day";
+import { FaChevronCircleDown, FaChevronCircleUp } from "react-icons/fa";
+import { WithdrawalFormMobile } from "./withdrawal.or.reinforcement/withdrawl.reinforcement.form";
 
 interface Props {
   valuesTable: BoxDay[];
   loading: boolean;
   getRowValues: (values: BoxDay) => any;
+  onOpdate?: () => any;
 }
 
 const initialValues = {
@@ -32,12 +35,29 @@ export const BoxDayMobileList = (props: Props) => {
   const [boxDay, setBoxDay] = useState(initialValues);
   const [loadingPrint, setLoadingPrint] = useState(false);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isWithdrawal, setIsWithdrawal] = useState(false);
+
+  const [boxdayId, setBoxDayId] = useState(0);
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
   const handlePrint = useReactToPrint({
     content: () => ref.current,
   });
 
   return (
     <Row className="m-0 mb-5 justify-content-center">
+      {contextHolder}
       <Col span={24}>
         <List
           pagination={{
@@ -63,30 +83,44 @@ export const BoxDayMobileList = (props: Props) => {
                   </Row>
                 }
               >
-                <Row justify={"space-between"} gutter={[0, 40]}>
-                  <Col>Aberto: {data.isOpen ? "Sim" : "Não"}</Col>
-                  <Col>
-                    Valor Inicial:{" "}
+                <Row justify={"center"} gutter={[0, 40]} className="text-center">
+                  <Col span={12}>Aberto: {data.isOpen ? "Sim" : "Não"}</Col>
+                  <Col span={12}>
+                    Início:{" "}
                     {data.startValue.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
                     })}
                   </Col>
-                  <Col>
-                    Total Vendido:{" "}
+                  <Col span={12}>
+                    Vendido:{" "}
                     {data.totalBoxDay.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
                     })}
                   </Col>
-                  <Col>
-                    Total Com o Caixa:{" "}
+                  <Col span={12}>
+                    Retiradas:{" "}
+                    {data.totalWithdrawals.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </Col>
+                  <Col span={12}>
+                    Reforço:{" "}
+                    {data.totalReinforcement.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </Col>
+                  <Col span={12}>
+                    Total:{" "}
                     {data.grandTotal.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
                     })}
                   </Col>
-                  <Col>
+                  <Col span={24}>
                     Data: {dayjs(data.createdAt).format("DD/MM/YYYY HH:mm:ss")}
                   </Col>
                   <Col span={24}>
@@ -129,6 +163,33 @@ export const BoxDayMobileList = (props: Props) => {
                           <BiEdit size={20} />
                         </Button>
                       </Col>
+                      <Col>
+                        <Button
+                          title="Retirada"
+                          disabled={!data.isOpen}
+                          loading={loadingPrint}
+                          onClick={() => {
+                            setIsWithdrawal(true);
+                            setBoxDayId(data.id);
+                            showModal();
+                          }}
+                        >
+                          <FaChevronCircleDown color="red" size={20} />
+                        </Button>
+                      </Col>
+                      <Col>
+                        <Button
+                          loading={loadingPrint}
+                          disabled={!data.isOpen}
+                          onClick={() => {
+                            setIsWithdrawal(false);
+                            setBoxDayId(data.id);
+                            showModal();
+                          }}
+                        >
+                          <FaChevronCircleUp color="green" size={20} />
+                        </Button>
+                      </Col>
                     </Row>
                   </Col>
                 </Row>
@@ -136,6 +197,40 @@ export const BoxDayMobileList = (props: Props) => {
             </List.Item>
           )}
         />
+      </Col>
+      <Col span={22}>
+        <Modal
+          open={isModalOpen}
+          onCancel={() => {
+            handleOk();
+          }}
+          centered={true}
+          width={"95%"}
+          footer={() => (
+            <>
+              <Button onClick={handleOk}>Cancelar</Button>
+            </>
+          )}
+        >
+          <WithdrawalFormMobile
+            id={boxdayId}
+            title={isWithdrawal ? "Retirada" : "Reforço"}
+            type={isWithdrawal ? "WITHDRAWALBOXDAY" : "REINFORCEMENTBOXDAY"}
+            onSave={(values) => {
+              messageApi.open({
+                key: "register.boxday.mobile.charges",
+                type: values.type,
+                content: values.text,
+                duration: 4,
+              });
+
+              if (values.type === "success") {
+                handleOk();
+                props.onOpdate();
+              }
+            }}
+          />
+        </Modal>
       </Col>
       <PrintBoxDay
         ref={ref}

@@ -104,7 +104,7 @@ export const BoxDayForm = () => {
           getRowValues={(editValues: BoxDay) => {
             setValues(editValues);
           }}
-          update={getBoxDay}
+          onOpdate={getBoxDay}
           valuesTable={valuesBoxDay}
         />
       </Col>

@@ -27,7 +27,7 @@ interface Props {
   valuesTable: BoxDay[];
   loading: boolean;
   getRowValues: (values: BoxDay) => any;
-  update?: () => any;
+  onOpdate?: () => any;
 }
 
 const initialValues = {
@@ -330,7 +330,7 @@ export const BoxDayTable = (props: Props) => {
 
               if (values.type === "success") {
                 handleOk();
-                props.update();
+                props.onOpdate();
               }
             }}
           />

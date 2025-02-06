@@ -104,6 +104,7 @@ export const BoxDayMobileForm = () => {
           getRowValues={(editValues: BoxDay) => {
             setValues(editValues);
           }}
+          onOpdate={getBoxDay}
           valuesTable={valuesBoxDay}
         />
       </Col>
