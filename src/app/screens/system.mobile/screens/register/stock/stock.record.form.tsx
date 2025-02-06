@@ -1,28 +1,28 @@
-import { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, Select, Switch, message } from 'antd';
-import { Product } from '../../../../../types/product/product';
-import { ProvisionsController } from '../../../../../controller/provisions/provisions.controller';
-import { BsBox2Fill } from 'react-icons/bs';
-import { SpendingController } from '../../../../../controller/spending/spending.controller';
-import { TranslateController } from '../../../../../controller/translate/translate.controller';
-import { StockRecordTable } from './stock.record.table';
-import { SystemConf } from '../../../../../types/system.conf/system.conf';
-import { cookies } from '../../../../../controller/user/adm.cookies';
+import { useEffect, useState } from "react";
+import { Button, Col, Form, Input, Row, Select, Switch, message } from "antd";
+import { Product } from "../../../../../types/product/product";
+import { ProvisionsController } from "../../../../../controller/provisions/provisions.controller";
+import { BsBox2Fill } from "react-icons/bs";
+import { SpendingController } from "../../../../../controller/spending/spending.controller";
+import { TranslateController } from "../../../../../controller/translate/translate.controller";
+import { StockRecordTable } from "./stock.record.list";
+import { SystemConf } from "../../../../../types/system.conf/system.conf";
+import { cookies } from "../../../../../controller/user/adm.cookies";
 
 const initialValues = {
   id: 0,
-  name: '',
+  name: "",
   value: 0,
   isActive: true,
-  unitMeasurement: 'KG',
+  unitMeasurement: "KG",
   amount: 0,
 };
 
-const systemConf: SystemConf = cookies.get('start.types.objects');
+const systemConf: SystemConf = cookies.get("start.types.objects");
 
 const unitMeasurement = systemConf.unitMeasurement;
 
-export const StockRecordForm = () => {
+export const StockRecordMobileForm = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [values, setValues] = useState(initialValues);
@@ -46,128 +46,124 @@ export const StockRecordForm = () => {
   }, []);
 
   return (
-    <Row className="mt-5" gutter={[0, 30]}>
+    <Row justify={"center"} className="mt-5" gutter={[0, 30]}>
       {contextHolder}
-      <Col span={20} className="text-center">
+      <Col span={24} className="text-center">
         <h2>
           <strong>Controle de Estoque</strong>
         </h2>
       </Col>
 
-      <Col span={20}>
+      <Col span={24}>
         <Form
           name="basic"
           autoComplete="on"
           initialValues={values}
           fields={[
             {
-              name: 'name',
+              name: "name",
               value: values.name,
             },
             {
-              name: 'value',
+              name: "value",
               value: values.value,
             },
             {
-              name: 'amount',
+              name: "amount",
               value: values.amount,
             },
             {
-              name: 'unitMeasurement',
+              name: "unitMeasurement",
               value: values.unitMeasurement,
             },
             {
-              name: 'isActive',
+              name: "isActive",
               value: values.isActive,
             },
           ]}
           onFinish={save}
         >
-          <Row justify={'center'}>
-            <Col>
-              <Row gutter={[10, 10]}>
-                <Col md={7}>
-                  <Form.Item
-                    label="Nome"
-                    name="name"
-                    rules={[
-                      { required: true, message: 'Digite o nome do produto!' },
-                    ]}
-                  >
-                    <Input
-                      name="name"
-                      placeholder="Digite o nome..."
-                      onChange={handleChange}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col md={5}>
-                  <Form.Item
-                    label="Valor"
-                    name="value"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Digite o valor!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      type="number"
-                      name="value"
-                      onChange={handleChange}
-                      value={values.value}
-                      prefix={<span>R$</span>}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col md={6}>
-                  <Form.Item
-                    label="Quantidade"
-                    name="amount"
-                    rules={[
-                      {
-                        required: false,
-                        message: 'Digite a quantidade!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      type="number"
-                      name="amount"
-                      onChange={handleChange}
-                      value={values.amount}
-                      prefix={<BsBox2Fill />}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col md={6}>
-                  <Form.Item label="Unidade" name="unitMeasurement">
-                    <Select
-                      onChange={(value: string) => {
-                        const event: any = {
-                          target: {
-                            name: 'unitMeasurement',
-                            value: value,
-                          },
-                        };
-                        handleChange(event);
-                      }}
-                      value={values.unitMeasurement}
-                      options={unitMeasurement.map((value) => {
-                        return { value: value.name, label: value.description };
-                      })}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
+          <Row gutter={[10, 10]}>
+            <Col span={24}>
+              <Form.Item
+                label="Nome"
+                name="name"
+                rules={[
+                  { required: true, message: "Digite o nome do produto!" },
+                ]}
+              >
+                <Input
+                  name="name"
+                  placeholder="Digite o nome..."
+                  onChange={handleChange}
+                />
+              </Form.Item>
             </Col>
 
-            <Col md={22}>
-              <Row justify={'end'}>
+            <Col span={24}>
+              <Form.Item
+                label="Valor"
+                name="value"
+                rules={[
+                  {
+                    required: true,
+                    message: "Digite o valor!",
+                  },
+                ]}
+              >
+                <Input
+                  type="number"
+                  name="value"
+                  onChange={handleChange}
+                  value={values.value}
+                  prefix={<span>R$</span>}
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={24}>
+              <Form.Item
+                label="Quantidade"
+                name="amount"
+                rules={[
+                  {
+                    required: false,
+                    message: "Digite a quantidade!",
+                  },
+                ]}
+              >
+                <Input
+                  type="number"
+                  name="amount"
+                  onChange={handleChange}
+                  value={values.amount}
+                  prefix={<BsBox2Fill />}
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={24}>
+              <Form.Item label="Unidade" name="unitMeasurement">
+                <Select
+                  onChange={(value: string) => {
+                    const event: any = {
+                      target: {
+                        name: "unitMeasurement",
+                        value: value,
+                      },
+                    };
+                    handleChange(event);
+                  }}
+                  value={values.unitMeasurement}
+                  options={unitMeasurement.map((value) => {
+                    return { value: value.name, label: value.description };
+                  })}
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={4}>
+              <Row justify={"center"}>
                 <Col>
                   <Form.Item
                     label="Ativo"
@@ -180,7 +176,7 @@ export const StockRecordForm = () => {
                       onChange={(value: boolean) => {
                         const event: any = {
                           target: {
-                            name: 'isActive',
+                            name: "isActive",
                             value: value,
                           },
                         };
@@ -196,7 +192,7 @@ export const StockRecordForm = () => {
           </Row>
 
           <Form.Item>
-            <Row justify={'center'} gutter={[20, 0]} className="mt-2">
+            <Row justify={"center"} gutter={[20, 0]} className="mt-2">
               <Col>
                 <Button type="primary" htmlType="submit">
                   Salvar
@@ -239,9 +235,9 @@ export const StockRecordForm = () => {
     setLoading(true);
 
     messageApi.open({
-      key: 'register.products',
-      type: 'loading',
-      content: 'Enviando...',
+      key: "register.products",
+      type: "loading",
+      content: "Enviando...",
       duration: 4,
     });
 
@@ -274,7 +270,7 @@ export const StockRecordForm = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
@@ -284,7 +280,7 @@ export const StockRecordForm = () => {
 
     setTimeout(() => {
       messageApi.open({
-        key: 'register.products',
+        key: "register.products",
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -301,9 +297,9 @@ export const StockRecordForm = () => {
     setLoading(true);
 
     messageApi.open({
-      key: 'register.products',
-      type: 'loading',
-      content: 'Enviando...',
+      key: "register.products",
+      type: "loading",
+      content: "Enviando...",
       duration: 4,
     });
 
@@ -324,7 +320,7 @@ export const StockRecordForm = () => {
 
     const message = request.message;
 
-    const type = error ? 'error' : 'success';
+    const type = error ? "error" : "success";
 
     const tranlateMessage = await TranslateController.get(message);
 
@@ -337,7 +333,7 @@ export const StockRecordForm = () => {
 
     setTimeout(() => {
       messageApi.open({
-        key: 'register.products',
+        key: "register.products",
         type: type,
         content: tranlateMessage.text,
         duration: 4,
@@ -369,13 +365,13 @@ export const StockRecordForm = () => {
 
       const messageSpending = requestSpending.message;
 
-      const typeSpending = spendingError ? 'error' : 'success';
+      const typeSpending = spendingError ? "error" : "success";
 
       const tranlateMessage = await TranslateController.get(messageSpending);
 
       if (spendingError) {
         messageApi.open({
-          key: 'register.products',
+          key: "register.products",
           type: typeSpending,
           content: tranlateMessage.text,
           duration: 4,

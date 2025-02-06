@@ -3,8 +3,8 @@ import { UsersMobileForm } from './users.mobile.form';
 
 export const UsersMobileScreen = () => {
   return (
-    <Row>
-      <Col span={24}>
+    <Row justify={'center'}>
+      <Col span={22}>
         <UsersMobileForm />
       </Col>
     </Row>

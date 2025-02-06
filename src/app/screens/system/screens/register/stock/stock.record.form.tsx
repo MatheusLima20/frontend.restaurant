@@ -226,6 +226,7 @@ export const StockRecordForm = () => {
       <Col span={24}>
         <StockRecordTable
           loading={loading}
+          unitMeasurement={unitMeasurement}
           getRowValues={(editValues: Product) => {
             setValues(editValues);
           }}

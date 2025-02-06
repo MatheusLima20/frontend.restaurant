@@ -1,5 +1,5 @@
 import { StockRecordScreen } from './stock.record.screen';
 
-export const StockRecord = () => {
+export const StockRecordMobile = () => {
   return <StockRecordScreen />;
 };

@@ -1,6 +1,7 @@
 import { Button, Col, Drawer, Flex, Popconfirm, Row, Space } from "antd";
 import { useState } from "react";
 import { BiPowerOff, BiUser } from "react-icons/bi";
+import { BsBox2Fill } from "react-icons/bs";
 import { FaBoxOpen } from "react-icons/fa";
 import { GiHotMeal, GiMeal } from "react-icons/gi";
 import { TiThMenu } from "react-icons/ti";
@@ -10,6 +11,7 @@ const items = [
   { Icon: FaBoxOpen, label: "Caixa", location: "/*" },
   { Icon: GiHotMeal, label: "Pedidos", location: "/order" },
   { Icon: GiMeal, label: "Cadastro de Produtos", location: "/plates-register" },
+  { Icon: BsBox2Fill, label: "Estoque", location: "/stock-record" },
   { Icon: BiUser, label: "Cadastro de Usuários", location: "/users" },
 ];
 

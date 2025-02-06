@@ -1,11 +1,11 @@
 import { Col, Row } from 'antd';
-import { StockRecordForm } from './stock.record.form';
+import { StockRecordMobileForm } from './stock.record.form';
 
 export const StockRecordScreen = () => {
   return (
-    <Row gutter={[0, 30]}>
-      <Col span={24}>
-        <StockRecordForm />
+    <Row justify={'center'} gutter={[0, 30]}>
+      <Col span={21}>
+        <StockRecordMobileForm />
       </Col>
     </Row>
   );

@@ -51,7 +51,7 @@ export const UsersMobileForm = () => {
           <strong>Usuários</strong>
         </h3>
       </Col>
-      <Col span={22}>
+      <Col span={24}>
         <Row justify={"center"}>
           <Col md={24}>
             <Form

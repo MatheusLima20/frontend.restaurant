@@ -1,21 +1,22 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 
-import { Button, Input, InputRef, Space, Table } from 'antd';
+import { Button, Input, InputRef, Space, Table } from "antd";
 
-import { ColumnsType, TableProps } from 'antd/es/table';
+import { ColumnsType, TableProps } from "antd/es/table";
 
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row } from "react-bootstrap";
 
 import {
   ColumnType,
   FilterConfirmProps,
   SorterResult,
-} from 'antd/es/table/interface';
-import { SearchOutlined } from '@ant-design/icons';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { Product } from '../../../../../types/product/product';
-import { BiEdit } from 'react-icons/bi';
-import { StringFormatter } from '../../../../../util/string.formatter/string.formatter';
+} from "antd/es/table/interface";
+import { SearchOutlined } from "@ant-design/icons";
+import { AiOutlineSearch } from "react-icons/ai";
+import { Product } from "../../../../../types/product/product";
+import { BiEdit } from "react-icons/bi";
+import { StringFormatter } from "../../../../../util/string.formatter/string.formatter";
+import { UnitMeasurementObject } from "../../../../../types/unit.measurement/unit.measurement";
 
 interface DataType {
   key: number;
@@ -35,14 +36,16 @@ interface Props {
   valuesTable: Product[];
   loading: boolean;
   getRowValues: (values: Product) => any;
+  unitMeasurement: UnitMeasurementObject [];
 }
 
 export const StockRecordTable = (props: Props) => {
+  const unitMeasurement = props.unitMeasurement;
   const loading = props.loading;
 
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({
-    order: 'ascend',
-    columnKey: 'finalClientName',
+    order: "ascend",
+    columnKey: "finalClientName",
   });
 
   const searchInput = useRef<InputRef>(null);
@@ -51,7 +54,7 @@ export const StockRecordTable = (props: Props) => {
     _selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _dataIndex: DataIndex,
+    _dataIndex: DataIndex
   ) => {
     confirm();
   };
@@ -60,17 +63,17 @@ export const StockRecordTable = (props: Props) => {
     clearFilters();
   };
 
-  const handleChange: TableProps<DataType>['onChange'] = (
+  const handleChange: TableProps<DataType>["onChange"] = (
     _pagination,
     _filters,
-    sorter,
+    sorter
   ) => {
     setSortedInfo(sorter as SorterResult<DataType>);
   };
 
   const getColumnSearchProps = (
     dataIndex: DataIndex,
-    title: string,
+    title: string
   ): ColumnType<DataType> => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -90,7 +93,7 @@ export const StockRecordTable = (props: Props) => {
           onPressEnter={() =>
             handleSearch(selectedKeys as string[], confirm, dataIndex)
           }
-          style={{ marginBottom: 8, display: 'block' }}
+          style={{ marginBottom: 8, display: "block" }}
         />
         <Space>
           <Button
@@ -116,7 +119,7 @@ export const StockRecordTable = (props: Props) => {
     filterIcon: (filtered: boolean) => (
       <SearchOutlined
         rev="true"
-        style={{ color: filtered ? '#1890ff' : undefined }}
+        style={{ color: filtered ? "#1890ff" : undefined }}
       />
     ),
     onFilter: (value, record: any) =>
@@ -133,81 +136,87 @@ export const StockRecordTable = (props: Props) => {
 
   const columns: ColumnsType<DataType> = [
     {
-      key: 'name',
+      key: "name",
 
-      title: 'Nome',
+      title: "Nome",
 
-      dataIndex: 'name',
+      dataIndex: "name",
 
       width: 130,
 
-      sortOrder: sortedInfo.columnKey === 'name' ? sortedInfo.order : null,
+      sortOrder: sortedInfo.columnKey === "name" ? sortedInfo.order : null,
 
       sorter: (a, b) => a.name.localeCompare(b.name),
 
       ellipsis: true,
 
-      ...getColumnSearchProps('name', 'Nome'),
+      ...getColumnSearchProps("name", "Nome"),
     },
     {
-      key: 'value',
+      key: "value",
 
-      title: 'Valor',
+      title: "Valor",
 
-      dataIndex: 'value',
+      dataIndex: "value",
 
-      defaultSortOrder: 'descend',
+      defaultSortOrder: "descend",
 
-      sortOrder: sortedInfo.columnKey === 'value' ? sortedInfo.order : null,
+      sortOrder: sortedInfo.columnKey === "value" ? sortedInfo.order : null,
 
       sorter: (a, b) => a.value - b.value,
 
       width: 50,
     },
     {
-      key: 'amount',
+      key: "amount",
 
-      title: 'Quantidade',
+      title: "Quantidade",
 
-      dataIndex: 'amount',
+      dataIndex: "amount",
 
       width: 70,
 
-      sortOrder: sortedInfo.columnKey === 'amount' ? sortedInfo.order : null,
+      sortOrder: sortedInfo.columnKey === "amount" ? sortedInfo.order : null,
 
       sorter: (a, b) => a.amount - b.amount,
     },
     {
-      key: 'unitMeasurement',
+      key: "unitMeasurement",
 
-      title: 'Unidade',
+      title: "Unidade",
 
-      dataIndex: 'unitMeasurement',
-
-      width: 50,
-
-      sortOrder:
-        sortedInfo.columnKey === 'unitMeasurement' ? sortedInfo.order : null,
-
-      sorter: (a, b) => a.unitMeasurement.localeCompare(b.unitMeasurement),
-    },
-    {
-      key: 'isActive',
-
-      title: 'Ativo',
-
-      dataIndex: 'isActive',
+      dataIndex: "unitMeasurement",
 
       width: 50,
 
       render: (data: any) => {
-        return <div>{data ? 'Sim' : 'Não'}</div>;
+        return (
+          <div>
+            {
+              unitMeasurement.find((item) => item.name === data)
+                ?.description
+            }
+          </div>
+        );
       },
     },
     {
-      key: 'action',
+      key: "isActive",
 
-      title: 'Ações',
+      title: "Ativo",
+
+      dataIndex: "isActive",
+
+      width: 50,
+
+      render: (data: any) => {
+        return <div>{data ? "Sim" : "Não"}</div>;
+      },
+    },
+    {
+      key: "action",
+
+      title: "Ações",
 
       width: 100,
 

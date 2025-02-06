@@ -8,6 +8,7 @@ import { BoxDayMobile } from "../screens/register/box.day";
 import { SellOrderMobile } from "../screens/sells/orders";
 import { ProductRegisterMobile } from "../screens/register/products";
 import { UsersMobile } from "../screens/register/users";
+import { StockRecordMobile } from "../screens/register/stock";
 
 const user = cookies.get("data.user");
 
@@ -35,6 +36,11 @@ export const SystemMobileRoutes = () => {
                 index
                 path="/plates-register"
                 element={ProductRegisterMobile()}
+              />
+              <Route
+                index
+                path="/stock-record"
+                element={StockRecordMobile()}
               />
               <Route index path="/users" element={UsersMobile()} />
             </Routes>

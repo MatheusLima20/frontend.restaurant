@@ -51,7 +51,7 @@ export const ProductMobileRegisterForm = () => {
 
   const [loadingRawForm, setLoadingRawForm] = useState(false);
 
-  const [valuesTable, setValuesTable] = useState([]);
+  const [valuesTable, setValuesTable] = useState<Product[]>([]);
 
   const [stok, setStok] = useState<Product[]>([]);
 
@@ -238,7 +238,7 @@ export const ProductMobileRegisterForm = () => {
       {isPremium && (
         <>
           {!loadingRawForm && (
-            <Col span={20}>
+            <Col span={24}>
               <RawMaterialForm
                 stok={stok}
                 onSave={(values) => {
