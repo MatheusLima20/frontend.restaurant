@@ -1,7 +1,8 @@
-import { Button, Card, Col, List, Row } from "antd";
+import { Button, Card, Col, Input, List, Row } from "antd";
 import dayjs from "dayjs";
-import { BiEdit } from "react-icons/bi";
+import { BiEdit, BiSearchAlt } from "react-icons/bi";
 import { Product } from "../../../../../types/product/product";
+import { ChangeEvent, useState } from "react";
 
 interface Props {
   valuesTable: Product[];
@@ -11,10 +12,24 @@ interface Props {
 
 export const ProductMobileRegisterList = (props: Props) => {
   const loading = props.loading;
+  const valuesList = props.valuesTable;
+  const [search, setSearch] = useState("");
 
   return (
-    <Row justify={"center"} className="m-0 mb-5">
-      <Col span={22}>
+    <Row justify={"center"} gutter={[0, 40]} className="mb-5">
+      <Col span={24}>
+        <Input
+          type="text"
+          value={search}
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            setSearch(event.target.value)
+          }
+          suffix={<BiSearchAlt size={30} />}
+          placeholder="Digite para pesquisar..."
+        />
+      </Col>
+
+      <Col span={24}>
         <List
           pagination={{
             position: "bottom",
@@ -27,7 +42,9 @@ export const ProductMobileRegisterList = (props: Props) => {
           }}
           grid={{ gutter: 40, column: 1 }}
           loading={loading}
-          dataSource={props.valuesTable}
+          dataSource={valuesList.filter((item) =>
+            item.name.toLowerCase().includes(search.toLowerCase())
+          )}
           renderItem={(data) => (
             <List.Item>
               <Card

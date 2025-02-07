@@ -1,5 +1,5 @@
-import { StockRecordScreen } from './stock.record.screen';
+import { StockRecordMobileScreen } from './stock.record.mobile.screen';
 
 export const StockRecordMobile = () => {
-  return <StockRecordScreen />;
+  return <StockRecordMobileScreen />;
 };

@@ -5,7 +5,7 @@ import { ProvisionsController } from "../../../../../controller/provisions/provi
 import { BsBox2Fill } from "react-icons/bs";
 import { SpendingController } from "../../../../../controller/spending/spending.controller";
 import { TranslateController } from "../../../../../controller/translate/translate.controller";
-import { StockRecordTable } from "./stock.record.list";
+import { StockRecordMobileList } from "./stock.record.mobile.list";
 import { SystemConf } from "../../../../../types/system.conf/system.conf";
 import { cookies } from "../../../../../controller/user/adm.cookies";
 
@@ -83,7 +83,7 @@ export const StockRecordMobileForm = () => {
           ]}
           onFinish={save}
         >
-          <Row gutter={[10, 10]}>
+          <Row justify={"center"} gutter={[10, 10]}>
             <Col span={24}>
               <Form.Item
                 label="Nome"
@@ -220,7 +220,7 @@ export const StockRecordMobileForm = () => {
       </Col>
 
       <Col span={24}>
-        <StockRecordTable
+        <StockRecordMobileList
           loading={loading}
           getRowValues={(editValues: Product) => {
             setValues(editValues);

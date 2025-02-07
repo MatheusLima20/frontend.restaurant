@@ -1,9 +1,10 @@
-import { Button, Card, Col, List, Row } from "antd";
+import { Button, Card, Col, Input, List, Row } from "antd";
 import dayjs from "dayjs";
-import { BiEdit } from "react-icons/bi";
+import { BiEdit, BiSearchAlt } from "react-icons/bi";
 import { Product } from "../../../../../types/product/product";
 import { SystemConf } from "../../../../../types/system.conf/system.conf";
 import { cookies } from "../../../../../controller/user/adm.cookies";
+import { ChangeEvent, useState } from "react";
 
 interface Props {
   valuesTable: Product[];
@@ -15,11 +16,24 @@ const systemConf: SystemConf = cookies.get("start.types.objects");
 
 const unitMeasurement = systemConf.unitMeasurement;
 
-export const StockRecordTable = (props: Props) => {
+export const StockRecordMobileList = (props: Props) => {
   const loading = props.loading;
+  const [search, setSearch] = useState("");
 
   return (
-    <Row justify={"center"} className="m-0 mb-5">
+    <Row justify={"center"} gutter={[0, 40]} className="m-0 mb-5">
+      <Col span={24}>
+        <Input
+          type="text"
+          value={search}
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            setSearch(event.target.value)
+          }
+          suffix={<BiSearchAlt size={30} />}
+          placeholder="Digite para pesquisar..."
+        />
+      </Col>
+
       <Col span={24}>
         <List
           pagination={{
@@ -33,7 +47,9 @@ export const StockRecordTable = (props: Props) => {
           }}
           grid={{ gutter: 40, column: 1 }}
           loading={loading}
-          dataSource={props.valuesTable}
+          dataSource={props.valuesTable.filter((item) =>
+            item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+          )}
           renderItem={(data) => (
             <List.Item>
               <Card
